@@ -12,7 +12,7 @@ This project uses
 * OpenHardwareMonitorLib interface (https://github.com/openhardwaremonitor)
 ---
 
- ![](https://i.imgur.com/Bxg8Lxz.png?1)
+ ![](https://i.imgur.com/wwm62b1.jpg)
  
 ---
 
