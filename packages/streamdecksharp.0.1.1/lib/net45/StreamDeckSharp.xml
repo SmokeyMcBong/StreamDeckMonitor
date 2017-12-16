@@ -1,0 +1,145 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<doc>
+    <assembly>
+        <name>StreamDeckSharp</name>
+    </assembly>
+    <members>
+        <member name="T:StreamDeckSharp.Exceptions.StreamDeckException">
+            <summary>
+            Base class for all StreamDeckSharp Exceptions
+            </summary>
+        </member>
+        <member name="T:StreamDeckSharp.IStreamDeck">
+            <summary>
+            Bare minimum StreamDeck Interface.
+            </summary>
+        </member>
+        <member name="P:StreamDeckSharp.IStreamDeck.NumberOfKeys">
+            <summary>
+            The number of keys present on the Stream Deck
+            </summary>
+            <remarks>
+            At the moment there is only a Stream Deck device with 5x3 keys.
+            But this may change in the future so please use this property in your
+            code / for-loops.
+            </remarks>
+        </member>
+        <member name="E:StreamDeckSharp.IStreamDeck.KeyPressed">
+            <summary>
+            Is raised when a key is pressed
+            </summary>
+        </member>
+        <member name="M:StreamDeckSharp.IStreamDeck.SetBrightness(System.Byte)">
+            <summary>
+            Sets the brightness for this <see cref="T:StreamDeckSharp.IStreamDeck" /></summary>
+            <param name="percent">Brightness in percent (0 - 100)</param>
+            <remarks>
+            The brightness on the device is controlled with PWM (https://en.wikipedia.org/wiki/Pulse-width_modulation).
+            This results in a non-linear correlation between set percentage and perceived brightness.
+            
+            In a nutshell: changing from 10 - 30 results in a bigger change than 80 - 100 (barely visible change)
+            This effect should be compensated outside this library
+            </remarks>
+        </member>
+        <member name="M:StreamDeckSharp.IStreamDeck.SetKeyBitmap(System.Int32,System.Byte[])">
+            <summary>
+            Sets a background image for a given key
+            </summary>
+            <param name="keyId">Specifies which key the image will be applied on</param>
+            <param name="bitmapData">The raw bitmap pixel data. Details see remarks section. The key will be painted black if this value is null.</param>
+            <remarks>
+            The raw pixel format is a byte array of length 15552. This number is based on the image
+            dimensions used by StreamDeck 72x72 pixels and 3 channels (RGB) for each pixel. 72 x 72 x 3 = 15552.
+            
+            The channels are in the order BGR and the pixel rows (stride) are in reverse order.
+            If you need some help try <see cref="T:StreamDeckSharp.StreamDeckKeyBitmap" /></remarks>
+        </member>
+        <member name="T:StreamDeckSharp.StreamDeck">
+            <summary>
+            This is a factorioy class to create IStreamDeck References
+            </summary>
+        </member>
+        <member name="M:StreamDeckSharp.StreamDeck.FromHID">
+            <summary>
+            Enumerates connected Stream Decks and returns the first one.
+            </summary>
+            <returns>The default <see cref="T:StreamDeckSharp.IStreamDeck" /> HID</returns>
+            <exception cref="T:StreamDeckSharp.Exceptions.StreamDeckNotFoundException">Thrown when no Stream Deck is found</exception>
+        </member>
+        <member name="M:StreamDeckSharp.StreamDeck.FromHID(System.String)">
+            <summary>
+            Get <see cref="T:StreamDeckSharp.IStreamDeck" /> with given <paramref name="devicePath" /></summary>
+            <param name="devicePath" />
+            <returns>
+                <see cref="T:StreamDeckSharp.IStreamDeck" /> specified by <paramref name="devicePath" /></returns>
+        </member>
+        <member name="T:StreamDeckSharp.StreamDeckHID">
+            <summary>
+            A (very simple) .NET Wrapper for the StreamDeck HID
+            </summary>
+        </member>
+        <member name="T:StreamDeckSharp.StreamDeckExtensions">
+            <summary />
+            <remarks>
+            The <see cref="T:StreamDeckSharp.IStreamDeck" /> interface is pretty basic to simplify implementation.
+            This extension class adds some commonly used functions to make things simpler.
+            </remarks>
+        </member>
+        <member name="M:StreamDeckSharp.StreamDeckExtensions.SetKeyBitmap(StreamDeckSharp.IStreamDeck,System.Int32,StreamDeckSharp.StreamDeckKeyBitmap)">
+            <summary>
+            Sets a background image for a given key
+            </summary>
+            <param name="deck" />
+            <param name="keyId" />
+            <param name="bitmap" />
+        </member>
+        <member name="M:StreamDeckSharp.StreamDeckExtensions.SetKeyBitmap(StreamDeckSharp.IStreamDeck,StreamDeckSharp.StreamDeckKeyBitmap)">
+            <summary>
+            Sets a background image for all keys
+            </summary>
+            <param name="deck" />
+            <param name="bitmap" />
+        </member>
+        <member name="M:StreamDeckSharp.StreamDeckExtensions.ClearKey(StreamDeckSharp.IStreamDeck,System.Int32)">
+            <summary>
+            Sets background to black for a given key
+            </summary>
+            <param name="deck" />
+            <param name="keyId" />
+        </member>
+        <member name="M:StreamDeckSharp.StreamDeckExtensions.ClearKeys(StreamDeckSharp.IStreamDeck)">
+            <summary>
+            Sets background to black for all given keys
+            </summary>
+            <param name="deck" />
+        </member>
+        <member name="T:StreamDeckSharp.StreamDeckKeyBitmap">
+            <summary>
+            Represents a bitmap that can be used as key images
+            </summary>
+        </member>
+        <member name="P:StreamDeckSharp.StreamDeckKeyBitmap.Black">
+            <summary>
+            Solid black bitmap
+            </summary>
+            <remarks>
+            If you need a black bitmap (for example to clear keys) use this property for better performance (in theory ^^)
+            </remarks>
+        </member>
+        <member name="M:StreamDeckSharp.StreamDeckKeyBitmap.CloneBitmapData">
+            <summary>
+            Returns a copy of the internal bitmap.
+            </summary>
+            <returns />
+        </member>
+        <member name="M:StreamDeckSharp.StreamDeckKeyBitmap.FromRGBColor(System.Byte,System.Byte,System.Byte)">
+            <summary>
+            Creates a solid color bitmap
+            </summary>
+            <param name="R">Red channel</param>
+            <param name="G">Green channel</param>
+            <param name="B">Blue channel</param>
+            <returns />
+        </member>
+    </members>
+</doc>
