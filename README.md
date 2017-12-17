@@ -18,12 +18,12 @@ This project uses
 
 ##### StreamDeckMonitor
 - Runs as non-visible console application in the background
-- Automatically gets the following data every second
-CPU Temperature 
-CPU Load 
-GPU Temperature 
-GPU Load 
-and Framerate data 
+- Automatically gets the following data every second  
+CPU Temperature   
+CPU Load   
+GPU Temperature   
+GPU Load   
+and Framerate data   
 - Closes itself when any button is pressed on the Stream Deck
 - Lightweight code
 #
