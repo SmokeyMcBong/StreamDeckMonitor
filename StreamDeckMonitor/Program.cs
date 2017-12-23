@@ -20,23 +20,21 @@ namespace StreamDeckMonitor
 
             //Set key locations
             var key_location_framerate = 0;
-            var key_location_cpu_temp = 8;
-            var key_location_gpu_temp = 13;
-            var key_location_cpu_load = 7;
-            var key_location_gpu_load = 12;
-            var key_location_header_cpu = 9;
-            var key_location_header_gpu = 14;
+            var key_location_cpu_temp = 7;
+            var key_location_gpu_temp = 12;
+            var key_location_cpu_load = 6;
+            var key_location_gpu_load = 11;
+            var key_location_header_cpu = 8;
+            var key_location_header_gpu = 13;
             var key_location_header_time = 4;
             var key_location_blank2 = 1;
-            var key_location_blank3 = 6;
+            var key_location_blank3 = 9;
             var key_location_blank4 = 5;
             var key_location_blank5 = 3;
-            var key_location_blank6 = 11;
+            var key_location_blank6 = 14;
             var key_location_blank7 = 10;
             var key_location_blank8 = 2;
-
-            //string imagefilepath = "images\\";
-
+           
             // add CPU and GPU as hardware
             // note that, CPU temperature data requires 'highestAvailable' permission.
             Computer computer = new Computer() { CPUEnabled = true, GPUEnabled = true };
