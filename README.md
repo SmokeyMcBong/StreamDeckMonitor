@@ -19,7 +19,7 @@ This project uses
 ##### StreamDeckMonitor
 - Runs as non-visible console application in the background
 - Automatically gets the following data every second  
-Framerate Data
+Framerate Data   
 CPU Temperature   
 CPU Load   
 GPU Temperature   
