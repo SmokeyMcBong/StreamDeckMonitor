@@ -3,6 +3,7 @@ using OpenHardwareMonitor.Hardware;
 using StreamDeckSharp;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 
 namespace StreamDeckMonitor
 {
@@ -20,24 +21,21 @@ namespace StreamDeckMonitor
             //Set key locations
             var key_location_framerate = 0;
             var key_location_cpu_temp = 8;
-            var key_location_gpu_temp = 7;
-            var key_location_cpu_load = 13;
+            var key_location_gpu_temp = 13;
+            var key_location_cpu_load = 7;
             var key_location_gpu_load = 12;
-            var key_location_header_temp = 9;
-            var key_location_header_load = 14;
-            var key_location_header_cpu = 3;
-            var key_location_header_gpu = 2;
-            var key_location_blank1 = 4;
+            var key_location_header_cpu = 9;
+            var key_location_header_gpu = 14;
+            var key_location_header_time = 4;
             var key_location_blank2 = 1;
             var key_location_blank3 = 6;
             var key_location_blank4 = 5;
-            var key_location_blank5 = 11;
-            var key_location_blank6 = 10;
+            var key_location_blank5 = 3;
+            var key_location_blank6 = 11;
+            var key_location_blank7 = 10;
+            var key_location_blank8 = 2;
 
-            //Set directory locations
-            string fps = "fps_images\\";
-            string temp = "temp_images\\";
-            string load = "load_images\\";
+            //string imagefilepath = "images\\";
 
             // add CPU and GPU as hardware
             // note that, CPU temperature data requires 'highestAvailable' permission.
@@ -51,16 +49,15 @@ namespace StreamDeckMonitor
                 while (true)
                 {
                     //Set static images
-                    Set_Value("", "temp", key_location_header_temp);
-                    Set_Value("", "load", key_location_header_load);
-                    Set_Value("", "cpu", key_location_header_cpu);
-                    Set_Value("", "gpu", key_location_header_gpu);
-                    Set_Value("", "blank", key_location_blank1);
-                    Set_Value("", "blank", key_location_blank2);
-                    Set_Value("", "blank", key_location_blank3);
-                    Set_Value("", "blank", key_location_blank4);
-                    Set_Value("", "blank", key_location_blank5);
-                    Set_Value("", "blank", key_location_blank6);
+                    Set_Static("cpu", key_location_header_cpu);
+                    Set_Static("gpu", key_location_header_gpu);
+                    Set_Static("blank", key_location_blank2);
+                    Set_Static("blank", key_location_blank3);
+                    Set_Static("blank", key_location_blank4);
+                    Set_Static("blank", key_location_blank5);
+                    Set_Static("blank", key_location_blank6);
+                    Set_Static("blank", key_location_blank7);
+                    Set_Static("blank", key_location_blank8);
 
                     try
                     {
@@ -71,15 +68,27 @@ namespace StreamDeckMonitor
 
                         //Get values for framerate and pass to Set_Value to process
                         int framerateInt = (int)Math.Round(framerate.Data);
+                        string dataValue = framerateInt.ToString();
+                        string type = "f";
+                        int location = key_location_framerate;
 
-                        //Limit fps data to deal with to144fps
-                        if (framerateInt < 145)
+                        Set_Value(dataValue, type, location);
+                    }
+
+                    finally
+                    {
+                        //Get and set time 
+                        string time_output = DateTime.Now.ToString("hh:mm");
+
+                        //check if hours start with "0"
+                        if (time_output.StartsWith("0"))
                         {
-                            Set_Value(fps, framerateInt.ToString(), key_location_framerate);
+                            //remove starting "0" from string
+                            time_output = time_output.Remove(0, 1);
                         }
 
+                        Set_Value(time_output, "ti", key_location_header_time);
                     }
-                    finally { }
 
                     //Search hardware
                     foreach (IHardware hardware in computer.Hardware)
@@ -94,11 +103,11 @@ namespace StreamDeckMonitor
                                 //Search for temp sensor
                                 if (sensor.SensorType == SensorType.Temperature)
                                 {
-                                    //Limit fps data to deal with to 99c
-                                    if (sensor.Value < 100)
-                                    {
-                                        Set_Value(temp, sensor.Value.ToString(), key_location_gpu_temp);
-                                    }
+                                    string dataValue = sensor.Value.ToString() + "c";
+                                    string type = "t";
+                                    int location = key_location_gpu_temp;
+
+                                    Set_Value(dataValue, type, location);
                                 }
 
                                 //Search for load sensor
@@ -117,12 +126,11 @@ namespace StreamDeckMonitor
                                         {
                                             //Get values for gpu and pass to Set_Value to process
                                             int gpuloadInt = (int)Math.Round(sensor.Value.Value);
+                                            string dataValue = gpuloadInt.ToString() + "%";
+                                            string type = "l";
+                                            int location = key_location_gpu_load;
 
-                                            //Limit gpu load data to deal with to 99%
-                                            if (gpuloadInt < 100)
-                                            {
-                                                Set_Value(load, gpuloadInt.ToString(), key_location_gpu_load);
-                                            }
+                                            Set_Value(dataValue, type, location);
                                         }
                                     }
                                 }
@@ -150,7 +158,11 @@ namespace StreamDeckMonitor
                                             string result_package = value.Substring(Math.Max(0, value.Length - 2));
                                             if (!result_package.Contains("#"))
                                             {
-                                                Set_Value(temp, result_package, key_location_cpu_temp);
+                                                string dataValue = result_package.ToString() + "c";
+                                                string type = "t";
+                                                int location = key_location_cpu_temp;
+
+                                                Set_Value(dataValue, type, location);
                                             }
                                         }
                                     }
@@ -171,12 +183,11 @@ namespace StreamDeckMonitor
                                         {
                                             //Get values for cpu and pass to Set_Value to process
                                             int cpuloadInt = (int)Math.Round(sensor.Value.Value);
+                                            string dataValue = cpuloadInt.ToString() + "%";
+                                            string type = "l";
+                                            int location = key_location_cpu_load;
 
-                                            //Limit gpu load data to deal with to 99%
-                                            if (cpuloadInt < 100)
-                                            {
-                                                Set_Value(load, cpuloadInt.ToString(), key_location_cpu_load);
-                                            }
+                                            Set_Value(dataValue, type, location);
                                         }
                                     }
                                 }
@@ -190,15 +201,72 @@ namespace StreamDeckMonitor
                     //Check for key presses, if pressed send exit command 
                     deck.KeyPressed += Deck_KeyPressed;
 
-                    void Set_Value(string type, string value, int key_location)
+                    void Set_Value(string dataValue, string type, int location)
                     {
-                        if (!type.Equals(null))
+                        if (!dataValue.Equals(null))
                         {
-                            //Set corresponding images to the stored data values
-                            string value_icon = value + ".png";
-                            var value_bitmap = StreamDeckKeyBitmap.FromFile("monitor_images\\" + type + value_icon);
-                            deck.SetKeyBitmap(key_location, value_bitmap);
+                            if (type.Equals("f"))
+                            {
+                                string imagefilepath = ("images\\fps.png");
+                                string tempimagefilepath = ("images\\f.png");
+                                Do_Image_Stuff(imagefilepath, tempimagefilepath);
+                            }
+
+                            if (type.Equals("t"))
+                            {
+                                string imagefilepath = ("images\\temp.png");
+                                string tempimagefilepath = ("images\\t.png");
+                                Do_Image_Stuff(imagefilepath, tempimagefilepath);
+                            }
+
+                            if (type.Equals("l"))
+                            {
+                                string imagefilepath = ("images\\load.png");
+                                string tempimagefilepath = ("images\\l.png");
+                                Do_Image_Stuff(imagefilepath, tempimagefilepath);
+                            }
+
+
+                            if (type.Equals("ti"))
+                            {
+                                string imagefilepath = ("images\\time.png");
+                                string tempimagefilepath = ("images\\ti.png");
+                                Do_Image_Stuff(imagefilepath, tempimagefilepath);
+                            }
+
+                            void Do_Image_Stuff(string imagefilepath, string tempimagefilepath)
+                            {
+                                PointF dataLocation = new PointF(36f, 50f);
+                                String typeimage = imagefilepath;
+                                String typeimagetempfilepath = tempimagefilepath;
+                                Bitmap bitmap = (Bitmap)System.Drawing.Image.FromFile(typeimage);//load the image file
+
+                                using (Graphics graphics = Graphics.FromImage(bitmap))
+                                {
+                                    using (Font arialfont = new Font("arial", 20))
+                                    {
+                                        StringFormat format = new StringFormat
+                                        {
+                                            LineAlignment = StringAlignment.Center,
+                                            Alignment = StringAlignment.Center
+                                        };
+
+                                        graphics.DrawString(dataValue, arialfont, Brushes.White, dataLocation, format);
+                                    }
+                                }
+
+                                bitmap.Save(typeimagetempfilepath);//save the image file
+
+                                var value_bitmap = StreamDeckKeyBitmap.FromFile(typeimagetempfilepath);
+                                deck.SetKeyBitmap(location, value_bitmap);
+                            }
                         }
+                    }
+
+                    void Set_Static(string header_type, int header_location)
+                    {
+                        var value_bitmap = StreamDeckKeyBitmap.FromFile("images\\" + header_type + ".png");
+                        deck.SetKeyBitmap(header_location, value_bitmap);
                     }
 
                     void Deck_KeyPressed(object sender, StreamDeckKeyEventArgs e)

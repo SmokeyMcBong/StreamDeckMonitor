@@ -12,18 +12,19 @@ This project uses
 * OpenHardwareMonitorLib interface (https://github.com/openhardwaremonitor)
 ---
 
- ![](https://i.imgur.com/NKWGJSE.png)
+ ![](https://i.imgur.com/zoBIbpJ.png)
  
 ---
 
 ##### StreamDeckMonitor
 - Runs as non-visible console application in the background
 - Automatically gets the following data every second  
+Framerate Data
 CPU Temperature   
 CPU Load   
 GPU Temperature   
-GPU Load   
-and Framerate data   
+GPU Load  
+and Current Time   
 - Closes itself when any button is pressed on the Stream Deck
 - Lightweight code
 #
