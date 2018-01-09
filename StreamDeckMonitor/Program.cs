@@ -205,30 +205,30 @@ namespace StreamDeckMonitor
                         {
                             if (type.Equals("f"))
                             {
-                                string imagefilepath = ("images\\fps.png");
-                                string tempimagefilepath = ("images\\f.png");
+                                string imagefilepath = ("img\\fps.png");
+                                string tempimagefilepath = ("img\\f.png");
                                 Do_Image_Stuff(imagefilepath, tempimagefilepath);
                             }
 
                             if (type.Equals("t"))
                             {
-                                string imagefilepath = ("images\\temp.png");
-                                string tempimagefilepath = ("images\\t.png");
+                                string imagefilepath = ("img\\temp.png");
+                                string tempimagefilepath = ("img\\t.png");
                                 Do_Image_Stuff(imagefilepath, tempimagefilepath);
                             }
 
                             if (type.Equals("l"))
                             {
-                                string imagefilepath = ("images\\load.png");
-                                string tempimagefilepath = ("images\\l.png");
+                                string imagefilepath = ("img\\load.png");
+                                string tempimagefilepath = ("img\\l.png");
                                 Do_Image_Stuff(imagefilepath, tempimagefilepath);
                             }
 
 
                             if (type.Equals("ti"))
                             {
-                                string imagefilepath = ("images\\time.png");
-                                string tempimagefilepath = ("images\\ti.png");
+                                string imagefilepath = ("img\\time.png");
+                                string tempimagefilepath = ("img\\ti.png");
                                 Do_Image_Stuff(imagefilepath, tempimagefilepath);
                             }
 
@@ -263,7 +263,7 @@ namespace StreamDeckMonitor
 
                     void Set_Static(string header_type, int header_location)
                     {
-                        var value_bitmap = StreamDeckKeyBitmap.FromFile("images\\" + header_type + ".png");
+                        var value_bitmap = StreamDeckKeyBitmap.FromFile("img\\" + header_type + ".png");
                         deck.SetKeyBitmap(header_location, value_bitmap);
                     }
 
