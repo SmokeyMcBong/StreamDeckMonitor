@@ -34,7 +34,7 @@ namespace StreamDeckMonitor
             var key_location_blank6 = 14;
             var key_location_blank7 = 10;
             var key_location_blank8 = 2;
-           
+
             // add CPU and GPU as hardware
             // note that, CPU temperature data requires 'highestAvailable' permission.
             Computer computer = new Computer() { CPUEnabled = true, GPUEnabled = true };
@@ -237,7 +237,7 @@ namespace StreamDeckMonitor
                                 PointF dataLocation = new PointF(36f, 50f);
                                 String typeimage = imagefilepath;
                                 String typeimagetempfilepath = tempimagefilepath;
-                                Bitmap bitmap = (Bitmap)System.Drawing.Image.FromFile(typeimage);//load the image file
+                                Bitmap bitmap = (Bitmap)Image.FromFile(typeimage);//load the image file
 
                                 using (Graphics graphics = Graphics.FromImage(bitmap))
                                 {
