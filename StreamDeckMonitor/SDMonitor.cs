@@ -7,10 +7,19 @@ using System.Drawing;
 
 namespace StreamDeckMonitor
 {
-    class Program
+    class SDMonitor
     {
         static void Main(string[] args)
         {
+            //define font settings file
+            var FontIni = new IniParser("FontSettings.ini");
+
+            //read and store the font settings
+            var fontTypeHeaders = FontIni.Read("fontType", "Font_Headers");
+            var fontColorHeaders = FontIni.Read("fontColor", "Font_Headers");
+            var fontTypeValues = FontIni.Read("fontType", "Font_Values");
+            var fontColorValues = FontIni.Read("fontColor", "Font_Values");
+
             /////////////////////////////
             ////   -key locations-   ////
             ////    4  3  2  1  0    ////
@@ -18,7 +27,7 @@ namespace StreamDeckMonitor
             ////   14 13 12 11 10    ////
             /////////////////////////////
 
-            //Set key locations
+            //define key locations
             var key_location_framerate = 0;
             var key_location_cpu_temp = 7;
             var key_location_gpu_temp = 12;
@@ -43,20 +52,23 @@ namespace StreamDeckMonitor
             //Open the Stream Deck device
             using (var deck = StreamDeck.FromHID())
             {
+                //create all necessary header template images 
+                Process_Header_Images();
+
+                //Set static images
+                Set_Static("cpu", key_location_header_cpu);
+                Set_Static("gpu", key_location_header_gpu);
+                Set_Static("blank", key_location_blank2);
+                Set_Static("blank", key_location_blank3);
+                Set_Static("blank", key_location_blank4);
+                Set_Static("blank", key_location_blank5);
+                Set_Static("blank", key_location_blank6);
+                Set_Static("blank", key_location_blank7);
+                Set_Static("blank", key_location_blank8);
+
                 //Set loop
                 while (true)
                 {
-                    //Set static images
-                    Set_Static("cpu", key_location_header_cpu);
-                    Set_Static("gpu", key_location_header_gpu);
-                    Set_Static("blank", key_location_blank2);
-                    Set_Static("blank", key_location_blank3);
-                    Set_Static("blank", key_location_blank4);
-                    Set_Static("blank", key_location_blank5);
-                    Set_Static("blank", key_location_blank6);
-                    Set_Static("blank", key_location_blank7);
-                    Set_Static("blank", key_location_blank8);
-
                     try
                     {
                         //Connect to MSI Afterburner MACM shared memory
@@ -207,21 +219,21 @@ namespace StreamDeckMonitor
                             {
                                 string imagefilepath = ("img\\fps.png");
                                 string tempimagefilepath = ("img\\f.png");
-                                Do_Image_Stuff(imagefilepath, tempimagefilepath);
+                                Process_Image(imagefilepath, tempimagefilepath);
                             }
 
                             if (type.Equals("t"))
                             {
                                 string imagefilepath = ("img\\temp.png");
                                 string tempimagefilepath = ("img\\t.png");
-                                Do_Image_Stuff(imagefilepath, tempimagefilepath);
+                                Process_Image(imagefilepath, tempimagefilepath);
                             }
 
                             if (type.Equals("l"))
                             {
                                 string imagefilepath = ("img\\load.png");
                                 string tempimagefilepath = ("img\\l.png");
-                                Do_Image_Stuff(imagefilepath, tempimagefilepath);
+                                Process_Image(imagefilepath, tempimagefilepath);
                             }
 
 
@@ -229,10 +241,10 @@ namespace StreamDeckMonitor
                             {
                                 string imagefilepath = ("img\\time.png");
                                 string tempimagefilepath = ("img\\ti.png");
-                                Do_Image_Stuff(imagefilepath, tempimagefilepath);
+                                Process_Image(imagefilepath, tempimagefilepath);
                             }
 
-                            void Do_Image_Stuff(string imagefilepath, string tempimagefilepath)
+                            void Process_Image(string imagefilepath, string tempimagefilepath)
                             {
                                 PointF dataLocation = new PointF(36f, 50f);
                                 String typeimage = imagefilepath;
@@ -241,7 +253,7 @@ namespace StreamDeckMonitor
 
                                 using (Graphics graphics = Graphics.FromImage(bitmap))
                                 {
-                                    using (Font arialfont = new Font("arial", 20))
+                                    using (Font font = new Font(fontTypeValues, 20))
                                     {
                                         StringFormat format = new StringFormat
                                         {
@@ -249,7 +261,8 @@ namespace StreamDeckMonitor
                                             Alignment = StringAlignment.Center
                                         };
 
-                                        graphics.DrawString(dataValue, arialfont, Brushes.White, dataLocation, format);
+                                        Brush myBrush = new SolidBrush(Color.FromName(fontColorValues.ToString()));
+                                        graphics.DrawString(dataValue, font, myBrush, dataLocation, format);
                                     }
                                 }
 
@@ -261,17 +274,57 @@ namespace StreamDeckMonitor
                         }
                     }
 
-                    void Set_Static(string header_type, int header_location)
-                    {
-                        var value_bitmap = StreamDeckKeyBitmap.FromFile("img\\" + header_type + ".png");
-                        deck.SetKeyBitmap(header_location, value_bitmap);
-                    }
-
                     void Deck_KeyPressed(object sender, StreamDeckKeyEventArgs e)
                     {
                         //Kill console App
                         Environment.Exit(0);
                     }
+                }
+
+                void Process_Header_Images()
+                {
+                    //define image locations
+                    string cpu = ("img\\cpu.png");
+                    string gpu = ("img\\gpu.png");
+                    string fps = ("img\\fps.png");
+                    string temp = ("img\\temp.png");
+                    string load = ("img\\load.png");
+                    string time = ("img\\time.png");
+
+                    //start the image header creation
+                    Create_Image("FPS", fps, 18, 36f, 18f);
+                    Create_Image("Temp", temp, 18, 36f, 18f);
+                    Create_Image("Load", load, 18, 36f, 18f);
+                    Create_Image("Time ", time, 18, 36f, 18f);
+                    Create_Image("CPU: ", cpu, 23, 36f, 36f);
+                    Create_Image("GPU: ", gpu, 23, 36f, 36f);
+
+                    void Create_Image(string text, string filename, int textsize, Single x, Single y)
+                    {
+                        PointF textLocation = new PointF(x, y);
+                        Bitmap bitmap = new Bitmap(72, 72);
+                        using (Graphics graphics = Graphics.FromImage(bitmap))
+                        {
+                            using (Font font = new Font(fontTypeHeaders, textsize))
+                            {
+                                StringFormat format = new StringFormat
+                                {
+                                    LineAlignment = StringAlignment.Center,
+                                    Alignment = StringAlignment.Center
+                                };
+
+                                Brush myBrush = new SolidBrush(Color.FromName(fontColorHeaders.ToString()));
+                                graphics.DrawString(text, font, myBrush, textLocation, format);
+                                bitmap.Save(filename);//save the image file 
+                            }
+                        }
+                    }
+                }
+
+                void Set_Static(string header_type, int header_location)
+                {
+                    var value_bitmap = StreamDeckKeyBitmap.FromFile("img\\" + header_type + ".png");
+                    deck.SetKeyBitmap(header_location, value_bitmap);
                 }
             }
         }
