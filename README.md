@@ -18,6 +18,7 @@ This project uses
 
 ##### StreamDeckMonitor
 - Runs as non-visible console application in the background
+- Ability to change the Font Types and Colors using the 'FontSettings.ini' file
 - Automatically gets the following data every second  
 Framerate Data   
 CPU Temperature   
