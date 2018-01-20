@@ -108,6 +108,7 @@ namespace StreamDeckMonitor
                     {
                         foreach (ISensor sensor in hardware.Sensors)
                         {
+                            //search for temp sensor
                             if (sensor.SensorType == SensorType.Temperature)
                             {
                                 //add cpu temp sensors to list
@@ -161,7 +162,7 @@ namespace StreamDeckMonitor
                 System.Threading.Thread.Sleep(1000);
 
                 //check for key presses, if pressed send exit command 
-                StreamDeck.FromHID().KeyPressed += Deck_KeyPressed;
+                ImageMgr.deck.KeyPressed += Deck_KeyPressed;
             }
 
             //check for button input
