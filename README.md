@@ -5,7 +5,7 @@
 
 #
 ##### Table of Contents:
-[Dependencies](https://github.com/SmokeyMcBong/StreamDeckMonitor#This_project_uses)  
+[Dependencies](https://github.com/SmokeyMcBong/StreamDeckMonitor#this-project-uses)  
 [About StreamDeckMonitor](https://github.com/SmokeyMcBong/StreamDeckMonitor#streamdeckmonitor)  
 [StreamDeckMonitor Font Customization Walkthrough](https://github.com/SmokeyMcBong/StreamDeckMonitor#customization)  
 
