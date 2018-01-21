@@ -2,11 +2,17 @@
   
 ##### A Simple C# app to display Real-Time System Statistics on the  [Elgato Stream Deck](https://www.elgato.com/en/gaming/stream-deck) Device
 ---
-  
 
 #
+##### Table of Contents:
+[Dependencies](https://github.com/SmokeyMcBong/StreamDeckMonitor#This_project_uses)  
+[About StreamDeckMonitor](https://github.com/SmokeyMcBong/StreamDeckMonitor#streamdeckmonitor)  
+[StreamDeckMonitor Font Customization Walkthrough](https://github.com/SmokeyMcBong/StreamDeckMonitor#customization)  
 
-This project uses
+---
+#
+
+###### This project uses
 * StreamDeckSharp .NET interface (https://github.com/OpenStreamDeck/StreamDeckSharp)  
 * MSI Afterburner .NET Class Library (https://forums.guru3d.com/threads/msi-afterburner-net-class-library.339656/) 
 * OpenHardwareMonitorLib interface (https://github.com/openhardwaremonitor)
