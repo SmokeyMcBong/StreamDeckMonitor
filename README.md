@@ -48,7 +48,7 @@ Current Time.
 Here's a quick look at the FontSettings.ini file with a breakdown of what each values changes ...
 
    ![](https://i.imgur.com/ieWWp5H.jpg)
-   ![](https://i.imgur.com/Jx2xaQU.jpg)
+   ![](https://i.imgur.com/uH1BFg1.jpg)
    
 #
 ---
