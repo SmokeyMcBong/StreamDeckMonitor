@@ -7,18 +7,18 @@ namespace StreamDeckMonitor
     class ImageMgr
     {
         //define StreamDeck
-        static IStreamDeck deck = StreamDeck.FromHID();
+        public static IStreamDeck deck = StreamDeck.FromHID();
 
         //process header images and display
         public static void Process_Header_Images()
         {
             //start the image header creation
-            Create_Image("FPS", SettingsMgr.Fps_pngLocation, 18, 36f, 18f);
-            Create_Image("Temp", SettingsMgr.Temp_pngLocation, 18, 36f, 18f);
-            Create_Image("Load", SettingsMgr.Load_pngLocation, 18, 36f, 18f);
-            Create_Image("Time ", SettingsMgr.Time_pngLocation, 18, 36f, 18f);
-            Create_Image("CPU: ", SettingsMgr.Cpu_pngLocation, 23, 36f, 36f);
-            Create_Image("GPU: ", SettingsMgr.Gpu_pngLocation, 23, 36f, 36f);
+            Create_Image("F/sec", SettingsMgr.Fps_pngLocation, SettingsMgr.header1_font_size, 35f, 18f);
+            Create_Image("Temp", SettingsMgr.Temp_pngLocation, SettingsMgr.header1_font_size, 35f, 18f);
+            Create_Image("Load", SettingsMgr.Load_pngLocation, SettingsMgr.header1_font_size, 35f, 18f);
+            Create_Image("Time", SettingsMgr.Time_pngLocation, SettingsMgr.header1_font_size, 35f, 18f);
+            Create_Image("Cpu:", SettingsMgr.Cpu_pngLocation, SettingsMgr.header2_font_size, 35f, 35f);
+            Create_Image("Gpu:", SettingsMgr.Gpu_pngLocation, SettingsMgr.header2_font_size, 35f, 35f);
 
             void Create_Image(string text, string filename, int textsize, Single x, Single y)
             {
@@ -26,7 +26,7 @@ namespace StreamDeckMonitor
                 Bitmap bitmap = new Bitmap(72, 72);
                 using (Graphics graphics = Graphics.FromImage(bitmap))
                 {
-                    using (Font font = new Font(SettingsMgr.FontTypeHeaders, textsize))
+                    using (Font font = new Font(SettingsMgr.myFontFamily_Headers, textsize))
                     {
                         StringFormat format = new StringFormat
                         {
@@ -34,7 +34,7 @@ namespace StreamDeckMonitor
                             Alignment = StringAlignment.Center
                         };
 
-                        Brush myBrush = new SolidBrush(Color.FromName(SettingsMgr.FontColorHeaders.ToString()));
+                        Brush myBrush = new SolidBrush(Color.FromName(SettingsMgr.FontColor_Headers.ToString()));
                         graphics.DrawString(text, font, myBrush, textLocation, format);
                         bitmap.Save(filename);//save the image file 
                     }
@@ -45,7 +45,7 @@ namespace StreamDeckMonitor
         //process static images and display
         public static void Set_Static(string header_type, int header_location)
         {
-            var value_bitmap = StreamDeckKeyBitmap.FromFile("img\\" + header_type + ".png");
+            var value_bitmap = StreamDeckKeyBitmap.FromFile(SettingsMgr.imgDir + header_type + ".png");
             deck.SetKeyBitmap(header_location, value_bitmap);
             return;
         }
@@ -80,7 +80,7 @@ namespace StreamDeckMonitor
 
                     using (Graphics graphics = Graphics.FromImage(bitmap))
                     {
-                        using (Font font = new Font(SettingsMgr.FontTypeValues, 20))
+                        using (Font font = new Font(SettingsMgr.myFontFamily_Values, SettingsMgr.value_font_size))
                         {
                             StringFormat format = new StringFormat
                             {
@@ -88,7 +88,7 @@ namespace StreamDeckMonitor
                                 Alignment = StringAlignment.Center
                             };
 
-                            Brush myBrush = new SolidBrush(Color.FromName(SettingsMgr.FontColorValues));
+                            Brush myBrush = new SolidBrush(Color.FromName(SettingsMgr.FontColor_Values));
                             graphics.DrawString(dataValue, font, myBrush, dataLocation, format);
                         }
                     }

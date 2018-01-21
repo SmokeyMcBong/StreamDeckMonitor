@@ -1,4 +1,7 @@
-﻿namespace StreamDeckMonitor
+﻿using System.Drawing;
+using System.Drawing.Text;
+
+namespace StreamDeckMonitor
 {
     class SettingsMgr
     {
@@ -9,24 +12,43 @@
                 14 13 12 11 10           
         */
 
+        //define resource directory locations
+        public static string fontDir = "fonts\\";
+        public static string imgDir = "img\\";
+
         //define font settings file and store user font preferences
         static IniParser FontIni = new IniParser("FontSettings.ini");
-        public static string FontTypeHeaders
+        static PrivateFontCollection myFonts;
+
+        //define the FontFamily
+        public static FontFamily LoadFontFamily(string fileName, out PrivateFontCollection myFonts)
         {
-            get { return FontIni.Read("fontType", "Font_Headers"); }
+            myFonts = new PrivateFontCollection();
+            myFonts.AddFontFile(fileName);
+            return myFonts.Families[0];
         }
-        public static string FontColorHeaders
+       
+        //store all user font settings
+        public static string header_font = FontIni.Read("fontType", "Font_Headers");
+        public static string value_font = FontIni.Read("fontType", "Font_Values");
+
+        public static string FontColor_Headers
         {
             get { return FontIni.Read("fontColor", "Font_Headers"); }
         }
-        public static string FontTypeValues
-        {
-            get { return FontIni.Read("fontType", "Font_Values"); }
-        }
-        public static string FontColorValues
+
+        public static string FontColor_Values
         {
             get { return FontIni.Read("fontColor", "Font_Values"); }
         }
+
+        public static int header1_font_size = int.Parse(FontIni.Read("fontSizeHeader_1", "Font_Sizes"));
+        public static int header2_font_size = int.Parse(FontIni.Read("fontSizeHeader_2", "Font_Sizes"));
+        public static int value_font_size = int.Parse(FontIni.Read("fontSizeValues", "Font_Sizes"));
+       
+        //set font family
+        public static FontFamily myFontFamily_Headers = LoadFontFamily(fontDir + header_font + ".ttf", out myFonts);
+        public static FontFamily myFontFamily_Values = LoadFontFamily(fontDir + value_font + ".ttf", out myFonts);
 
         //define key locations
         public static int Keylocation_framerate
@@ -93,45 +115,45 @@
         //define template image locations
         public static string Cpu_pngLocation
         {
-            get { return ("img\\cpu.png"); }
+            get { return (imgDir + "cpu.png"); }
         }
         public static string Gpu_pngLocation
         {
-            get { return ("img\\gpu.png"); }
+            get { return (imgDir + "gpu.png"); }
         }
         public static string Fps_pngLocation
         {
-            get { return ("img\\fps.png"); }
+            get { return (imgDir + "fps.png"); }
         }
         public static string Temp_pngLocation
         {
-            get { return ("img\\temp.png"); }
+            get { return (imgDir + "temp.png"); }
         }
         public static string Load_pngLocation
         {
-            get { return ("img\\load.png"); }
+            get { return (imgDir + "load.png"); }
         }
         public static string Time_pngLocation
         {
-            get { return ("img\\time.png"); }
+            get { return (imgDir + "time.png"); }
         }
 
         //define temporary image locations
         public static string F_pngLocation
         {
-            get { return ("img\\f.png"); }
+            get { return (imgDir + "f.png"); }
         }
         public static string T_pngLocation
         {
-            get { return ("img\\t.png"); }
+            get { return (imgDir + "t.png"); }
         }
         public static string L_pngLocation
         {
-            get { return ("img\\l.png"); }
+            get { return (imgDir + "l.png"); }
         }
         public static string Ti_pngLocation
         {
-            get { return ("img\\ti.png"); }
+            get { return (imgDir + "ti.png"); }
         }
     }
 }

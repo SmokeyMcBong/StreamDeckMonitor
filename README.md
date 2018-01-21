@@ -18,18 +18,33 @@ This project uses
 
 ##### StreamDeckMonitor
 - Runs as non-visible console application in the background
-- Ability to change the Font Types and Colors using the 'FontSettings.ini' file
+- Fully customizable font
+'FontSettings.ini' file to change the Font Types, Colors and Sizes, 
+Ability to use Any .ttf font files for headers or data value fonts.
 - Automatically gets the following data every second  
-Framerate Data   
-CPU Temperature   
-CPU Load   
-GPU Temperature   
-GPU Load  
-and Current Time   
+Framerate Data,   
+CPU Temperature,   
+CPU Load,   
+GPU Temperature,   
+GPU Load,  
+Current Time.   
 - Closes itself when any button is pressed on the Stream Deck
 - Lightweight code
 #
 
+---
+
+##### Customization
+- Using the FontSettings.ini file we can set the font type, color and size of the headers and the data value fonts
+- To use ANY other custom .ttf font, the file must be added to the fonts folder and the fontType name value in FontSettings.ini changed to the new font file name 
+
+#
+Here's a quick look at the FontSettings.ini file with a breakdown of what each values changes ...
+#
+   ![](https://i.imgur.com/ieWWp5H.jpg)
+   ![](https://i.imgur.com/Jx2xaQU.jpg)
+   
+#
 ---
  
 ###### This project is not related to *Elgato Systems GmbH* in any way
