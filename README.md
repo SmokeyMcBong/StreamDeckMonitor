@@ -3,7 +3,6 @@
 ##### A Simple C# app to display Real-Time System Statistics on the  [Elgato Stream Deck](https://www.elgato.com/en/gaming/stream-deck) Device
 ---
 
-#
 [![Latest Version](https://img.shields.io/badge/Latest%20Version%3A%20-v4.1-blue.svg)](https://github.com/SmokeyMcBong/StreamDeckMonitor/releases) [![Download Count](https://img.shields.io/github/downloads/SmokeyMcBong/StreamDeckMonitor/latest/total.svg)](https://github.com/SmokeyMcBong/StreamDeckMonitor/releases)
 
 ##### Table of Contents:
