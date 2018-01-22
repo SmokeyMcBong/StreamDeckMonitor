@@ -10,9 +10,12 @@ namespace StreamDeckMonitor
     {
         static void Main(string[] args)
         {
+            //make sure only once instance is running
+            SettingsMgr.CheckForTwins();
+
             //define openhardwaremonitor sensors (CPU temp data requires 'highestAvailable' requestedExecutionLevel !!)
             Computer computer = new Computer() { CPUEnabled = true, GPUEnabled = true };
-            computer.Open();            
+            computer.Open();
 
             //create all necessary header template images 
             ImageMgr.Process_Header_Images();

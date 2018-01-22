@@ -1,16 +1,28 @@
 ﻿using System.Drawing;
 using System.Drawing.Text;
+using System.Linq;
 
 namespace StreamDeckMonitor
 {
     class SettingsMgr
     {
-        /*  StreamDeck button layout for reference ...        
-               -key locations-  
-                4  3  2  1  0    
-                9  8  7  6  5    
-                14 13 12 11 10           
+        /*  when starting this app using the StreamDeck, occasionally the button press can be registered more than
+            once in a very short amount of time, resulting in multiple instances of StreamDeckMonitor all starting and running at the same time.
+            the CheckForTwins() method makes sure that only one instance of StreamDeckMonitor runs
         */
+
+        /*  StreamDeck button layout for reference ...        
+                -key locations-  
+                 4  3  2  1  0    
+                 9  8  7  6  5    
+                 14 13 12 11 10           
+       */
+
+        //check for duplicate instances
+        public static void CheckForTwins()
+        {
+            if (System.Diagnostics.Process.GetProcessesByName(System.IO.Path.GetFileNameWithoutExtension(System.Reflection.Assembly.GetEntryAssembly().Location)).Count() > 1) System.Diagnostics.Process.GetCurrentProcess().Kill();
+        }
 
         //define resource directory locations
         public static string fontDir = "fonts\\";
@@ -27,7 +39,7 @@ namespace StreamDeckMonitor
             myFonts.AddFontFile(fileName);
             return myFonts.Families[0];
         }
-       
+
         //store all user font settings
         public static string header_font = FontIni.Read("fontType", "Font_Headers");
         public static string value_font = FontIni.Read("fontType", "Font_Values");
@@ -45,7 +57,7 @@ namespace StreamDeckMonitor
         public static int header1_font_size = int.Parse(FontIni.Read("fontSizeHeader_1", "Font_Sizes"));
         public static int header2_font_size = int.Parse(FontIni.Read("fontSizeHeader_2", "Font_Sizes"));
         public static int value_font_size = int.Parse(FontIni.Read("fontSizeValues", "Font_Sizes"));
-       
+
         //set font family
         public static FontFamily myFontFamily_Headers = LoadFontFamily(fontDir + header_font + ".ttf", out myFonts);
         public static FontFamily myFontFamily_Values = LoadFontFamily(fontDir + value_font + ".ttf", out myFonts);
