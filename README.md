@@ -4,7 +4,7 @@
 ---
 
 #
-[![releases](https://img.shields.io/badge/Latest%20Version%3A%20-v4.1-blue.svg)](https://github.com/SmokeyMcBong/StreamDeckMonitor/releases)
+[![Latest Version](https://img.shields.io/badge/Latest%20Version%3A%20-v4.1-blue.svg)](https://github.com/SmokeyMcBong/StreamDeckMonitor/releases) [![Download Count](https://img.shields.io/github/downloads/SmokeyMcBong/StreamDeckMonitor/latest/total.svg)](https://github.com/SmokeyMcBong/StreamDeckMonitor/releases)
 
 ##### Table of Contents:
 [Dependencies](https://github.com/SmokeyMcBong/StreamDeckMonitor#this-project-uses)  
