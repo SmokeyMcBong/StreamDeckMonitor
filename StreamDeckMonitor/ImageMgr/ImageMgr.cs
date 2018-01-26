@@ -1,6 +1,8 @@
 ﻿using System;
 using StreamDeckSharp;
 using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Drawing.Text;
 
 namespace StreamDeckMonitor
 {
@@ -26,6 +28,12 @@ namespace StreamDeckMonitor
                 Bitmap bitmap = new Bitmap(72, 72);
                 using (Graphics graphics = Graphics.FromImage(bitmap))
                 {
+                    //Some nice defaults for better quality (StreamDeckSharp.Examples.Drawing)
+                    graphics.SmoothingMode = SmoothingMode.AntiAlias;
+                    graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                    graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+                    graphics.TextRenderingHint = TextRenderingHint.AntiAliasGridFit;
+
                     using (Font font = new Font(SettingsMgr.myFontFamily_Headers, textsize))
                     {
                         StringFormat format = new StringFormat
@@ -80,6 +88,12 @@ namespace StreamDeckMonitor
 
                     using (Graphics graphics = Graphics.FromImage(bitmap))
                     {
+                        //Some nice defaults for better quality (StreamDeckSharp.Examples.Drawing)
+                        graphics.SmoothingMode = SmoothingMode.AntiAlias;
+                        graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                        graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+                        graphics.TextRenderingHint = TextRenderingHint.AntiAliasGridFit;
+
                         using (Font font = new Font(SettingsMgr.myFontFamily_Values, SettingsMgr.value_font_size))
                         {
                             StringFormat format = new StringFormat
