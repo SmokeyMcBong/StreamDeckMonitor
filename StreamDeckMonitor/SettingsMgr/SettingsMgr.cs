@@ -54,6 +54,11 @@ namespace StreamDeckMonitor
             get { return FontIni.Read("fontColor", "Font_Values"); }
         }
 
+        public static string BackgroundFill_Color
+        {
+            get { return FontIni.Read("backgroundColor", "Background_Color"); }
+        }
+
         public static int header1_font_size = int.Parse(FontIni.Read("fontSizeHeader_1", "Font_Sizes"));
         public static int header2_font_size = int.Parse(FontIni.Read("fontSizeHeader_2", "Font_Sizes"));
         public static int value_font_size = int.Parse(FontIni.Read("fontSizeValues", "Font_Sizes"));

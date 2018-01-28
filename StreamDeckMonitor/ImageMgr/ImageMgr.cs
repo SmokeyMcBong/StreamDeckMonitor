@@ -34,6 +34,10 @@ namespace StreamDeckMonitor
                     graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
                     graphics.TextRenderingHint = TextRenderingHint.AntiAliasGridFit;
 
+                    //background fill color
+                    Brush myBrush_fill = new SolidBrush(Color.FromName(SettingsMgr.BackgroundFill_Color.ToString()));
+                    graphics.FillRectangle(myBrush_fill, 0, 0, deck.IconSize, deck.IconSize);
+
                     using (Font font = new Font(SettingsMgr.myFontFamily_Headers, textsize))
                     {
                         StringFormat format = new StringFormat
@@ -42,8 +46,8 @@ namespace StreamDeckMonitor
                             Alignment = StringAlignment.Center
                         };
 
-                        Brush myBrush = new SolidBrush(Color.FromName(SettingsMgr.FontColor_Headers.ToString()));
-                        graphics.DrawString(text, font, myBrush, textLocation, format);
+                        Brush myBrush_text = new SolidBrush(Color.FromName(SettingsMgr.FontColor_Headers.ToString()));
+                        graphics.DrawString(text, font, myBrush_text, textLocation, format);
                         bitmap.Save(filename);//save the image file 
                     }
                 }
