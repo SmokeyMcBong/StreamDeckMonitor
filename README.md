@@ -1,6 +1,6 @@
 #  ![alt text](https://i.imgur.com/qPAlSRq.png "StreamDeckMonitor") StreamDeckMonitor
   
-##### A Simple C# app to display Real-Time System Statistics on the  [Elgato Stream Deck](https://www.elgato.com/en/gaming/stream-deck) Device
+##### Customizable C# app to display Real-Time System Statistics on the  [Elgato Stream Deck](https://www.elgato.com/en/gaming/stream-deck) Device
 ---
 
 [![Latest Version](https://img.shields.io/github/release/SmokeyMcBong/StreamDeckMonitor.svg)](https://github.com/SmokeyMcBong/StreamDeckMonitor/releases) [![Download Count](https://img.shields.io/github/downloads/SmokeyMcBong/StreamDeckMonitor/latest/total.svg)](https://github.com/SmokeyMcBong/StreamDeckMonitor/releases)
@@ -8,7 +8,7 @@
 ##### Table of Contents:
 [Dependencies](https://github.com/SmokeyMcBong/StreamDeckMonitor#this-project-uses)  
 [About StreamDeckMonitor](https://github.com/SmokeyMcBong/StreamDeckMonitor#streamdeckmonitor)  
-[StreamDeckMonitor Font Customization Walkthrough](https://github.com/SmokeyMcBong/StreamDeckMonitor#customization)  
+[Font Customization Guide](https://github.com/SmokeyMcBong/StreamDeckMonitor#customization)  
 
 ---
 #
@@ -42,14 +42,17 @@ Current Time.
 ---
 
 ##### Customization
-- Using the FontSettings.ini file we can set the font type, color and size of the headers and the data value fonts
+- Using the FontSettings.ini file we can set the font type, color and size of the headers and the data value fonts and also the background color
 - To use ANY other custom .ttf font, the file must be added to the fonts folder and the fontType name value in FontSettings.ini changed to the new font file name 
-
 #
-Here's a quick look at the FontSettings.ini file with a breakdown of what each values changes ...
+##### Here's a quick look at the FontSettings.ini file with a breakdown of what each values changes ...
 
-   ![](https://i.imgur.com/ieWWp5H.jpg)
-   ![](https://i.imgur.com/uH1BFg1.jpg)
+###### Font Type and Color Settings ...
+   ![](https://i.imgur.com/atrAuUu.jpg)
+   
+---  
+###### Font Size Settings ...
+   ![](https://i.imgur.com/o3R2jzb.jpg)
    
 #
 ---
