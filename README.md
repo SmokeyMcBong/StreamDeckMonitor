@@ -47,8 +47,8 @@ Current Time.
 #
 
 ###### Some quick examples using the custom font options in FontSettings.ini ...
-![](https://i.imgur.com/6jyt54d.png) ![](https://i.imgur.com/exgHk4k.png) 
-![](https://i.imgur.com/K3pcqO7.png) ![](https://i.imgur.com/W0vcnuq.png) 
+![](https://i.imgur.com/6jyt54d.png?1) ![](https://i.imgur.com/exgHk4k.png?2) 
+![](https://i.imgur.com/K3pcqO7.png?1) ![](https://i.imgur.com/W0vcnuq.png?1) 
 
 ---
 # 
