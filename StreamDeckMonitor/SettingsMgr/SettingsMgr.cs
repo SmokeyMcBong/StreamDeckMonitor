@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using System.Drawing.Text;
 using System.Linq;
 
@@ -28,7 +29,7 @@ namespace StreamDeckMonitor
         public static string fontDir = "fonts\\";
         public static string imgDir = "img\\";
 
-        //define font settings file and store user font preferences
+        //define font settings 
         static IniParser FontIni = new IniParser("FontSettings.ini");
         static PrivateFontCollection myFonts;
 
@@ -40,25 +41,163 @@ namespace StreamDeckMonitor
             return myFonts.Families[0];
         }
 
-        //store all user font settings
-        public static string header_font = FontIni.Read("fontType", "Font_Headers");
-        public static string value_font = FontIni.Read("fontType", "Font_Values");
+        //store font type, color and background color from ini settings file
+        static string header_font = FontIni.Read("fontType", "Font_Headers");
+        static string value_font = FontIni.Read("fontType", "Font_Values");
+        static string FontColor_Headers = FontIni.Read("fontColor", "Font_Headers");
+        static string FontColor_Values = FontIni.Read("fontColor", "Font_Values");
+        static string BackgroundFill_Color = FontIni.Read("backgroundColor", "Background_Color");
 
-        public static string FontColor_Headers
+        //colored SolidBrushes
+        static SolidBrush CyanBrush = new SolidBrush(Color.FromArgb(4, 232, 232));
+        static SolidBrush BrownBrush = new SolidBrush(Color.FromArgb(153, 76, 0));
+        static SolidBrush OrangeBrush = new SolidBrush(Color.FromArgb(255, 128, 0));
+        static SolidBrush PinkBrush = new SolidBrush(Color.FromArgb(255, 0, 255));
+        static SolidBrush YellowBrush = new SolidBrush(Color.FromArgb(255, 255, 51));
+        static SolidBrush GoldBrush = new SolidBrush(Color.FromArgb(255, 215, 0));
+        static SolidBrush GreenBrush = new SolidBrush(Color.FromArgb(0, 153, 0));
+        static SolidBrush LimeBrush = new SolidBrush(Color.FromArgb(0, 255, 0));
+        static SolidBrush BlackBrush = new SolidBrush(Color.FromArgb(0, 0, 0));
+        static SolidBrush WhiteBrush = new SolidBrush(Color.FromArgb(255, 255, 255));
+        static SolidBrush BlueBrush = new SolidBrush(Color.FromArgb(0, 102, 204));
+        static SolidBrush PurpleBrush = new SolidBrush(Color.FromArgb(76, 0, 153));
+        static SolidBrush RedBrush = new SolidBrush(Color.FromArgb(215, 0, 0));
+        static SolidBrush SilverBrush = new SolidBrush(Color.FromArgb(192, 192, 192));
+        static SolidBrush GreyBrush = new SolidBrush(Color.FromArgb(128, 128, 128));
+        static SolidBrush SalmonBrush = new SolidBrush(Color.FromArgb(250, 128, 114));
+        static SolidBrush KhakiBrush = new SolidBrush(Color.FromArgb(240, 230, 140));
+        static SolidBrush OliveBrush = new SolidBrush(Color.FromArgb(128, 128, 0));
+        static SolidBrush TealBrush = new SolidBrush(Color.FromArgb(0, 128, 128));
+        static SolidBrush SkyBlueBrush = new SolidBrush(Color.FromArgb(135, 206, 235));
+        static SolidBrush BeigeBrush = new SolidBrush(Color.FromArgb(245, 245, 220));
+        static SolidBrush MintBrush = new SolidBrush(Color.FromArgb(245, 255, 250));
+        static SolidBrush HoneyDewBrush = new SolidBrush(Color.FromArgb(240, 255, 240));
+
+        //set font color brushes
+        static SolidBrush myBrush;
+        public static SolidBrush HeaderBrush
         {
-            get { return FontIni.Read("fontColor", "Font_Headers"); }
+            get
+            {
+                SetBrush(FontColor_Headers);
+                return myBrush;
+            }
+        }
+        public static SolidBrush ValuesBrush
+        {
+            get
+            {
+                SetBrush(FontColor_Values);
+                return myBrush;
+            }
+        }
+        public static SolidBrush BackgroundBrush
+        {
+            get
+            {
+                SetBrush(BackgroundFill_Color);
+                return myBrush;
+            }
         }
 
-        public static string FontColor_Values
+        //assign colored brush
+        static void SetBrush(string color)
         {
-            get { return FontIni.Read("fontColor", "Font_Values"); }
+            if (color.Equals("Cyan"))
+            {
+                myBrush = CyanBrush;
+            }
+            if (color.Equals("Brown"))
+            {
+                myBrush = BrownBrush;
+            }
+            if (color.Equals("Orange"))
+            {
+                myBrush = OrangeBrush;
+            }
+            if (color.Equals("Pink"))
+            {
+                myBrush = PinkBrush;
+            }
+            if (color.Equals("Yellow"))
+            {
+                myBrush = YellowBrush;
+            }
+            if (color.Equals("Gold"))
+            {
+                myBrush = GoldBrush;
+            }
+            if (color.Equals("Green"))
+            {
+                myBrush = GreenBrush;
+            }
+            if (color.Equals("Lime"))
+            {
+                myBrush = LimeBrush;
+            }
+            if (color.Equals("Black"))
+            {
+                myBrush = BlackBrush;
+            }
+            if (color.Equals("White"))
+            {
+                myBrush = WhiteBrush;
+            }
+            if (color.Equals("Blue"))
+            {
+                myBrush = BlueBrush;
+            }
+            if (color.Equals("Purple"))
+            {
+                myBrush = PurpleBrush;
+            }
+            if (color.Equals("Red"))
+            {
+                myBrush = RedBrush;
+            }
+            if (color.Equals("Silver"))
+            {
+                myBrush = SilverBrush;
+            }
+            if (color.Equals("Grey"))
+            {
+                myBrush = GreyBrush;
+            }
+            if (color.Equals("Salmon"))
+            {
+                myBrush = SalmonBrush;
+            }
+            if (color.Equals("Khaki"))
+            {
+                myBrush = KhakiBrush;
+            }
+            if (color.Equals("Olive"))
+            {
+                myBrush = OliveBrush;
+            }
+            if (color.Equals("Teal"))
+            {
+                myBrush = TealBrush;
+            }
+            if (color.Equals("SkyBlue"))
+            {
+                myBrush = SkyBlueBrush;
+            }
+            if (color.Equals("Beige"))
+            {
+                myBrush = BeigeBrush;
+            }
+            if (color.Equals("Mint"))
+            {
+                myBrush = MintBrush;
+            }
+            if (color.Equals("HoneyDew"))
+            {
+                myBrush = HoneyDewBrush;
+            }
         }
 
-        public static string BackgroundFill_Color
-        {
-            get { return FontIni.Read("backgroundColor", "Background_Color"); }
-        }
-
+        //store font size from ini settings file
         public static int header1_font_size = int.Parse(FontIni.Read("fontSizeHeader_1", "Font_Sizes"));
         public static int header2_font_size = int.Parse(FontIni.Read("fontSizeHeader_2", "Font_Sizes"));
         public static int value_font_size = int.Parse(FontIni.Read("fontSizeValues", "Font_Sizes"));

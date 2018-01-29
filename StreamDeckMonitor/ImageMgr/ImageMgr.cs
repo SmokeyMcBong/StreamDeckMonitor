@@ -35,7 +35,7 @@ namespace StreamDeckMonitor
                     graphics.TextRenderingHint = TextRenderingHint.AntiAliasGridFit;
 
                     //background fill color
-                    Brush myBrush_fill = new SolidBrush(Color.FromName(SettingsMgr.BackgroundFill_Color.ToString()));
+                    Brush myBrush_fill = SettingsMgr.BackgroundBrush;
                     graphics.FillRectangle(myBrush_fill, 0, 0, deck.IconSize, deck.IconSize);
 
                     using (Font font = new Font(SettingsMgr.myFontFamily_Headers, textsize))
@@ -46,7 +46,7 @@ namespace StreamDeckMonitor
                             Alignment = StringAlignment.Center
                         };
 
-                        Brush myBrush_text = new SolidBrush(Color.FromName(SettingsMgr.FontColor_Headers.ToString()));
+                        Brush myBrush_text = SettingsMgr.HeaderBrush;
                         graphics.DrawString(text, font, myBrush_text, textLocation, format);
                         bitmap.Save(filename);//save the image file 
                     }
@@ -106,7 +106,7 @@ namespace StreamDeckMonitor
                                 Alignment = StringAlignment.Center
                             };
 
-                            Brush myBrush = new SolidBrush(Color.FromName(SettingsMgr.FontColor_Values));
+                            Brush myBrush = SettingsMgr.ValuesBrush;
                             graphics.DrawString(dataValue, font, myBrush, dataLocation, format);
                         }
                     }
@@ -120,4 +120,3 @@ namespace StreamDeckMonitor
         }
     }
 }
-

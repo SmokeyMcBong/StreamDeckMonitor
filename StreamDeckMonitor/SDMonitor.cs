@@ -10,7 +10,7 @@ namespace StreamDeckMonitor
     {
         static void Main(string[] args)
         {
-            //make sure only once instance is running
+            //make sure only one instance is running
             SettingsMgr.CheckForTwins();
 
             //define openhardwaremonitor sensors (CPU temp data requires 'highestAvailable' requestedExecutionLevel !!)
