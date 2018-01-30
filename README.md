@@ -3,7 +3,7 @@
 ##### Customizable C# app to display Real-Time System Statistics on the  [Elgato Stream Deck](https://www.elgato.com/en/gaming/stream-deck) Device
 ---
 
-[![Latest Version](https://img.shields.io/github/release/SmokeyMcBong/StreamDeckMonitor.svg)](https://github.com/SmokeyMcBong/StreamDeckMonitor/releases) [![Download Count](https://img.shields.io/github/downloads/SmokeyMcBong/StreamDeckMonitor/latest/total.svg)](https://github.com/SmokeyMcBong/StreamDeckMonitor/releases)
+[![Latest Version](https://img.shields.io/github/release/SmokeyMcBong/StreamDeckMonitor.svg)](https://github.com/SmokeyMcBong/StreamDeckMonitor/releases) 
 
 ##### Table of Contents:
 [Dependencies](https://github.com/SmokeyMcBong/StreamDeckMonitor#this-project-uses)  
@@ -46,7 +46,7 @@ Current Time.
 - To use ANY other custom .ttf font, the file must be added to the fonts folder and the fontType name value in FontSettings.ini changed to the new font file name 
 #
 
-###### Some quick examples using the custom font options in FontSettings.ini ...
+###### Some quick mock-up examples using the custom font options in FontSettings.ini ...
 ![](https://i.imgur.com/6jyt54d.png?1) ![](https://i.imgur.com/exgHk4k.png?2) 
 ![](https://i.imgur.com/K3pcqO7.png?1) ![](https://i.imgur.com/W0vcnuq.png?1) 
 
