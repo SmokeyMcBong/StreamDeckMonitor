@@ -1,7 +1,8 @@
-﻿using System;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Drawing.Text;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 
 namespace StreamDeckMonitor
 {
@@ -22,15 +23,18 @@ namespace StreamDeckMonitor
         //check for duplicate instances
         public static void CheckForTwins()
         {
-            if (System.Diagnostics.Process.GetProcessesByName(System.IO.Path.GetFileNameWithoutExtension(System.Reflection.Assembly.GetEntryAssembly().Location)).Count() > 1) System.Diagnostics.Process.GetCurrentProcess().Kill();
+            if (System.Diagnostics.Process.GetProcessesByName(Path.GetFileNameWithoutExtension(Assembly.GetEntryAssembly().Location)).Count() > 1) System.Diagnostics.Process.GetCurrentProcess().Kill();
         }
 
         //define resource directory locations
-        public static string fontDir = "fonts\\";
-        public static string imgDir = "img\\";
+        public static string absoluteRoot = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location).ToString();
+        public static string fontDir = absoluteRoot + "/fonts/";
+        public static string imgDir = absoluteRoot + "/img/";
+        public static string frameDir = absoluteRoot + "/img/frames/";
+        public static string generatedDir = absoluteRoot + "/img/generated/";
 
-        //define font settings 
-        static IniParser FontIni = new IniParser("FontSettings.ini");
+        //define settings file
+        static IniParser FontIni = new IniParser("Settings.ini");
         static PrivateFontCollection myFonts;
 
         //define the FontFamily
@@ -41,12 +45,24 @@ namespace StreamDeckMonitor
             return myFonts.Families[0];
         }
 
-        //store font type, color and background color from ini settings file
+        //store settings from ini file
         static string header_font = FontIni.Read("fontType", "Font_Headers");
         static string value_font = FontIni.Read("fontType", "Font_Values");
         static string FontColor_Headers = FontIni.Read("fontColor", "Font_Headers");
         static string FontColor_Values = FontIni.Read("fontColor", "Font_Values");
         static string BackgroundFill_Color = FontIni.Read("backgroundColor", "Background_Color");
+        static string isAnimationEnabled = FontIni.Read("animationEnabled", "Animated_Keys");
+
+        //check if animations are enabled
+        public static int AnimCheck()
+        {
+            int isEnabled = 0;
+            if (isAnimationEnabled == "True" || isAnimationEnabled == "true")
+            {
+                isEnabled = 1;
+            }
+            return isEnabled;
+        }
 
         //colored SolidBrushes
         static SolidBrush CyanBrush = new SolidBrush(Color.FromArgb(4, 232, 232));
@@ -239,31 +255,31 @@ namespace StreamDeckMonitor
         {
             get { return 4; }
         }
-        public static int Keylocation_blankimage1
+        public static int Keylocation_bgimage1
         {
             get { return 1; }
         }
-        public static int Keylocation_blankimage2
+        public static int Keylocation_bgimage2
         {
             get { return 9; }
         }
-        public static int Keylocation_blankimage3
+        public static int Keylocation_bgimage3
         {
             get { return 5; }
         }
-        public static int Keylocation_blankimage4
+        public static int Keylocation_bgimage4
         {
             get { return 3; }
         }
-        public static int Keylocation_blankimage5
+        public static int Keylocation_bgimage5
         {
             get { return 14; }
         }
-        public static int Keylocation_blankimage6
+        public static int Keylocation_bgimage6
         {
             get { return 10; }
         }
-        public static int Keylocation_blankimage7
+        public static int Keylocation_bgimage7
         {
             get { return 2; }
         }
@@ -271,45 +287,45 @@ namespace StreamDeckMonitor
         //define template image locations
         public static string Cpu_pngLocation
         {
-            get { return (imgDir + "cpu.png"); }
+            get { return (generatedDir + "cpu.png"); }
         }
         public static string Gpu_pngLocation
         {
-            get { return (imgDir + "gpu.png"); }
+            get { return (generatedDir + "gpu.png"); }
         }
         public static string Fps_pngLocation
         {
-            get { return (imgDir + "fps.png"); }
+            get { return (generatedDir + "fps.png"); }
         }
         public static string Temp_pngLocation
         {
-            get { return (imgDir + "temp.png"); }
+            get { return (generatedDir + "temp.png"); }
         }
         public static string Load_pngLocation
         {
-            get { return (imgDir + "load.png"); }
+            get { return (generatedDir + "load.png"); }
         }
         public static string Time_pngLocation
         {
-            get { return (imgDir + "time.png"); }
+            get { return (generatedDir + "time.png"); }
         }
 
         //define temporary image locations
         public static string F_pngLocation
         {
-            get { return (imgDir + "f.png"); }
+            get { return (generatedDir + "f.png"); }
         }
         public static string T_pngLocation
         {
-            get { return (imgDir + "t.png"); }
+            get { return (generatedDir + "t.png"); }
         }
         public static string L_pngLocation
         {
-            get { return (imgDir + "l.png"); }
+            get { return (generatedDir + "l.png"); }
         }
         public static string Ti_pngLocation
         {
-            get { return (imgDir + "ti.png"); }
+            get { return (generatedDir + "ti.png"); }
         }
     }
 }
