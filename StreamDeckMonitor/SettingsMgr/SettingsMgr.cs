@@ -45,6 +45,7 @@ namespace StreamDeckMonitor
         private static string fontColorValues = fontIni.Read("fontColor", "Font_Values");
         private static string backgroundFillColor = fontIni.Read("backgroundColor", "Background_Color");
         private static string isAnimationEnabled = fontIni.Read("animationEnabled", "Animated_Keys");
+        private static int animFramerate = int.Parse(fontIni.Read("animationFramerate", "Animated_Keys"));
 
         //check if animations are enabled
         public static int AnimCheck()
@@ -55,6 +56,26 @@ namespace StreamDeckMonitor
                 isEnabled = 1;
             }
             return isEnabled;
+        }
+
+        //check for animation framerate setting
+        public static int FrametimeValue()
+        {
+            //calculate frametime value using framerate setting
+            int frametimeValue = 1000 / animFramerate;
+            decimal.Truncate(frametimeValue);
+
+            //limit max framerate to 100fps
+            if (animFramerate <= 100)
+            {
+                return frametimeValue;
+            }
+            //if setting is above 100 or invalid then set to 30fps default
+            else
+            {
+                frametimeValue = 33;
+            }
+            return frametimeValue;
         }
 
         //colored SolidBrushes

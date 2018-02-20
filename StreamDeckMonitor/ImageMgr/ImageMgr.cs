@@ -91,16 +91,8 @@ namespace StreamDeckMonitor
         //start the animation process using the stored frames
         public static void StartAnimation()
         {
-            /*  Common framerates based on frametimes (milisecond delay between sending each frame) ...        
-                    15fps = 66
-                    25fps = 40
-                    30fps = 33
-                    60fps = 16
-                    120fps = 8
-            */
-
             //frametime delay
-            int frametime = 33;
+            int frametime = SettingsMgr.FrametimeValue();
 
             //create ordered file list of images in frameDir
             List<string> frameCollection = new List<string> { };
