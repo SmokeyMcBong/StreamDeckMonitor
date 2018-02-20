@@ -6,6 +6,7 @@ using System.Drawing.Text;
 using Accord.Video.FFMPEG;
 using System.IO;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace StreamDeckMonitor
 {
@@ -15,26 +16,26 @@ namespace StreamDeckMonitor
         public static IStreamDeck deck = StreamDeck.FromHID();
 
         //define StreamDeck icon dimensions
-        public static int Dimens = deck.IconSize;
+        public static int dimens = deck.IconSize;
 
         //process header images and display
-        public static void Process_Header_Images()
+        public static void ProcessHeaderImages()
         {
             //create working dir
             Directory.CreateDirectory(SettingsMgr.generatedDir);
 
             //start the image header creation
-            Create_Image("F/sec", SettingsMgr.Fps_pngLocation, SettingsMgr.header1_font_size, 35f, 18f);
-            Create_Image("Temp", SettingsMgr.Temp_pngLocation, SettingsMgr.header1_font_size, 35f, 18f);
-            Create_Image("Load", SettingsMgr.Load_pngLocation, SettingsMgr.header1_font_size, 35f, 18f);
-            Create_Image("Time", SettingsMgr.Time_pngLocation, SettingsMgr.header1_font_size, 35f, 18f);
-            Create_Image("Cpu:", SettingsMgr.Cpu_pngLocation, SettingsMgr.header2_font_size, 35f, 35f);
-            Create_Image("Gpu:", SettingsMgr.Gpu_pngLocation, SettingsMgr.header2_font_size, 35f, 35f);
+            CreateImage("F/sec", SettingsMgr.ImageLocFps, SettingsMgr.header1FontSize, 35f, 18f);
+            CreateImage("Temp", SettingsMgr.ImageLocTemp, SettingsMgr.header1FontSize, 35f, 18f);
+            CreateImage("Load", SettingsMgr.ImageLocLoad, SettingsMgr.header1FontSize, 35f, 18f);
+            CreateImage("Time", SettingsMgr.ImageLocTime, SettingsMgr.header1FontSize, 35f, 18f);
+            CreateImage("Cpu:", SettingsMgr.ImageLocCpu, SettingsMgr.header2FontSize, 35f, 35f);
+            CreateImage("Gpu:", SettingsMgr.ImageLocGpu, SettingsMgr.header2FontSize, 35f, 35f);
 
-            void Create_Image(string text, string filename, int textsize, Single x, Single y)
+            void CreateImage(string text, string filename, int textsize, Single x, Single y)
             {
                 PointF textLocation = new PointF(x, y);
-                Bitmap bitmap = new Bitmap(Dimens, Dimens);
+                Bitmap bitmap = new Bitmap(dimens, dimens);
                 using (Graphics graphics = Graphics.FromImage(bitmap))
                 {
                     //Some nice defaults for better quality (StreamDeckSharp.Examples.Drawing)
@@ -45,10 +46,10 @@ namespace StreamDeckMonitor
                     graphics.TextRenderingHint = TextRenderingHint.AntiAliasGridFit;
 
                     //background fill color
-                    Brush myBrush_fill = SettingsMgr.BackgroundBrush;
-                    graphics.FillRectangle(myBrush_fill, 0, 0, Dimens, Dimens);
+                    Brush myBrushFill = SettingsMgr.BackgroundBrush;
+                    graphics.FillRectangle(myBrushFill, 0, 0, dimens, dimens);
 
-                    using (Font font = new Font(SettingsMgr.myFontFamily_Headers, textsize))
+                    using (Font font = new Font(SettingsMgr.myFontHeaders, textsize))
                     {
                         StringFormat format = new StringFormat
                         {
@@ -56,8 +57,8 @@ namespace StreamDeckMonitor
                             Alignment = StringAlignment.Center
                         };
 
-                        Brush myBrush_text = SettingsMgr.HeaderBrush;
-                        graphics.DrawString(text, font, myBrush_text, textLocation, format);
+                        Brush myBrushText = SettingsMgr.HeaderBrush;
+                        graphics.DrawString(text, font, myBrushText, textLocation, format);
                         bitmap.Save(filename);//save the image file 
                     }
                 }
@@ -71,20 +72,20 @@ namespace StreamDeckMonitor
             Directory.CreateDirectory(SettingsMgr.frameDir);
 
             //create instance of video reader and open video file
-            VideoFileReader reader = new VideoFileReader();
-            reader.Open(SettingsMgr.imgDir + "animation.mp4");
+            VideoFileReader vidReader = new VideoFileReader();
+            vidReader.Open(SettingsMgr.imgDir + "animation.mp4");
 
             //read 150 video frames out of it
             for (int i = 0; i < 150; i++)
             {
                 //get, resize and save frames
-                Bitmap videoFrame = new Bitmap(reader.ReadVideoFrame(), new Size(Dimens, Dimens));
+                Bitmap videoFrame = new Bitmap(vidReader.ReadVideoFrame(), new Size(dimens, dimens));
                 videoFrame.Save(SettingsMgr.frameDir + i + ".bmp");
 
                 //dispose the frame when it is no longer required
                 videoFrame.Dispose();
             }
-            reader.Close();
+            vidReader.Close();
         }
 
         //start the animation process using the stored frames
@@ -101,41 +102,47 @@ namespace StreamDeckMonitor
             //frametime delay
             int frametime = 33;
 
-            //get all frame images from frames dir
-            var images = Directory.GetFiles(SettingsMgr.frameDir, "*.bmp");
+            //create ordered file list of images in frameDir
+            List<string> frameCollection = new List<string> { };
+            foreach (var capturedFrame in Directory.GetFiles(SettingsMgr.frameDir))
+            {
+                frameCollection.Add(capturedFrame);
+            }
 
-            //set forward and reverse sequences            
-            var forwardImages = images.OrderBy(d => new FileInfo(d).CreationTime);
-            var reverseImages = images.OrderByDescending(d => new FileInfo(d).CreationTime);
+            //playback sequence : Forward
+            var seqForward = frameCollection.OrderBy(x => x.Length);
+
+            //playback sequence : Reverse
+            var seqReverse = seqForward.Reverse();
 
             //start animation playback loop
             while (true)
             {
                 //start image playback sequence : Forward
-                foreach (var image in forwardImages)
+                foreach (var frame in seqForward)
                 {
-                    var forwardBitmap = StreamDeckKeyBitmap.FromFile(image);
-                    ShowAnim(forwardBitmap);
+                    var forwardFrames = StreamDeckKeyBitmap.FromFile(frame);
+                    ShowAnim(forwardFrames);
                 }
 
                 //start image playback sequence : Reverse
-                foreach (var image in reverseImages)
+                foreach (var frame in seqReverse)
                 {
-                    var reverseBitmap = StreamDeckKeyBitmap.FromFile(image);
-                    ShowAnim(reverseBitmap);
+                    var reverseFrames = StreamDeckKeyBitmap.FromFile(frame);
+                    ShowAnim(reverseFrames);
                 }
             }
 
             //send images to the deck in the sequence the frames are received
             void ShowAnim(StreamDeckKeyBitmap anim)
             {
-                deck.SetKeyBitmap(SettingsMgr.Keylocation_bgimage1, anim);
-                deck.SetKeyBitmap(SettingsMgr.Keylocation_bgimage2, anim);
-                deck.SetKeyBitmap(SettingsMgr.Keylocation_bgimage3, anim);
-                deck.SetKeyBitmap(SettingsMgr.Keylocation_bgimage4, anim);
-                deck.SetKeyBitmap(SettingsMgr.Keylocation_bgimage5, anim);
-                deck.SetKeyBitmap(SettingsMgr.Keylocation_bgimage6, anim);
-                deck.SetKeyBitmap(SettingsMgr.Keylocation_bgimage7, anim);
+                deck.SetKeyBitmap(SettingsMgr.KeyLocBgImg1, anim);
+                deck.SetKeyBitmap(SettingsMgr.KeyLocBgImg2, anim);
+                deck.SetKeyBitmap(SettingsMgr.KeyLocBgImg3, anim);
+                deck.SetKeyBitmap(SettingsMgr.KeyLocBgImg4, anim);
+                deck.SetKeyBitmap(SettingsMgr.KeyLocBgImg5, anim);
+                deck.SetKeyBitmap(SettingsMgr.KeyLocBgImg6, anim);
+                deck.SetKeyBitmap(SettingsMgr.KeyLocBgImg7, anim);
 
                 //define frametime
                 System.Threading.Thread.Sleep(frametime);
@@ -143,49 +150,48 @@ namespace StreamDeckMonitor
         }
 
         //process static images and display
-        public static void Set_Static(string header_type, int header_location)
+        public static void SetStaticImg(string headerType, int headerLocation)
         {
             string bitmapLocation;
-            if (header_type == "image")
+            if (headerType == "image")
             {
-                bitmapLocation = SettingsMgr.imgDir + header_type + ".png";
+                bitmapLocation = SettingsMgr.imgDir + headerType + ".png";
             }
             else
             {
-                bitmapLocation = SettingsMgr.generatedDir + header_type + ".png";
+                bitmapLocation = SettingsMgr.generatedDir + headerType + ".png";
             }
             var staticBitmap = StreamDeckKeyBitmap.FromFile(bitmapLocation);
-            deck.SetKeyBitmap(header_location, staticBitmap);
-            return;
+            deck.SetKeyBitmap(headerLocation, staticBitmap);
         }
 
         //process data images and display
-        public static void Set_Value(string dataValue, string type, int location)
+        public static void ProcessValueImg(string dataValue, string type, int location)
         {
             if (!dataValue.Equals(null))
             {
                 if (type.Equals("f"))
                 {
-                    Process_Image(SettingsMgr.Fps_pngLocation, SettingsMgr.F_pngLocation);
+                    ProcessImage(SettingsMgr.ImageLocFps, SettingsMgr.TempImageLocFps);
                 }
                 if (type.Equals("t"))
                 {
-                    Process_Image(SettingsMgr.Temp_pngLocation, SettingsMgr.T_pngLocation);
+                    ProcessImage(SettingsMgr.ImageLocTemp, SettingsMgr.TempImageLocTemp);
                 }
                 if (type.Equals("l"))
                 {
-                    Process_Image(SettingsMgr.Load_pngLocation, SettingsMgr.L_pngLocation);
+                    ProcessImage(SettingsMgr.ImageLocLoad, SettingsMgr.TempImageLocLoad);
                 }
                 if (type.Equals("ti"))
                 {
-                    Process_Image(SettingsMgr.Time_pngLocation, SettingsMgr.Ti_pngLocation);
+                    ProcessImage(SettingsMgr.ImageLocTime, SettingsMgr.TempImageLocTime);
                 }
 
-                void Process_Image(string imagefilepath, string tempimagefilepath)
+                void ProcessImage(string imagefilepath, string tempimagefilepath)
                 {
                     PointF dataLocation = new PointF(36f, 50f);
-                    String typeimage = imagefilepath;
-                    Bitmap bitmap = (Bitmap)Image.FromFile(typeimage);//load the image file
+                    String typeImage = imagefilepath;
+                    Bitmap bitmap = (Bitmap)Image.FromFile(typeImage);//load the image file
 
                     using (Graphics graphics = Graphics.FromImage(bitmap))
                     {
@@ -196,7 +202,7 @@ namespace StreamDeckMonitor
                         graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
                         graphics.TextRenderingHint = TextRenderingHint.AntiAliasGridFit;
 
-                        using (Font font = new Font(SettingsMgr.myFontFamily_Values, SettingsMgr.value_font_size))
+                        using (Font font = new Font(SettingsMgr.myFontValues, SettingsMgr.valueFontSize))
                         {
                             StringFormat format = new StringFormat
                             {

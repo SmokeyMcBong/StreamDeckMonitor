@@ -23,18 +23,18 @@ namespace StreamDeckMonitor
             if (x == 0)
             {
                 //create all necessary header template images 
-                ImageMgr.Process_Header_Images();
+                ImageMgr.ProcessHeaderImages();
 
                 //set static images
-                ImageMgr.Set_Static("cpu", SettingsMgr.Keylocation_cpu_header);
-                ImageMgr.Set_Static("gpu", SettingsMgr.Keylocation_gpu_header);
-                ImageMgr.Set_Static("image", SettingsMgr.Keylocation_bgimage1);
-                ImageMgr.Set_Static("image", SettingsMgr.Keylocation_bgimage2);
-                ImageMgr.Set_Static("image", SettingsMgr.Keylocation_bgimage3);
-                ImageMgr.Set_Static("image", SettingsMgr.Keylocation_bgimage4);
-                ImageMgr.Set_Static("image", SettingsMgr.Keylocation_bgimage5);
-                ImageMgr.Set_Static("image", SettingsMgr.Keylocation_bgimage6);
-                ImageMgr.Set_Static("image", SettingsMgr.Keylocation_bgimage7);
+                ImageMgr.SetStaticImg("cpu", SettingsMgr.KeyLocCpuHeader);
+                ImageMgr.SetStaticImg("gpu", SettingsMgr.KeyLocGpuHeader);
+                ImageMgr.SetStaticImg("image", SettingsMgr.KeyLocBgImg1);
+                ImageMgr.SetStaticImg("image", SettingsMgr.KeyLocBgImg2);
+                ImageMgr.SetStaticImg("image", SettingsMgr.KeyLocBgImg3);
+                ImageMgr.SetStaticImg("image", SettingsMgr.KeyLocBgImg4);
+                ImageMgr.SetStaticImg("image", SettingsMgr.KeyLocBgImg5);
+                ImageMgr.SetStaticImg("image", SettingsMgr.KeyLocBgImg6);
+                ImageMgr.SetStaticImg("image", SettingsMgr.KeyLocBgImg7);
 
                 //start standard loop without the image animations 
                 StartMe();
@@ -44,12 +44,12 @@ namespace StreamDeckMonitor
                 //process and save video frames for animation
                 ImageMgr.ProcessFrames();
 
-                //create all necessary header template images 
-                ImageMgr.Process_Header_Images();
+                //create all header template images 
+                ImageMgr.ProcessHeaderImages();
 
                 //set static images
-                ImageMgr.Set_Static("cpu", SettingsMgr.Keylocation_cpu_header);
-                ImageMgr.Set_Static("gpu", SettingsMgr.Keylocation_gpu_header);
+                ImageMgr.SetStaticImg("cpu", SettingsMgr.KeyLocCpuHeader);
+                ImageMgr.SetStaticImg("gpu", SettingsMgr.KeyLocGpuHeader);
 
                 //start both loops in parallel
                 Parallel.Invoke(() => ImageMgr.StartAnimation(), () => StartMe());
@@ -64,29 +64,28 @@ namespace StreamDeckMonitor
                     {
                         //connect to MSI Afterburner MACM shared memory
                         HardwareMonitor mahm = new HardwareMonitor();
+
                         //Get monitoring data
                         HardwareMonitorEntry framerate = mahm.GetEntry(HardwareMonitor.GPU_GLOBAL_INDEX, MONITORING_SOURCE_ID.FRAMERATE);
 
-                        //get values for framerate and pass to Set_Value to process
+                        //get values for framerate and pass to process
                         int framerateInt = (int)Math.Round(framerate.Data);
                         string dataValue = framerateInt.ToString();
                         string type = "f";
-                        ImageMgr.Set_Value(dataValue, type, SettingsMgr.Keylocation_framerate);
+                        ImageMgr.ProcessValueImg(dataValue, type, SettingsMgr.KeyLocFps);
                     }
 
                     finally
                     {
                         //get and set time 
-                        string time_output = DateTime.Now.ToString("hh:mm");
+                        string timeOutput = DateTime.Now.ToString("hh:mm");
 
-                        //check if hours start with "0"
-                        if (time_output.StartsWith("0"))
+                        if (timeOutput.StartsWith("0"))
                         {
-                            //remove starting "0" from string
-                            time_output = time_output.Remove(0, 1);
+                            timeOutput = timeOutput.Remove(0, 1);
                         }
 
-                        ImageMgr.Set_Value(time_output, "ti", SettingsMgr.Keylocation_time_header);
+                        ImageMgr.ProcessValueImg(timeOutput, "ti", SettingsMgr.KeyLocTimeHeader);
                     }
 
                     //search hardware
@@ -104,28 +103,28 @@ namespace StreamDeckMonitor
                                 {
                                     string dataValue = sensor.Value.ToString() + "c";
                                     string type = "t";
-                                    ImageMgr.Set_Value(dataValue, type, SettingsMgr.Keylocation_gpu_temp);
+                                    ImageMgr.ProcessValueImg(dataValue, type, SettingsMgr.KeyLocGpuTemp);
                                 }
 
                                 //search for load sensor
                                 if (sensor.SensorType == SensorType.Load)
                                 {
                                     //add gpu load sensors to list
-                                    string get_values = sensor.Name + sensor.Value.ToString();
-                                    List<string> value_list = new List<string>
+                                    string getValues = sensor.Name + sensor.Value.ToString();
+                                    List<string> valueList = new List<string>
                                 {
-                                    get_values
+                                    getValues
                                 };
-                                    //get values for gpu and pass to Set_Value to process
-                                    foreach (string value in value_list)
+                                    //get values for gpu and pass to process
+                                    foreach (string value in valueList)
                                     {
                                         if (value.Contains("GPU Core"))
                                         {
-                                            //get values for gpu and pass to Set_Value to process
-                                            int gpuloadInt = (int)Math.Round(sensor.Value.Value);
-                                            string dataValue = gpuloadInt.ToString() + "%";
+                                            //get values for gpu and pass to process
+                                            int gpuLoadInt = (int)Math.Round(sensor.Value.Value);
+                                            string dataValue = gpuLoadInt.ToString() + "%";
                                             string type = "l";
-                                            ImageMgr.Set_Value(dataValue, type, SettingsMgr.Keylocation_gpu_load);
+                                            ImageMgr.ProcessValueImg(dataValue, type, SettingsMgr.KeyLocGpuLoad);
                                         }
                                     }
                                 }
@@ -141,22 +140,22 @@ namespace StreamDeckMonitor
                                 if (sensor.SensorType == SensorType.Temperature)
                                 {
                                     //add cpu temp sensors to list
-                                    string get_values = sensor.Name + sensor.Value.ToString();
-                                    List<string> value_list = new List<string>
+                                    string getValues = sensor.Name + sensor.Value.ToString();
+                                    List<string> valueList = new List<string>
                                 {
-                                    get_values
+                                    getValues
                                 };
-                                    //get values for cpu and pass to Set_Value to process
-                                    foreach (string value in value_list)
+                                    //get values for cpu and pass to process
+                                    foreach (string value in valueList)
                                     {
                                         if (value.Contains("Core #1"))
                                         {
-                                            string result_package = value.Substring(Math.Max(0, value.Length - 2));
-                                            if (!result_package.Contains("#"))
+                                            string resultPackage = value.Substring(Math.Max(0, value.Length - 2));
+                                            if (!resultPackage.Contains("#"))
                                             {
-                                                string dataValue = result_package.ToString() + "c";
+                                                string dataValue = resultPackage.ToString() + "c";
                                                 string type = "t";
-                                                ImageMgr.Set_Value(dataValue, type, SettingsMgr.Keylocation_cpu_temp);
+                                                ImageMgr.ProcessValueImg(dataValue, type, SettingsMgr.KeyLocCpuTemp);
                                             }
                                         }
                                     }
@@ -165,21 +164,21 @@ namespace StreamDeckMonitor
                                 if (sensor.SensorType == SensorType.Load)
                                 {
                                     //add cpu load sensors to list
-                                    string get_values = sensor.Name + sensor.Value.ToString();
-                                    List<string> value_list = new List<string>
+                                    string getValues = sensor.Name + sensor.Value.ToString();
+                                    List<string> valueList = new List<string>
                                 {
-                                    get_values
+                                    getValues
                                 };
                                     //get values for cpu and change Stream Deck image
-                                    foreach (string value in value_list)
+                                    foreach (string value in valueList)
                                     {
                                         if (value.Contains("CPU Total"))
                                         {
-                                            //get values for cpu and pass to Set_Value to process
-                                            int cpuloadInt = (int)Math.Round(sensor.Value.Value);
-                                            string dataValue = cpuloadInt.ToString() + "%";
+                                            //get values for cpu and pass to process
+                                            int cpuLoadInt = (int)Math.Round(sensor.Value.Value);
+                                            string dataValue = cpuLoadInt.ToString() + "%";
                                             string type = "l";
-                                            ImageMgr.Set_Value(dataValue, type, SettingsMgr.Keylocation_cpu_load);
+                                            ImageMgr.ProcessValueImg(dataValue, type, SettingsMgr.KeyLocCpuLoad);
                                         }
                                     }
                                 }
@@ -191,12 +190,12 @@ namespace StreamDeckMonitor
                     System.Threading.Thread.Sleep(1000);
 
                     //check for key presses, if pressed send exit command 
-                    ImageMgr.deck.KeyPressed += Deck_KeyPressed;
+                    ImageMgr.deck.KeyPressed += DeckKeyPressed;
                 }
             }
 
             //check for button input
-            void Deck_KeyPressed(object sender, StreamDeckKeyEventArgs e)
+            void DeckKeyPressed(object sender, StreamDeckKeyEventArgs e)
             {
                 //exit             
                 Environment.Exit(Environment.ExitCode);
