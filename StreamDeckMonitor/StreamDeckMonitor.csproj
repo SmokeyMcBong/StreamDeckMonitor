@@ -107,7 +107,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ImageMgr\ImageMgr.cs" />
-    <Compile Include="SettingsMgr\IniParser.cs" />
+    <Compile Include="SettingsMgr\ConfigParser.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

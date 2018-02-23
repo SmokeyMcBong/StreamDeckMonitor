@@ -145,57 +145,60 @@ namespace Configurator
 
             if (Header1FS.Text != "")
             {
-                SettingsMgr.settingsIni.Write("fontSizeHeader_1", Header1FS.Text, "Font_Sizes");
+                SettingsMgr.config.Write("fontSizeHeader_1", Header1FS.Text, "Font_Sizes");
             }
 
             if (Header2FS.Text != "")
             {
-                SettingsMgr.settingsIni.Write("fontSizeHeader_2", Header2FS.Text, "Font_Sizes");
+                SettingsMgr.config.Write("fontSizeHeader_2", Header2FS.Text, "Font_Sizes");
             }
 
             if (ValuesFS.Text != "")
             {
-                SettingsMgr.settingsIni.Write("fontSizeValues", ValuesFS.Text, "Font_Sizes");
+                SettingsMgr.config.Write("fontSizeValues", ValuesFS.Text, "Font_Sizes");
             }
 
             if (AnimFramerate.Text != "")
             {
-                SettingsMgr.settingsIni.Write("animationFramerate", AnimFramerate.Text, "Animated_Keys");
+                SettingsMgr.config.Write("animationFramerate", AnimFramerate.Text, "Animated_Keys");
             }
 
             if (AnimSwitch.IsChecked == true)
             {
-                SettingsMgr.settingsIni.Write("animationEnabled", "True", "Animated_Keys");
+                SettingsMgr.config.Write("animationEnabled", "True", "Animated_Keys");
             }
             else
             {
-                SettingsMgr.settingsIni.Write("animationEnabled", "False", "Animated_Keys");
+                SettingsMgr.config.Write("animationEnabled", "False", "Animated_Keys");
             }
 
             if (HeadersFontType.SelectedValue != null)
             {
-                SettingsMgr.settingsIni.Write("fontType", HeadersFontType.SelectedValue.ToString(), "Font_Headers");
+                SettingsMgr.config.Write("fontType", HeadersFontType.SelectedValue.ToString(), "Font_Headers");
             }
 
             if (ValuesFontType.SelectedValue != null)
             {
-                SettingsMgr.settingsIni.Write("fontType", ValuesFontType.SelectedValue.ToString(), "Font_Values");
+                SettingsMgr.config.Write("fontType", ValuesFontType.SelectedValue.ToString(), "Font_Values");
             }
 
             if (HeadersFontColor.SelectedValue != null)
             {
-                SettingsMgr.settingsIni.Write("fontColor", HeadersFontColor.SelectedValue.ToString(), "Font_Headers");
+                SettingsMgr.config.Write("fontColor", HeadersFontColor.SelectedValue.ToString(), "Font_Headers");
             }
 
             if (ValuesFontColor.SelectedValue != null)
             {
-                SettingsMgr.settingsIni.Write("fontColor", ValuesFontColor.SelectedValue.ToString(), "Font_Values");
+                SettingsMgr.config.Write("fontColor", ValuesFontColor.SelectedValue.ToString(), "Font_Values");
             }
 
             if (BackgroundFillColor.SelectedValue != null)
             {
-                SettingsMgr.settingsIni.Write("backgroundColor", BackgroundFillColor.SelectedValue.ToString(), "Background_Color");
+                SettingsMgr.config.Write("backgroundColor", BackgroundFillColor.SelectedValue.ToString(), "Background_Color");
             }
+
+            //if StreamDeckMonitor is running then refresh/restart the application to show new changes made
+            SettingsMgr.RestartSDM();
 
             //create a background worker to sleep for 2 seconds
             var backgroundSave = new BackgroundWorker();

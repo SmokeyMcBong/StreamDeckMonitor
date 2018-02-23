@@ -18,6 +18,8 @@ namespace StreamDeckMonitor
             Computer computer = new Computer() { CPUEnabled = true, GPUEnabled = true };
             computer.Open();
 
+            ImageMgr.deck.ClearKeys();
+
             //set if using animations or static images
             if (SettingsMgr.AnimCheck() == 0)
             {

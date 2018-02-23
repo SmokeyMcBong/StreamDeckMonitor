@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 
 namespace Configurator
@@ -14,7 +16,7 @@ namespace Configurator
         private static string generatedDir = absoluteRoot + "/img/_/generated/";
 
         //define settings file
-        public static IniParser settingsIni = new IniParser("sdm.cfg");
+        public static ConfigParser config = new ConfigParser("sdm.cfg");
 
         public static string headerFont;
         public static string valueFont;
@@ -34,16 +36,16 @@ namespace Configurator
 
         public static void LoadValues()
         {
-            headerFont = settingsIni.Read("fontType", "Font_Headers");
-            valueFont = settingsIni.Read("fontType", "Font_Values");
-            fontColorHeaders = settingsIni.Read("fontColor", "Font_Headers");
-            fontColorValues = settingsIni.Read("fontColor", "Font_Values");
-            backgroundFillColor = settingsIni.Read("backgroundColor", "Background_Color");
-            header1FontSize = int.Parse(settingsIni.Read("fontSizeHeader_1", "Font_Sizes"));
-            header2FontSize = int.Parse(settingsIni.Read("fontSizeHeader_2", "Font_Sizes"));
-            valueFontSize = int.Parse(settingsIni.Read("fontSizeValues", "Font_Sizes"));
-            animFramerate = int.Parse(settingsIni.Read("animationFramerate", "Animated_Keys")).ToString();
-            isAnimationEnabled = settingsIni.Read("animationEnabled", "Animated_Keys");
+            headerFont = config.Read("fontType", "Font_Headers");
+            valueFont = config.Read("fontType", "Font_Values");
+            fontColorHeaders = config.Read("fontColor", "Font_Headers");
+            fontColorValues = config.Read("fontColor", "Font_Values");
+            backgroundFillColor = config.Read("backgroundColor", "Background_Color");
+            header1FontSize = int.Parse(config.Read("fontSizeHeader_1", "Font_Sizes"));
+            header2FontSize = int.Parse(config.Read("fontSizeHeader_2", "Font_Sizes"));
+            valueFontSize = int.Parse(config.Read("fontSizeValues", "Font_Sizes"));
+            animFramerate = int.Parse(config.Read("animationFramerate", "Animated_Keys")).ToString();
+            isAnimationEnabled = config.Read("animationEnabled", "Animated_Keys");
 
             isEnabled = 0;
             if (isAnimationEnabled == "True" || isAnimationEnabled == "true")
@@ -67,6 +69,17 @@ namespace Configurator
             foreach (var color in colors)
             {
                 colorList.Add(color);
+            }
+        }
+
+        public static void RestartSDM()
+        {
+            //if StreamDeckMonitor is running then refresh/restart the application to show new changes made
+            string processName = "StreamDeckMonitor";
+            if (Process.GetProcessesByName(processName).Length > 0)
+            {
+                Process.GetProcessesByName(processName).First().Kill();
+                Process.Start(processName);
             }
         }
     }
