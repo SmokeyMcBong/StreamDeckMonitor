@@ -27,7 +27,7 @@ namespace StreamDeckMonitor
         public static string generatedDir = absoluteRoot + "/img/_/generated/";
 
         //define settings file
-        private static IniParser fontIni = new IniParser("Settings.ini");
+        private static IniParser settingsIni = new IniParser("sdm.cfg");
         private static PrivateFontCollection myFonts;
 
         //define the FontFamily
@@ -39,13 +39,13 @@ namespace StreamDeckMonitor
         }
 
         //store settings from ini file
-        private static string headerFont = fontIni.Read("fontType", "Font_Headers");
-        private static string valueFont = fontIni.Read("fontType", "Font_Values");
-        private static string fontColorHeaders = fontIni.Read("fontColor", "Font_Headers");
-        private static string fontColorValues = fontIni.Read("fontColor", "Font_Values");
-        private static string backgroundFillColor = fontIni.Read("backgroundColor", "Background_Color");
-        private static string isAnimationEnabled = fontIni.Read("animationEnabled", "Animated_Keys");
-        private static int animFramerate = int.Parse(fontIni.Read("animationFramerate", "Animated_Keys"));
+        private static string headerFont = settingsIni.Read("fontType", "Font_Headers");
+        private static string valueFont = settingsIni.Read("fontType", "Font_Values");
+        private static string fontColorHeaders = settingsIni.Read("fontColor", "Font_Headers");
+        private static string fontColorValues = settingsIni.Read("fontColor", "Font_Values");
+        private static string backgroundFillColor = settingsIni.Read("backgroundColor", "Background_Color");
+        private static string isAnimationEnabled = settingsIni.Read("animationEnabled", "Animated_Keys");
+        private static int animFramerate = int.Parse(settingsIni.Read("animationFramerate", "Animated_Keys"));
 
         //check if animations are enabled
         public static int AnimCheck()
@@ -228,9 +228,9 @@ namespace StreamDeckMonitor
         }
 
         //store font size from ini settings file
-        public static int header1FontSize = int.Parse(fontIni.Read("fontSizeHeader_1", "Font_Sizes"));
-        public static int header2FontSize = int.Parse(fontIni.Read("fontSizeHeader_2", "Font_Sizes"));
-        public static int valueFontSize = int.Parse(fontIni.Read("fontSizeValues", "Font_Sizes"));
+        public static int header1FontSize = int.Parse(settingsIni.Read("fontSizeHeader_1", "Font_Sizes"));
+        public static int header2FontSize = int.Parse(settingsIni.Read("fontSizeHeader_2", "Font_Sizes"));
+        public static int valueFontSize = int.Parse(settingsIni.Read("fontSizeValues", "Font_Sizes"));
 
         //set font family
         public static FontFamily myFontHeaders = LoadFontFamily(fontDir + headerFont + ".ttf", out myFonts);

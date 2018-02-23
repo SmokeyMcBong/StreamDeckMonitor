@@ -25,12 +25,12 @@ namespace StreamDeckMonitor
             Directory.CreateDirectory(SettingsMgr.generatedDir);
 
             //start the image header creation
-            CreateImage("F/sec", SettingsMgr.ImageLocFps, SettingsMgr.header1FontSize, 35f, 18f);
-            CreateImage("Temp", SettingsMgr.ImageLocTemp, SettingsMgr.header1FontSize, 35f, 18f);
-            CreateImage("Load", SettingsMgr.ImageLocLoad, SettingsMgr.header1FontSize, 35f, 18f);
-            CreateImage("Time", SettingsMgr.ImageLocTime, SettingsMgr.header1FontSize, 35f, 18f);
-            CreateImage("Cpu:", SettingsMgr.ImageLocCpu, SettingsMgr.header2FontSize, 35f, 35f);
-            CreateImage("Gpu:", SettingsMgr.ImageLocGpu, SettingsMgr.header2FontSize, 35f, 35f);
+            CreateImage("Cpu:", SettingsMgr.ImageLocCpu, SettingsMgr.header1FontSize, 35f, 35f);
+            CreateImage("Gpu:", SettingsMgr.ImageLocGpu, SettingsMgr.header1FontSize, 35f, 35f);
+            CreateImage("F/sec", SettingsMgr.ImageLocFps, SettingsMgr.header2FontSize, 35f, 18f);
+            CreateImage("Temp", SettingsMgr.ImageLocTemp, SettingsMgr.header2FontSize, 35f, 18f);
+            CreateImage("Load", SettingsMgr.ImageLocLoad, SettingsMgr.header2FontSize, 35f, 18f);
+            CreateImage("Time", SettingsMgr.ImageLocTime, SettingsMgr.header2FontSize, 35f, 18f);            
 
             void CreateImage(string text, string filename, int textsize, Single x, Single y)
             {

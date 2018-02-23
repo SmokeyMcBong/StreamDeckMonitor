@@ -19,7 +19,6 @@ namespace StreamDeckMonitor
             computer.Open();
 
             //set if using animations or static images
-            //int x = SettingsMgr.AnimCheck();
             if (SettingsMgr.AnimCheck() == 0)
             {
                 //create all necessary header template images 
