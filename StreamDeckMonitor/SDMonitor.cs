@@ -29,13 +29,13 @@ namespace StreamDeckMonitor
                 //set static images
                 ImageMgr.SetStaticImg("cpu", SettingsMgr.KeyLocCpuHeader);
                 ImageMgr.SetStaticImg("gpu", SettingsMgr.KeyLocGpuHeader);
-                ImageMgr.SetStaticImg("image", SettingsMgr.KeyLocBgImg1);
-                ImageMgr.SetStaticImg("image", SettingsMgr.KeyLocBgImg2);
-                ImageMgr.SetStaticImg("image", SettingsMgr.KeyLocBgImg3);
-                ImageMgr.SetStaticImg("image", SettingsMgr.KeyLocBgImg4);
-                ImageMgr.SetStaticImg("image", SettingsMgr.KeyLocBgImg5);
-                ImageMgr.SetStaticImg("image", SettingsMgr.KeyLocBgImg6);
-                ImageMgr.SetStaticImg("image", SettingsMgr.KeyLocBgImg7);
+                ImageMgr.SetStaticImg(SettingsMgr.imageName, SettingsMgr.KeyLocBgImg1);
+                ImageMgr.SetStaticImg(SettingsMgr.imageName, SettingsMgr.KeyLocBgImg2);
+                ImageMgr.SetStaticImg(SettingsMgr.imageName, SettingsMgr.KeyLocBgImg3);
+                ImageMgr.SetStaticImg(SettingsMgr.imageName, SettingsMgr.KeyLocBgImg4);
+                ImageMgr.SetStaticImg(SettingsMgr.imageName, SettingsMgr.KeyLocBgImg5);
+                ImageMgr.SetStaticImg(SettingsMgr.imageName, SettingsMgr.KeyLocBgImg6);
+                ImageMgr.SetStaticImg(SettingsMgr.imageName, SettingsMgr.KeyLocBgImg7);
 
                 //start standard loop without the image animations 
                 StartMe();

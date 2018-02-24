@@ -22,9 +22,9 @@ namespace StreamDeckMonitor
         //define resource directory locations
         private static string absoluteRoot = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location).ToString();
         private static string fontDir = absoluteRoot + "/fonts/";
-        public static string imgDir = absoluteRoot + "/img/";
-        public static string frameDir = absoluteRoot + "/img/_/frames/";
-        public static string generatedDir = absoluteRoot + "/img/_/generated/";
+        public static string customizeDir = absoluteRoot + "/customize/";
+        public static string frameDir = absoluteRoot + "/_/frames/";
+        public static string generatedDir = absoluteRoot + "/_/generated/";
 
         //define settings file
         private static ConfigParser config = new ConfigParser("sdm.cfg");
@@ -46,6 +46,8 @@ namespace StreamDeckMonitor
         private static string backgroundFillColor = config.Read("backgroundColor", "Background_Color");
         private static string isAnimationEnabled = config.Read("animationEnabled", "Animated_Keys");
         private static int animFramerate = int.Parse(config.Read("animationFramerate", "Animated_Keys"));
+        public static string imageName = config.Read("imageName", "Selected_Image");
+        public static string animName = config.Read("animName", "Selected_Animation");
 
         //check if animations are enabled
         public static int AnimCheck()
@@ -99,9 +101,9 @@ namespace StreamDeckMonitor
         private static SolidBrush oliveBrush = new SolidBrush(Color.FromArgb(128, 128, 0));
         private static SolidBrush tealBrush = new SolidBrush(Color.FromArgb(0, 128, 128));
         private static SolidBrush skyBlueBrush = new SolidBrush(Color.FromArgb(135, 206, 235));
-        private static SolidBrush beigeBrush = new SolidBrush(Color.FromArgb(245, 245, 220));
-        private static SolidBrush mintBrush = new SolidBrush(Color.FromArgb(245, 255, 250));
-        private static SolidBrush honeyDewBrush = new SolidBrush(Color.FromArgb(240, 255, 240));
+        private static SolidBrush beigeBrush = new SolidBrush(Color.FromArgb(207, 182, 155));
+        private static SolidBrush mintBrush = new SolidBrush(Color.FromArgb(152, 255, 152));
+        private static SolidBrush honeyDewBrush = new SolidBrush(Color.FromArgb(171, 217, 171));
 
         //set font color brushes
         private static SolidBrush myBrush;

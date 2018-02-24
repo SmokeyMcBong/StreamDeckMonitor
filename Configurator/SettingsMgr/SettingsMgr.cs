@@ -11,9 +11,9 @@ namespace Configurator
         //define resource directory locations
         private static string absoluteRoot = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location).ToString();
         private static string fontDir = absoluteRoot + "/fonts/";
-        private static string imgDir = absoluteRoot + "/img/";
-        private static string frameDir = absoluteRoot + "/img/_/frames/";
-        private static string generatedDir = absoluteRoot + "/img/_/generated/";
+        private static string customizeDir = absoluteRoot + "/customize/";
+        private static string frameDir = absoluteRoot + "/_/frames/";
+        private static string generatedDir = absoluteRoot + "/_/generated/";
 
         //define settings file
         public static ConfigParser config = new ConfigParser("sdm.cfg");
@@ -24,6 +24,8 @@ namespace Configurator
         public static string fontColorValues;
         public static string backgroundFillColor;
         public static string animFramerate;
+        public static string imageName;
+        public static string animName;
         private static string isAnimationEnabled;
 
         public static int isEnabled;
@@ -33,6 +35,8 @@ namespace Configurator
 
         public static List<string> fontList;
         public static List<string> colorList;
+        public static List<string> imageList;
+        public static List<string> animList;
 
         public static void LoadValues()
         {
@@ -45,6 +49,8 @@ namespace Configurator
             header2FontSize = int.Parse(config.Read("fontSizeHeader_2", "Font_Sizes"));
             valueFontSize = int.Parse(config.Read("fontSizeValues", "Font_Sizes"));
             animFramerate = int.Parse(config.Read("animationFramerate", "Animated_Keys")).ToString();
+            imageName = config.Read("imageName", "Selected_Image");
+            animName = config.Read("animName", "Selected_Animation");
             isAnimationEnabled = config.Read("animationEnabled", "Animated_Keys");
 
             isEnabled = 0;
@@ -58,6 +64,26 @@ namespace Configurator
             foreach (var font in Directory.GetFiles(fontDir))
             {
                 fontList.Add((Path.GetFileNameWithoutExtension(font)));
+            }
+
+            //create file list of images in imgDir
+            imageList = new List<string> { };
+            foreach (var img in Directory.GetFiles(customizeDir))
+            {
+                if (img.Contains(".png"))
+                {
+                    imageList.Add((Path.GetFileNameWithoutExtension(img)));
+                }
+            }
+
+            //create file list of videos in imgDir
+            animList = new List<string> { };
+            foreach (var vid in Directory.GetFiles(customizeDir))
+            {
+                if (vid.Contains(".mp4"))
+                {
+                    animList.Add((Path.GetFileNameWithoutExtension(vid)));
+                }
             }
 
             //create list of available StreamDeckMonitor colors

@@ -73,7 +73,7 @@ namespace StreamDeckMonitor
 
             //create instance of video reader and open video file
             VideoFileReader vidReader = new VideoFileReader();
-            vidReader.Open(SettingsMgr.imgDir + "animation.mp4");
+            vidReader.Open(SettingsMgr.customizeDir + SettingsMgr.animName + ".mp4");
 
             //read 150 video frames out of it
             for (int i = 0; i < 150; i++)
@@ -145,9 +145,9 @@ namespace StreamDeckMonitor
         public static void SetStaticImg(string headerType, int headerLocation)
         {
             string bitmapLocation;
-            if (headerType == "image")
+            if (headerType == SettingsMgr.imageName)
             {
-                bitmapLocation = SettingsMgr.imgDir + headerType + ".png";
+                bitmapLocation = SettingsMgr.customizeDir + headerType + ".png";
             }
             else
             {

@@ -38,15 +38,19 @@ namespace Configurator
             ValuesFontColor.SelectedValue = SettingsMgr.fontColorValues;
             BackgroundFillColor.ItemsSource = SettingsMgr.colorList;
             BackgroundFillColor.SelectedValue = SettingsMgr.backgroundFillColor;
+            StaticImages.ItemsSource = SettingsMgr.imageList;
+            StaticImages.SelectedValue = SettingsMgr.imageName;
+            Animations.ItemsSource = SettingsMgr.animList;
+            Animations.SelectedValue = SettingsMgr.animName;
 
             //display if animations are enabled
             if (SettingsMgr.isEnabled == 0)
             {
-                AnimSwitch.IsChecked = false;
+                EnableStatic.IsChecked = true;
             }
             else
             {
-                AnimSwitch.IsChecked = true;
+                EnableAnim.IsChecked = true;
             }
         }
 
@@ -105,8 +109,6 @@ namespace Configurator
 
         private void ClickReload(object sender, RoutedEventArgs e)
         {
-            //SetDefaultWidth();
-
             //disable button while reloading values
             ButtonReload.IsEnabled = false;
 
@@ -138,8 +140,6 @@ namespace Configurator
         //save settings to ini file
         private void ClickSave(object sender, RoutedEventArgs e)
         {
-            //SetDefaultWidth();
-
             //disable button while saving values
             ButtonSave.IsEnabled = false;
 
@@ -163,13 +163,23 @@ namespace Configurator
                 SettingsMgr.config.Write("animationFramerate", AnimFramerate.Text, "Animated_Keys");
             }
 
-            if (AnimSwitch.IsChecked == true)
+            if (EnableAnim.IsChecked == true)
             {
                 SettingsMgr.config.Write("animationEnabled", "True", "Animated_Keys");
             }
             else
             {
                 SettingsMgr.config.Write("animationEnabled", "False", "Animated_Keys");
+
+            }
+            if (StaticImages.SelectedValue != null)
+            {
+                SettingsMgr.config.Write("imageName", StaticImages.SelectedValue.ToString(), "Selected_Image");
+            }
+
+            if (Animations.SelectedValue != null)
+            {
+                SettingsMgr.config.Write("animName", Animations.SelectedValue.ToString(), "Selected_Animation");
             }
 
             if (HeadersFontType.SelectedValue != null)
@@ -217,40 +227,6 @@ namespace Configurator
 
             //start the background worker to reset both the label and button to default states
             backgroundSave.RunWorkerAsync();
-        }
-
-        //define default and extended window sizes
-        private int defaultWidth = 475;
-        private int extendedWidth = 1022;
-
-        private void ClickPreview(object sender, RoutedEventArgs e)
-        {
-            if (Application.Current.MainWindow.Width == defaultWidth)
-            {
-                SetExtendedWidth();
-            }
-            else
-            {
-                SetDefaultWidth();
-            }
-        }
-
-        private void SetDefaultWidth()
-        {
-            if (Application.Current.MainWindow.Width == extendedWidth)
-            {
-                ButtonPreview.Content = "Show Preview";
-                Application.Current.MainWindow.Width = defaultWidth;
-            }
-        }
-
-        private void SetExtendedWidth()
-        {
-            if (Application.Current.MainWindow.Width == defaultWidth)
-            {
-                ButtonPreview.Content = " Hide Preview";
-                Application.Current.MainWindow.Width = extendedWidth;
-            }
         }
 
         //exit application
