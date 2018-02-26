@@ -53,8 +53,5 @@ namespace Configurator
         {
             Write(null, null, Section ?? EXE);
         }
-
-
-
     }
 }

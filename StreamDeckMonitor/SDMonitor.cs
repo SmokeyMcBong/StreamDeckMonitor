@@ -18,7 +18,11 @@ namespace StreamDeckMonitor
             Computer computer = new Computer() { CPUEnabled = true, GPUEnabled = true };
             computer.Open();
 
+            //clean display and set brightness
             ImageMgr.deck.ClearKeys();
+            var displayBrightness = Convert.ToByte(SettingsMgr.displayBrightness);
+            ImageMgr.deck.SetBrightness(displayBrightness);
+
 
             //set if using animations or static images
             if (SettingsMgr.AnimCheck() == 0)
@@ -198,6 +202,9 @@ namespace StreamDeckMonitor
             //check for button input
             void DeckKeyPressed(object sender, StreamDeckKeyEventArgs e)
             {
+                //clean display and set brightness back to rough default of 60%
+                ImageMgr.deck.ClearKeys();
+                ImageMgr.deck.SetBrightness(60);
                 //exit             
                 Environment.Exit(Environment.ExitCode);
             }

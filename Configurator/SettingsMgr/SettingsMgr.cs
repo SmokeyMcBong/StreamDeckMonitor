@@ -32,26 +32,31 @@ namespace Configurator
         public static int header1FontSize;
         public static int header2FontSize;
         public static int valueFontSize;
+        public static int framesToProcess;
+        public static int displayBrightness;
 
         public static List<string> fontList;
         public static List<string> colorList;
         public static List<string> imageList;
         public static List<string> animList;
+        public static List<string> profileList;
 
-        public static void LoadValues()
+        public static void LoadValues(string currentProfile)
         {
-            headerFont = config.Read("fontType", "Font_Headers");
-            valueFont = config.Read("fontType", "Font_Values");
-            fontColorHeaders = config.Read("fontColor", "Font_Headers");
-            fontColorValues = config.Read("fontColor", "Font_Values");
-            backgroundFillColor = config.Read("backgroundColor", "Background_Color");
-            header1FontSize = int.Parse(config.Read("fontSizeHeader_1", "Font_Sizes"));
-            header2FontSize = int.Parse(config.Read("fontSizeHeader_2", "Font_Sizes"));
-            valueFontSize = int.Parse(config.Read("fontSizeValues", "Font_Sizes"));
-            animFramerate = int.Parse(config.Read("animationFramerate", "Animated_Keys")).ToString();
-            imageName = config.Read("imageName", "Selected_Image");
-            animName = config.Read("animName", "Selected_Animation");
-            isAnimationEnabled = config.Read("animationEnabled", "Animated_Keys");
+            headerFont = config.Read("headersFontType", currentProfile);
+            valueFont = config.Read("valuesFontType", currentProfile);
+            fontColorHeaders = config.Read("headersfontColor", currentProfile);
+            fontColorValues = config.Read("valuesFontColor", currentProfile);
+            backgroundFillColor = config.Read("backgroundColor", currentProfile);
+            header1FontSize = int.Parse(config.Read("headersFontSize_1", currentProfile));
+            header2FontSize = int.Parse(config.Read("headersFontSize_2", currentProfile));
+            valueFontSize = int.Parse(config.Read("valuesFontSize", currentProfile));
+            displayBrightness = int.Parse(config.Read("displayBrightness", currentProfile));
+            framesToProcess = int.Parse(config.Read("framesToProcess", currentProfile));
+            animFramerate = int.Parse(config.Read("animationFramerate", currentProfile)).ToString();
+            imageName = config.Read("imageName", currentProfile);
+            animName = config.Read("animName", currentProfile);
+            isAnimationEnabled = config.Read("animationEnabled", currentProfile);
 
             isEnabled = 0;
             if (isAnimationEnabled == "True" || isAnimationEnabled == "true")
@@ -66,7 +71,7 @@ namespace Configurator
                 fontList.Add((Path.GetFileNameWithoutExtension(font)));
             }
 
-            //create file list of images in imgDir
+            //create file list of images in customizeDir
             imageList = new List<string> { };
             foreach (var img in Directory.GetFiles(customizeDir))
             {
@@ -76,7 +81,7 @@ namespace Configurator
                 }
             }
 
-            //create file list of videos in imgDir
+            //create file list of videos in customizeDir
             animList = new List<string> { };
             foreach (var vid in Directory.GetFiles(customizeDir))
             {
@@ -95,6 +100,15 @@ namespace Configurator
             foreach (var color in colors)
             {
                 colorList.Add(color);
+            }
+
+            //create list of profiles
+            string[] profiles = { "Profile 1", "Profile 2", "Profile 3" };
+
+            profileList = new List<string> { };
+            foreach (var profile in profiles)
+            {
+                profileList.Add(profile);
             }
         }
 

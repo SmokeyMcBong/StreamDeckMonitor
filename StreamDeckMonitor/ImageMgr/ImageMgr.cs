@@ -30,7 +30,7 @@ namespace StreamDeckMonitor
             CreateImage("F/sec", SettingsMgr.ImageLocFps, SettingsMgr.header2FontSize, 35f, 18f);
             CreateImage("Temp", SettingsMgr.ImageLocTemp, SettingsMgr.header2FontSize, 35f, 18f);
             CreateImage("Load", SettingsMgr.ImageLocLoad, SettingsMgr.header2FontSize, 35f, 18f);
-            CreateImage("Time", SettingsMgr.ImageLocTime, SettingsMgr.header2FontSize, 35f, 18f);            
+            CreateImage("Time", SettingsMgr.ImageLocTime, SettingsMgr.header2FontSize, 35f, 18f);
 
             void CreateImage(string text, string filename, int textsize, Single x, Single y)
             {
@@ -65,6 +65,8 @@ namespace StreamDeckMonitor
             }
         }
 
+        private static int adjustedCount;
+
         //extract and resize video frames for animation
         public static void ProcessFrames()
         {
@@ -75,8 +77,19 @@ namespace StreamDeckMonitor
             VideoFileReader vidReader = new VideoFileReader();
             vidReader.Open(SettingsMgr.customizeDir + SettingsMgr.animName + ".mp4");
 
-            //read 150 video frames out of it
-            for (int i = 0; i < 150; i++)
+            //read frames out of it
+            int frameCount = Convert.ToInt32(vidReader.FrameCount);
+
+            if (frameCount >= SettingsMgr.framesToProcess)
+            {
+                adjustedCount = SettingsMgr.framesToProcess;
+            }
+            else
+            {
+                adjustedCount = frameCount;
+            }
+
+            for (int i = 0; i < adjustedCount; i++)
             {
                 //get, resize and save frames
                 Bitmap videoFrame = new Bitmap(vidReader.ReadVideoFrame(), new Size(dimens, dimens));
@@ -102,10 +115,10 @@ namespace StreamDeckMonitor
             }
 
             //playback sequence : Forward
-            var seqForward = frameCollection.OrderBy(x => x.Length);
+            var seqForward = frameCollection.OrderBy(x => x.Length).Take(adjustedCount);
 
             //playback sequence : Reverse
-            var seqReverse = seqForward.Reverse();
+            var seqReverse = seqForward.Reverse().Take(adjustedCount);
 
             //start animation playback loop
             while (true)

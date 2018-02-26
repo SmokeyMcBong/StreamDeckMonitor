@@ -133,4 +133,7 @@
     <Resource Include="resources\SDMlogo.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>move $(TargetPath)  $(SolutionDir)\StreamDeckMonitor\bin\x86\Release\</PostBuildEvent>
+  </PropertyGroup>
 </Project>
