@@ -45,9 +45,9 @@
 - To Add own Fonts, Static Images and Animations..
     * Add custom Fonts .ttf's to the following folder.. '\Customize\Fonts'
     * Add custom Static Image .png's (72x72) to the following folder.. '\Customize\Static Images'
-    * Add custom Animation .mp4's to the following folder.. '\Customize\Fonts'
-    ** The frames taken from the .mp4 video start at frame 1 ! **
-    #
+    * Add custom Animation .mp4's to the following folder.. '\Customize\Fonts'  
+    ** The frames taken from the .mp4 video start from the very first frame ! **
+    
   ![](https://i.imgur.com/MQz8FZ1.png)  
 
 - Using the Configurator Application we can set...
