@@ -22,7 +22,7 @@
   ![](https://i.imgur.com/vl4t6N8.gif)
  
 ---
-#
+
 ##### About StreamDeckMonitor:
 - Runs as non-visible console application in the background
 - Automatically gets the following data every second...  
@@ -39,7 +39,7 @@
 
 
 ---
-#
+
 
 ##### Customization:
 - To Add own Fonts, Static Images and Animations..
@@ -49,7 +49,7 @@
     ** The frames taken from the .mp4 video start at frame 1 ! **
     #
   ![](https://i.imgur.com/MQz8FZ1.png)  
-# 
+
 - Using the Configurator Application we can set...
     * Font type, color and size of both title headers and data values,
     * Set Background color of the images,
@@ -59,9 +59,8 @@
     * Set animation total frame amount (max 600 frames),
     * Display brightness.
 - Full Save/Load Profile support. 
- #
- #
- #
+
+#
 ---
 ###### This project is NOT related to *Elgato Systems GmbH* in any way
 ---
