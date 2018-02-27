@@ -26,18 +26,22 @@ namespace Configurator
         private void DisplayValues(string currentProfile)
         {
             //display current settings according to Settings.ini values
-            Header1FS.Text = SettingsMgr.header1FontSize.ToString();
-            Header2FS.Text = SettingsMgr.header2FontSize.ToString();
-            ValuesFS.Text = SettingsMgr.valueFontSize.ToString();
+            HeaderFontSize1.Text = SettingsMgr.headerFontSize1.ToString();
+            HeaderFontSize2.Text = SettingsMgr.headerFontSize2.ToString();
+            ValuesFontSize.Text = SettingsMgr.valueFontSize.ToString();
             AnimFramerate.Text = SettingsMgr.animFramerate.ToString();
-            HeadersFontType.ItemsSource = SettingsMgr.fontList;
-            HeadersFontType.SelectedValue = SettingsMgr.headerFont;
+            HeaderFontType1.ItemsSource = SettingsMgr.fontList;
+            HeaderFontType1.SelectedValue = SettingsMgr.headerFont1;
+            HeaderFontType2.ItemsSource = SettingsMgr.fontList;
+            HeaderFontType2.SelectedValue = SettingsMgr.headerFont2;
+            HeaderFontColor1.ItemsSource = SettingsMgr.colorList;
+            HeaderFontColor1.SelectedValue = SettingsMgr.headerFontColor1;
+            HeaderFontColor2.ItemsSource = SettingsMgr.colorList;
+            HeaderFontColor2.SelectedValue = SettingsMgr.headerFontColor2;
             ValuesFontType.ItemsSource = SettingsMgr.fontList;
             ValuesFontType.SelectedValue = SettingsMgr.valueFont;
-            HeadersFontColor.ItemsSource = SettingsMgr.colorList;
-            HeadersFontColor.SelectedValue = SettingsMgr.fontColorHeaders;
             ValuesFontColor.ItemsSource = SettingsMgr.colorList;
-            ValuesFontColor.SelectedValue = SettingsMgr.fontColorValues;
+            ValuesFontColor.SelectedValue = SettingsMgr.valuesFontColor;
             BackgroundFillColor.ItemsSource = SettingsMgr.colorList;
             BackgroundFillColor.SelectedValue = SettingsMgr.backgroundFillColor;
             StaticImages.ItemsSource = SettingsMgr.imageList;
@@ -63,33 +67,33 @@ namespace Configurator
         //format text inputs on the fly to make sure only numerical values are entered
         private string resetValue = "";
 
-        void Header1FSInput(object sender, TextChangedEventArgs e)
+        void HeaderFontSize1Input(object sender, TextChangedEventArgs e)
         {
-            Header1FS.Text = Regex.Replace(Header1FS.Text, "[^0-9]+", "");
+            HeaderFontSize1.Text = Regex.Replace(HeaderFontSize1.Text, "[^0-9]+", "");
 
-            if (Header1FS.Text.StartsWith("0"))
+            if (HeaderFontSize1.Text.StartsWith("0"))
             {
-                Header1FS.Text = resetValue;
+                HeaderFontSize1.Text = resetValue;
             }
         }
 
-        void Header2FSInput(object sender, TextChangedEventArgs e)
+        void HeaderFontSize2Input(object sender, TextChangedEventArgs e)
         {
-            Header2FS.Text = Regex.Replace(Header2FS.Text, "[^0-9]+", "");
+            HeaderFontSize2.Text = Regex.Replace(HeaderFontSize2.Text, "[^0-9]+", "");
 
-            if (Header2FS.Text.StartsWith("0"))
+            if (HeaderFontSize2.Text.StartsWith("0"))
             {
-                Header2FS.Text = resetValue;
+                HeaderFontSize2.Text = resetValue;
             }
         }
 
-        void ValuesFSInput(object sender, TextChangedEventArgs e)
+        void ValuesFontSizeInput(object sender, TextChangedEventArgs e)
         {
-            ValuesFS.Text = Regex.Replace(ValuesFS.Text, "[^0-9]+", "");
+            ValuesFontSize.Text = Regex.Replace(ValuesFontSize.Text, "[^0-9]+", "");
 
-            if (ValuesFS.Text.StartsWith("0"))
+            if (ValuesFontSize.Text.StartsWith("0"))
             {
-                ValuesFS.Text = resetValue;
+                ValuesFontSize.Text = resetValue;
             }
         }
 
@@ -193,19 +197,19 @@ namespace Configurator
                 SettingsMgr.config.Write("displayBrightness", formattedValue, currentProfile);
             }
 
-            if (Header1FS.Text != "")
+            if (HeaderFontSize1.Text != "")
             {
-                SettingsMgr.config.Write("headersFontSize_1", Header1FS.Text, currentProfile);
+                SettingsMgr.config.Write("headerFontSize_1", HeaderFontSize1.Text, currentProfile);
             }
 
-            if (Header2FS.Text != "")
+            if (HeaderFontSize2.Text != "")
             {
-                SettingsMgr.config.Write("headersFontSize_2", Header2FS.Text, currentProfile);
+                SettingsMgr.config.Write("headerFontSize_2", HeaderFontSize2.Text, currentProfile);
             }
 
-            if (ValuesFS.Text != "")
+            if (ValuesFontSize.Text != "")
             {
-                SettingsMgr.config.Write("valuesFontSize", ValuesFS.Text, currentProfile);
+                SettingsMgr.config.Write("valuesFontSize", ValuesFontSize.Text, currentProfile);
             }
 
             if (AnimFramerate.Text != "")
@@ -237,9 +241,14 @@ namespace Configurator
                 SettingsMgr.config.Write("animName", Animations.SelectedValue.ToString(), currentProfile);
             }
 
-            if (HeadersFontType.SelectedValue != null)
+            if (HeaderFontType1.SelectedValue != null)
             {
-                SettingsMgr.config.Write("headersFontType", HeadersFontType.SelectedValue.ToString(), currentProfile);
+                SettingsMgr.config.Write("headerFontType_1", HeaderFontType1.SelectedValue.ToString(), currentProfile);
+            }
+
+            if (HeaderFontType2.SelectedValue != null)
+            {
+                SettingsMgr.config.Write("headerFontType_2", HeaderFontType2.SelectedValue.ToString(), currentProfile);
             }
 
             if (ValuesFontType.SelectedValue != null)
@@ -247,9 +256,14 @@ namespace Configurator
                 SettingsMgr.config.Write("valuesFontType", ValuesFontType.SelectedValue.ToString(), currentProfile);
             }
 
-            if (HeadersFontColor.SelectedValue != null)
+            if (HeaderFontColor1.SelectedValue != null)
             {
-                SettingsMgr.config.Write("headersfontColor", HeadersFontColor.SelectedValue.ToString(), currentProfile);
+                SettingsMgr.config.Write("headerfontColor_1", HeaderFontColor1.SelectedValue.ToString(), currentProfile);
+            }
+
+            if (HeaderFontColor2.SelectedValue != null)
+            {
+                SettingsMgr.config.Write("headerfontColor_2", HeaderFontColor2.SelectedValue.ToString(), currentProfile);
             }
 
             if (ValuesFontColor.SelectedValue != null)

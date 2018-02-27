@@ -8,20 +8,23 @@ namespace Configurator
 {
     class SettingsMgr
     {
-        //define resource directory locations
+        //resource directory locations
         private static string absoluteRoot = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location).ToString();
-        private static string fontDir = absoluteRoot + "/fonts/";
-        private static string customizeDir = absoluteRoot + "/customize/";
-        private static string frameDir = absoluteRoot + "/_/frames/";
-        private static string generatedDir = absoluteRoot + "/_/generated/";
+        private static string fontDir = absoluteRoot + "/Customize/Fonts/";
+        public static string staticImgDir = absoluteRoot + "/Customize/Static Images/";
+        public static string animationImgDir = absoluteRoot + "/Customize/Animations/";
+        private static string frameDir = absoluteRoot + "/res/_/frames/";
+        private static string generatedDir = absoluteRoot + "/res/_/generated/";
 
-        //define settings file
+        //settings file values
         public static ConfigParser config = new ConfigParser("sdm.cfg");
 
-        public static string headerFont;
+        public static string headerFont1;
+        public static string headerFont2;
         public static string valueFont;
-        public static string fontColorHeaders;
-        public static string fontColorValues;
+        public static string headerFontColor1;
+        public static string headerFontColor2;
+        public static string valuesFontColor;
         public static string backgroundFillColor;
         public static string animFramerate;
         public static string imageName;
@@ -29,8 +32,8 @@ namespace Configurator
         private static string isAnimationEnabled;
 
         public static int isEnabled;
-        public static int header1FontSize;
-        public static int header2FontSize;
+        public static int headerFontSize1;
+        public static int headerFontSize2;
         public static int valueFontSize;
         public static int framesToProcess;
         public static int displayBrightness;
@@ -43,13 +46,15 @@ namespace Configurator
 
         public static void LoadValues(string currentProfile)
         {
-            headerFont = config.Read("headersFontType", currentProfile);
+            headerFont1 = config.Read("headerFontType_1", currentProfile);
+            headerFont2 = config.Read("headerFontType_2", currentProfile);
             valueFont = config.Read("valuesFontType", currentProfile);
-            fontColorHeaders = config.Read("headersfontColor", currentProfile);
-            fontColorValues = config.Read("valuesFontColor", currentProfile);
+            headerFontColor1 = config.Read("headerfontColor_1", currentProfile);
+            headerFontColor2 = config.Read("headerfontColor_2", currentProfile);
+            valuesFontColor = config.Read("valuesFontColor", currentProfile);
             backgroundFillColor = config.Read("backgroundColor", currentProfile);
-            header1FontSize = int.Parse(config.Read("headersFontSize_1", currentProfile));
-            header2FontSize = int.Parse(config.Read("headersFontSize_2", currentProfile));
+            headerFontSize1 = int.Parse(config.Read("headerFontSize_1", currentProfile));
+            headerFontSize2 = int.Parse(config.Read("headerFontSize_2", currentProfile));
             valueFontSize = int.Parse(config.Read("valuesFontSize", currentProfile));
             displayBrightness = int.Parse(config.Read("displayBrightness", currentProfile));
             framesToProcess = int.Parse(config.Read("framesToProcess", currentProfile));
@@ -71,9 +76,9 @@ namespace Configurator
                 fontList.Add((Path.GetFileNameWithoutExtension(font)));
             }
 
-            //create file list of images in customizeDir
+            //create file list of images in staticImgDir
             imageList = new List<string> { };
-            foreach (var img in Directory.GetFiles(customizeDir))
+            foreach (var img in Directory.GetFiles(staticImgDir))
             {
                 if (img.Contains(".png"))
                 {
@@ -81,9 +86,9 @@ namespace Configurator
                 }
             }
 
-            //create file list of videos in customizeDir
+            //create file list of videos in animationImgDir
             animList = new List<string> { };
-            foreach (var vid in Directory.GetFiles(customizeDir))
+            foreach (var vid in Directory.GetFiles(animationImgDir))
             {
                 if (vid.Contains(".mp4"))
                 {

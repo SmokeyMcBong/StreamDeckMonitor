@@ -150,8 +150,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>xcopy /E "$(ProjectDir)\include"  "$(TargetDir)"
-mkdir $(TargetDir)\lib
-for /r "$(TargetDir)" %25%25x in (*.dll) do move "%25%25x" "$(TargetDir)\lib"
+for /r "$(TargetDir)" %25%25x in (*.dll) do move "%25%25x" "$(TargetDir)\res\lib"
 </PostBuildEvent>
   </PropertyGroup>
 </Project>

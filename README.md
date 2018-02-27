@@ -8,69 +8,61 @@
 ##### Table of Contents:
 [Dependencies](https://github.com/SmokeyMcBong/StreamDeckMonitor#this-project-uses)  
 [About StreamDeckMonitor](https://github.com/SmokeyMcBong/StreamDeckMonitor#streamdeckmonitor)  
-[Font Customization Guide](https://github.com/SmokeyMcBong/StreamDeckMonitor#customization)  
+[Customization](https://github.com/SmokeyMcBong/StreamDeckMonitor#customization)  
 
 ---
-#
 
-###### This project uses
+###### This project uses...
 * StreamDeckSharp .NET interface (https://github.com/OpenStreamDeck/StreamDeckSharp)  
-* MSI Afterburner .NET Class Library (https://forums.guru3d.com/threads/msi-afterburner-net-class-library.339656/) 
+* MSI Afterburner .NET Class Library (https://forums.guru3d.com/threads/msi-afterburner-net-class-library.339656) 
 * OpenHardwareMonitorLib interface (https://github.com/openhardwaremonitor)
+* Accord .NET Framework video frame capture libraries (https://github.com/accord-net/framework)
 ---
 
- ![](https://i.imgur.com/5shefdi.jpg)
+  ![](https://i.imgur.com/vl4t6N8.gif)
  
 ---
-
-##### StreamDeckMonitor
+#
+##### About StreamDeckMonitor:
 - Runs as non-visible console application in the background
-- Fully customizable font and background color
-- 'FontSettings.ini' file to change the Font Types, Colors, Sizes and background color
-- Ability to use Any .ttf font files for headers or values fonts.
-- Automatically gets the following data every second  
-Framerate Data,   
-CPU Temperature,   
-CPU Load,   
-GPU Temperature,   
-GPU Load,  
-Current Time.   
+- Automatically gets the following data every second...  
+    * Framerate Data,    
+    * CPU Temperature,   
+    * CPU Load,   
+    * GPU Temperature,   
+    * GPU Load,  
+    * Current Time.   
+- Customizable using the 'Configurator' application
 - Closes itself when any button is pressed on the Stream Deck
 - Lightweight code
 #
 
----
 
-##### Customization
-- Using the FontSettings.ini file we can set the font type, color and size of the headers and the data value fonts and also the background color
-- To use ANY other custom .ttf font, the file must be added to the fonts folder and the fontType name value in FontSettings.ini changed to the new font file name 
+---
 #
 
-###### Some quick mock-up examples using the custom font options in FontSettings.ini ...
-![](https://i.imgur.com/6jyt54d.png?1) ![](https://i.imgur.com/exgHk4k.png?2) 
-![](https://i.imgur.com/K3pcqO7.png?1) ![](https://i.imgur.com/W0vcnuq.png?1) 
-
----
+##### Customization:
+- To Add own Fonts, Static Images and Animations..
+    * Add custom Fonts .ttf's to the following folder.. '\Customize\Fonts'
+    * Add custom Static Image .png's (72x72) to the following folder.. '\Customize\Static Images'
+    * Add custom Animation .mp4's to the following folder.. '\Customize\Fonts'
+    ** The frames taken from the .mp4 video start at frame 1 ! **
+    #
+  ![](https://i.imgur.com/MQz8FZ1.png)  
 # 
-
-
-
-
-
-##### Here's a quick look at the FontSettings.ini file with a breakdown of what each values changes ...
-
-###### Font Type and Color Settings ...
-   ![](https://i.imgur.com/atrAuUu.jpg)
-   
----  
-###### Font Size Settings ...
-   ![](https://i.imgur.com/o3R2jzb.jpg)
-   
-#
-#
+- Using the Configurator Application we can set...
+    * Font type, color and size of both title headers and data values,
+    * Set Background color of the images,
+    * Option to use either static images or animations for the surrounding images,
+    * Change the animations source or static image source,
+    * Set animation framerate (max 100 fps),
+    * Set animation total frame amount (max 600 frames),
+    * Display brightness.
+- Full Save/Load Profile support. 
+ #
+ #
+ #
 ---
- 
-###### This project is not related to *Elgato Systems GmbH* in any way
-
+###### This project is NOT related to *Elgato Systems GmbH* in any way
 ---
  

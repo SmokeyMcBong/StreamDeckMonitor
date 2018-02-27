@@ -21,10 +21,11 @@ namespace StreamDeckMonitor
 
         //define resource directory locations
         private static string absoluteRoot = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location).ToString();
-        public static string fontDir = absoluteRoot + "/fonts/";
-        public static string customizeDir = absoluteRoot + "/customize/";
-        public static string frameDir = absoluteRoot + "/_/frames/";
-        public static string generatedDir = absoluteRoot + "/_/generated/";
+        private static string fontDir = absoluteRoot + "/Customize/Fonts/";
+        public static string staticImgDir = absoluteRoot + "/Customize/Static Images/";
+        public static string animationImgDir = absoluteRoot + "/Customize/Animations/";
+        public static string frameDir = absoluteRoot + "/res/_/frames/";
+        public static string generatedDir = absoluteRoot + "/res/_/generated/";
 
         //define settings file
         private static ConfigParser config = new ConfigParser("sdm.cfg");
@@ -40,10 +41,11 @@ namespace StreamDeckMonitor
 
         //store settings from ini file
         public static string currentProfile = config.Read("selectedProfile", "Current_Profile");
-
-        private static string headerFont = config.Read("headersFontType", currentProfile);
+        private static string headerFont1 = config.Read("headerFontType_1", currentProfile);
+        private static string headerFont2 = config.Read("headerFontType_2", currentProfile);
         private static string valueFont = config.Read("valuesFontType", currentProfile);
-        private static string fontColorHeaders = config.Read("headersfontColor", currentProfile);
+        private static string fontColorHeader1 = config.Read("headerFontColor_1", currentProfile);
+        private static string fontColorHeader2 = config.Read("headerFontColor_2", currentProfile);
         private static string fontColorValues = config.Read("valuesFontColor", currentProfile);
         private static string backgroundFillColor = config.Read("backgroundColor", currentProfile);
         private static string isAnimationEnabled = config.Read("animationEnabled", currentProfile);
@@ -111,11 +113,19 @@ namespace StreamDeckMonitor
 
         //set font color brushes
         private static SolidBrush myBrush;
-        public static SolidBrush HeaderBrush
+        public static SolidBrush HeaderBrush1
         {
             get
             {
-                SetBrush(fontColorHeaders);
+                SetBrush(fontColorHeader1);
+                return myBrush;
+            }
+        }
+        public static SolidBrush HeaderBrush2
+        {
+            get
+            {
+                SetBrush(fontColorHeader2);
                 return myBrush;
             }
         }
@@ -234,12 +244,13 @@ namespace StreamDeckMonitor
         }
 
         //store font size from ini settings file
-        public static int header1FontSize = int.Parse(config.Read("headersFontSize_1", currentProfile));
-        public static int header2FontSize = int.Parse(config.Read("headersFontSize_2", currentProfile));
+        public static int headerFontSize1 = int.Parse(config.Read("headerFontSize_1", currentProfile));
+        public static int headerFontSize2 = int.Parse(config.Read("headerFontSize_2", currentProfile));
         public static int valueFontSize = int.Parse(config.Read("valuesFontSize", currentProfile));
 
         //set font family
-        public static FontFamily myFontHeaders = LoadFontFamily(fontDir + headerFont + ".ttf", out myFonts);
+        public static FontFamily myFontHeader1 = LoadFontFamily(fontDir + headerFont1 + ".ttf", out myFonts);
+        public static FontFamily myFontHeader2 = LoadFontFamily(fontDir + headerFont2 + ".ttf", out myFonts);
         public static FontFamily myFontValues = LoadFontFamily(fontDir + valueFont + ".ttf", out myFonts);
 
         /*  StreamDeck button layout for reference ...        

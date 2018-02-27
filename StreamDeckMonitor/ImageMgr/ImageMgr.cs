@@ -25,15 +25,17 @@ namespace StreamDeckMonitor
             Directory.CreateDirectory(SettingsMgr.generatedDir);
 
             //start the image header creation
-            CreateImage("Cpu:", SettingsMgr.ImageLocCpu, SettingsMgr.header1FontSize, 35f, 35f);
-            CreateImage("Gpu:", SettingsMgr.ImageLocGpu, SettingsMgr.header1FontSize, 35f, 35f);
-            CreateImage("F/sec", SettingsMgr.ImageLocFps, SettingsMgr.header2FontSize, 35f, 18f);
-            CreateImage("Temp", SettingsMgr.ImageLocTemp, SettingsMgr.header2FontSize, 35f, 18f);
-            CreateImage("Load", SettingsMgr.ImageLocLoad, SettingsMgr.header2FontSize, 35f, 18f);
-            CreateImage("Time", SettingsMgr.ImageLocTime, SettingsMgr.header2FontSize, 35f, 18f);
+            CreateImage("Cpu:", SettingsMgr.ImageLocCpu, SettingsMgr.headerFontSize1, 35f, 35f);
+            CreateImage("Gpu:", SettingsMgr.ImageLocGpu, SettingsMgr.headerFontSize1, 35f, 35f);
+            CreateImage("F/sec", SettingsMgr.ImageLocFps, SettingsMgr.headerFontSize2, 35f, 18f);
+            CreateImage("Temp", SettingsMgr.ImageLocTemp, SettingsMgr.headerFontSize2, 35f, 18f);
+            CreateImage("Load", SettingsMgr.ImageLocLoad, SettingsMgr.headerFontSize2, 35f, 18f);
+            CreateImage("Time", SettingsMgr.ImageLocTime, SettingsMgr.headerFontSize2, 35f, 18f);
 
             void CreateImage(string text, string filename, int textsize, Single x, Single y)
             {
+                Font font;
+                Brush myBrushText;
                 PointF textLocation = new PointF(x, y);
                 Bitmap bitmap = new Bitmap(dimens, dimens);
                 using (Graphics graphics = Graphics.FromImage(bitmap))
@@ -49,15 +51,25 @@ namespace StreamDeckMonitor
                     Brush myBrushFill = SettingsMgr.BackgroundBrush;
                     graphics.FillRectangle(myBrushFill, 0, 0, dimens, dimens);
 
-                    using (Font font = new Font(SettingsMgr.myFontHeaders, textsize))
+                    //create images using defined font styles in config
+                    if (text == "Cpu:" || text == "Gpu:")
+                    {
+                        font = new Font(SettingsMgr.myFontHeader1, textsize);
+                        myBrushText = SettingsMgr.HeaderBrush1;
+                    }
+                    else
+                    {
+                        font = new Font(SettingsMgr.myFontHeader2, textsize);
+                        myBrushText = SettingsMgr.HeaderBrush2;
+                    }
+
+                    using (font)
                     {
                         StringFormat format = new StringFormat
                         {
                             LineAlignment = StringAlignment.Center,
                             Alignment = StringAlignment.Center
                         };
-
-                        Brush myBrushText = SettingsMgr.HeaderBrush;
                         graphics.DrawString(text, font, myBrushText, textLocation, format);
                         bitmap.Save(filename);//save the image file 
                     }
@@ -75,7 +87,7 @@ namespace StreamDeckMonitor
 
             //create instance of video reader and open video file
             VideoFileReader vidReader = new VideoFileReader();
-            vidReader.Open(SettingsMgr.customizeDir + SettingsMgr.animName + ".mp4");
+            vidReader.Open(SettingsMgr.animationImgDir + SettingsMgr.animName + ".mp4");
 
             //read frames out of it
             int frameCount = Convert.ToInt32(vidReader.FrameCount);
@@ -160,7 +172,7 @@ namespace StreamDeckMonitor
             string bitmapLocation;
             if (headerType == SettingsMgr.imageName)
             {
-                bitmapLocation = SettingsMgr.customizeDir + headerType + ".png";
+                bitmapLocation = SettingsMgr.staticImgDir + headerType + ".png";
             }
             else
             {

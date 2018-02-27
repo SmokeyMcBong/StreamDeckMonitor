@@ -4,52 +4,53 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="Configurator" Height="384.567" Width="546" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+        Title="Configurator" Height="384.567" Width="730" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     <Grid Margin="0,0,-2,0" Height="368" VerticalAlignment="Top">
-        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="43" VerticalAlignment="Top" Width="199" Margin="322,293,0,0"/>
-        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="225" VerticalAlignment="Top" Width="307" Margin="10,63,0,0"/>
-        <Border BorderBrush="Black" BorderThickness="1" Margin="322,0,0,80" Height="225" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="199"/>
-        <CheckBox x:Name="AnimSwitch" Content="Enable Animation" Margin="359,20,0,0" VerticalAlignment="Top" Height="28" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Width="132" HorizontalAlignment="Left" Visibility="Hidden"/>
-        <Label Content="Headers" HorizontalAlignment="Left" Margin="27,99,0,0" VerticalAlignment="Top" Width="130" HorizontalContentAlignment="Center" Height="26"/>
-        <Label Content="Values" Margin="166,99,0,0" VerticalAlignment="Top" HorizontalContentAlignment="Center" Height="26" HorizontalAlignment="Left" Width="133"/>
-        <Label Content="Header 1&#xA;Font size:" Margin="27,180,0,0" VerticalAlignment="Top" FontSize="10" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Height="35" Width="52" HorizontalAlignment="Left"/>
-        <Label Content="Header 2&#xA;Font size:" Margin="76,180,0,0" VerticalAlignment="Top" FontSize="10" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Height="35" Width="52" HorizontalAlignment="Left"/>
-        <Label Content="  Values&#xA;Font size:" Margin="244,180,0,0" VerticalAlignment="Top" FontSize="10" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Height="35" HorizontalAlignment="Left" Width="52"/>
-        <TextBox x:Name="AnimFramerate" Height="22" Margin="463,227,0,0" TextWrapping="Wrap" VerticalAlignment="Top" MaxLines="1" MaxLength="3" IsUndoEnabled="False" TextAlignment="Center" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" TextChanged="AnimFramerateInput" Width="40" HorizontalAlignment="Left"/>
-        <Label Content=" Animation Framerate:&#xD;&#xA;" Margin="344,220,0,0" VerticalAlignment="Top" FontSize="10" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Center" Height="29" Width="107" HorizontalAlignment="Left"/>
-        <TextBox x:Name="Header2FS" Height="22" Margin="83,215,0,0" TextWrapping="Wrap" VerticalAlignment="Top" UndoLimit="0" MaxLines="1" MaxLength="2" IsUndoEnabled="False" TextAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" TextChanged="Header2FSInput" HorizontalAlignment="Left" Width="40"/>
-        <TextBox x:Name="ValuesFS" Height="22" Margin="251,215,0,0" TextWrapping="Wrap" VerticalAlignment="Top" UndoLimit="0" MaxLines="1" MaxLength="2" IsUndoEnabled="False" TextAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" TextChanged="ValuesFSInput" HorizontalAlignment="Left" Width="40"/>
-        <Button x:Name="ButtonSave" Content="Save Settings" Margin="70,314,0,32" Click="ClickSave" Height="22" HorizontalAlignment="Left" Width="187"/>
-        <Button x:Name="ButtonExit" Content="Exit" HorizontalAlignment="Left" VerticalAlignment="Top" Width="55" Margin="10,314,0,0" Click="ClickExit" Height="22"/>
-        <TextBox x:Name="Header1FS" Height="22" Margin="33,215,0,0" TextWrapping="Wrap" VerticalAlignment="Top" UndoLimit="0" MaxLines="1" MaxLength="2" IsUndoEnabled="False" TextAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" TextChanged="Header1FSInput" HorizontalAlignment="Left" Width="40"/>
-        <Button x:Name="ButtonReload" Content="Reload" VerticalAlignment="Top" Margin="262,314,0,0" Click="ClickReload" Height="22" RenderTransformOrigin="1.452,0.455" Width="55" HorizontalAlignment="Left"/>
-        <Label x:Name="BrightnessPercent" Content="0" FontSize="12" Margin="477,302,10,32" VerticalContentAlignment="Center"/>
-
-        <Label x:Name="StatusLabel" Content="" Margin="376,5,0,337" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" HorizontalAlignment="Left" Width="145"/>
+        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="43" VerticalAlignment="Top" Width="216" Margin="487,293,0,0"/>
+        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="225" VerticalAlignment="Top" Width="472" Margin="10,63,0,0"/>
+        <Border BorderBrush="Black" BorderThickness="1" Margin="487,0,0,80" Height="225" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="216"/>        
+        <Label Content="Header 1" HorizontalAlignment="Left" Margin="17,137,0,0" VerticalAlignment="Top" Width="69" HorizontalContentAlignment="Center" Height="26"/>
+        <Label Content="Font Type:" Margin="96,109,0,0" VerticalAlignment="Top" Height="30" HorizontalAlignment="Left" Width="149" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+        <Label Content="Font size:" Margin="404,109,0,0" VerticalAlignment="Top" Height="30" HorizontalAlignment="Left" Width="59" VerticalContentAlignment="Center"/>
+        <TextBox x:Name="AnimFramerate" Height="22" Margin="642,227,0,0" TextWrapping="Wrap" VerticalAlignment="Top" MaxLines="1" MaxLength="3" IsUndoEnabled="False" TextAlignment="Center" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" TextChanged="AnimFramerateInput" Width="40" HorizontalAlignment="Left" TabIndex="15"/>
+        <Label Content=" Animation Framerate:&#xD;&#xA;" Margin="514,220,0,0" VerticalAlignment="Top" FontSize="10" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Center" Height="29" Width="107" HorizontalAlignment="Left"/>
+        <TextBox x:Name="HeaderFontSize2" Height="22" Margin="414,166,0,0" TextWrapping="Wrap" VerticalAlignment="Top" UndoLimit="0" MaxLines="1" MaxLength="2" IsUndoEnabled="False" TextAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" TextChanged="HeaderFontSize2Input" HorizontalAlignment="Left" Width="39" TabIndex="6"/>
+        <TextBox x:Name="ValuesFontSize" Height="22" Margin="414,193,0,0" TextWrapping="Wrap" VerticalAlignment="Top" UndoLimit="0" MaxLines="1" MaxLength="2" IsUndoEnabled="False" TextAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" TextChanged="ValuesFontSizeInput" HorizontalAlignment="Left" Width="39" TabIndex="9"/>
+        <Button x:Name="ButtonSave" Content="Save Settings" Margin="116,314,0,32" Click="ClickSave" Height="22" HorizontalAlignment="Left" Width="260" TabIndex="18"/>
+        <Button x:Name="ButtonExit" Content="Exit" HorizontalAlignment="Left" VerticalAlignment="Top" Width="55" Margin="47,314,0,0" Click="ClickExit" Height="22" TabIndex="20"/>
+        <TextBox x:Name="HeaderFontSize1" Height="22" Margin="414,139,0,0" TextWrapping="Wrap" VerticalAlignment="Top" UndoLimit="0" MaxLines="1" MaxLength="2" IsUndoEnabled="False" TextAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" TextChanged="HeaderFontSize1Input" HorizontalAlignment="Left" Width="39" TabIndex="3"/>
+        <Button x:Name="ButtonReload" Content="Reload" VerticalAlignment="Top" Margin="390,314,0,0" Click="ClickReload" Height="22" RenderTransformOrigin="1.452,0.455" Width="55" HorizontalAlignment="Left" TabIndex="19"/>
+        <Label x:Name="BrightnessPercent" Content="0" FontSize="12" Margin="659,302,10,32" VerticalContentAlignment="Center"/>
+        <Label x:Name="StatusLabel" Content="" Margin="258,31,0,311" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Left" Width="224"/>
         <Image VerticalAlignment="Top" Source="resources/SDMlogo.png" Margin="10,5,0,0" HorizontalAlignment="Left" Width="259"/>
-        <Label Content="Configurator App for 'StreamDeckMonitor'   [by @theFONZ]" VerticalAlignment="Top" Margin="10,293,0,0" IsEnabled="False" FontSize="11" Padding="5,0,5,2" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Width="307"/>
-        <ComboBox x:Name="HeadersFontType" HorizontalAlignment="Left" VerticalAlignment="Top" Width="130" Margin="27,125,0,0"/>
-        <ComboBox x:Name="ValuesFontType" HorizontalAlignment="Left" VerticalAlignment="Top" Width="130" Margin="169,125,0,0"/>
-        <ComboBox x:Name="HeadersFontColor" HorizontalAlignment="Left" VerticalAlignment="Top" Width="130" Margin="27,152,0,0"/>
-        <ComboBox x:Name="ValuesFontColor" HorizontalAlignment="Left" VerticalAlignment="Top" Width="130" Margin="169,152,0,0"/>
-        <ComboBox x:Name="BackgroundFillColor" HorizontalAlignment="Left" VerticalAlignment="Top" Width="147" Margin="149,248,0,0"/>
-        <Label Content="Background Color:" Margin="33,248,0,0" VerticalAlignment="Top" FontSize="10" VerticalContentAlignment="Center" Height="29" Width="98" HorizontalAlignment="Left"/>
-        <RadioButton x:Name="EnableStatic" Content="Enable Static Image" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="344,106,0,0" Width="134"/>
-        <Label Content="Main Font Settings" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="105,63,0,0" Width="137" VerticalContentAlignment="Center" FontSize="14" Height="36" FontStyle="Italic"/>
-        <Separator HorizontalAlignment="Left" Height="22" Margin="20,81,0,0" VerticalAlignment="Top" Width="287"/>
-        <Label Content="Surrounding Image Settings" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="332,63,0,0" Width="184" VerticalContentAlignment="Center" FontSize="14" Height="36" FontStyle="Italic"/>
-        <Separator HorizontalAlignment="Left" Height="22" Margin="329,81,0,0" VerticalAlignment="Top" Width="184"/>
-        <RadioButton x:Name="EnableAnim" Content="Enable Animation" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="343,173,0,0" Width="134"/>
-        <ComboBox x:Name="StaticImages" HorizontalAlignment="Left" VerticalAlignment="Top" Width="130" Margin="359,125,0,0"/>
-        <ComboBox x:Name="Animations" HorizontalAlignment="Left" VerticalAlignment="Top" Width="130" Margin="359,193,0,0"/>
-        <ComboBox x:Name="Profiles" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Margin="406,31,0,0" DropDownClosed="Profiles_DropDownClosed"/>
-        <Label Content="Select Profile:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="322,30,0,0" Width="79"/>
-        <Label Content="Display Brightness:" Margin="359,288,0,0" VerticalAlignment="Top" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Height="26" Width="118" HorizontalAlignment="Left" FontSize="11"/>
-        <Slider x:Name="BrightnessSlider" Maximum="100" ValueChanged="Slider_ValueChanged" Margin="343,311,65,38"/>
-        <Label Content="(100 FPS max)&#xA;" Margin="346,230,0,0" VerticalAlignment="Top" FontSize="10" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Center" Height="29" Width="107" HorizontalAlignment="Left"/>
-        <TextBox x:Name="FrameTotal" Height="22" Margin="463,254,0,0" TextWrapping="Wrap" VerticalAlignment="Top" MaxLines="1" MaxLength="3" IsUndoEnabled="False" TextAlignment="Center" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" TextChanged="FrameTotalInput" Width="40" HorizontalAlignment="Left"/>
-        <Label Content="No. of Frames to animate:" Margin="332,248,0,0" VerticalAlignment="Top" FontSize="10" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Center" Height="29" Width="126" HorizontalAlignment="Left"/>
-        <Label Content="(600 max)&#xA;" Margin="346,259,0,0" VerticalAlignment="Top" FontSize="10" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Center" Height="29" Width="107" HorizontalAlignment="Left"/>
-        <Separator HorizontalAlignment="Left" Height="21" Margin="359,152,0,0" VerticalAlignment="Top" Width="130"/>
+        <Label Content="Configurator App for 'StreamDeckMonitor'  [by @theFONZ]" VerticalAlignment="Top" Margin="95,293,0,0" IsEnabled="False" FontSize="11" Padding="5,0,5,2" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Width="303"/>
+        <ComboBox x:Name="HeaderFontType1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="163" Margin="91,139,0,0" TabIndex="1"/>
+        <ComboBox x:Name="ValuesFontType" HorizontalAlignment="Left" VerticalAlignment="Top" Width="163" Margin="91,193,0,0" TabIndex="7"/>
+        <ComboBox x:Name="HeaderFontColor1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="129" Margin="268,139,0,0" TabIndex="2"/>
+        <ComboBox x:Name="ValuesFontColor" HorizontalAlignment="Left" VerticalAlignment="Top" Width="129" Margin="268,193,0,0" TabIndex="8"/>
+        <ComboBox x:Name="BackgroundFillColor" HorizontalAlignment="Left" VerticalAlignment="Top" Width="123" Margin="233,238,0,0" TabIndex="10"/>
+        <Label Content="Background Color:" Margin="133,235,0,0" VerticalAlignment="Top" VerticalContentAlignment="Center" Height="29" Width="100" HorizontalAlignment="Left" FontSize="10"/>
+        <RadioButton x:Name="EnableStatic" Content="Enable Static Image" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="513,106,0,0" Width="134" TabIndex="11"/>
+        <Label Content="Main Font Settings" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="202,62,0,0" Width="127" VerticalContentAlignment="Center" FontSize="14" Height="36" FontStyle="Italic"/>
+        <Separator HorizontalAlignment="Left" Height="22" Margin="27,82,0,0" VerticalAlignment="Top" Width="440"/>
+        <Label Content="Surrounding Image Settings" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="504,63,0,0" Width="196" VerticalContentAlignment="Center" FontSize="14" Height="36" FontStyle="Italic"/>
+        <Separator HorizontalAlignment="Left" Height="22" Margin="504,82,0,0" VerticalAlignment="Top" Width="180"/>
+        <RadioButton x:Name="EnableAnim" Content="Enable Animation" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="513,172,0,0" Width="134" TabIndex="13"/>
+        <ComboBox x:Name="StaticImages" HorizontalAlignment="Left" VerticalAlignment="Top" Width="130" Margin="541,125,0,0" TabIndex="12"/>
+        <ComboBox x:Name="Animations" HorizontalAlignment="Left" VerticalAlignment="Top" Width="130" Margin="541,192,0,0" TabIndex="14"/>
+        <ComboBox x:Name="Profiles" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Margin="588,31,0,0" DropDownClosed="Profiles_DropDownClosed" TabIndex="0"/>
+        <Label Content="Select Profile:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="504,30,0,0" Width="79"/>
+        <Label Content="Display Brightness:" Margin="536,288,0,0" VerticalAlignment="Top" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Height="26" Width="118" HorizontalAlignment="Left" FontSize="11"/>
+        <Slider x:Name="BrightnessSlider" Maximum="100" ValueChanged="Slider_ValueChanged" Margin="514,311,72,38" TabIndex="17"/>
+        <Label Content="(100 FPS max)&#xA;" Margin="516,230,0,0" VerticalAlignment="Top" FontSize="10" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Center" Height="29" Width="107" HorizontalAlignment="Left"/>
+        <TextBox x:Name="FrameTotal" Height="22" Margin="642,254,0,0" TextWrapping="Wrap" VerticalAlignment="Top" MaxLines="1" MaxLength="3" IsUndoEnabled="False" TextAlignment="Center" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" TextChanged="FrameTotalInput" Width="40" HorizontalAlignment="Left" TabIndex="16"/>
+        <Label Content="No. of Frames to animate:" Margin="502,248,0,0" VerticalAlignment="Top" FontSize="10" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Center" Height="29" Width="126" HorizontalAlignment="Left"/>
+        <Label Content="(600 max)&#xA;" Margin="516,259,0,0" VerticalAlignment="Top" FontSize="10" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Center" Height="29" Width="107" HorizontalAlignment="Left"/>
+        <Separator HorizontalAlignment="Left" Height="21" Margin="541,150,0,0" VerticalAlignment="Top" Width="130"/>
+        <Label Content="Font Color:" Margin="272,109,0,0" VerticalAlignment="Top" Height="29" HorizontalAlignment="Left" Width="119" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+        <ComboBox x:Name="HeaderFontType2" HorizontalAlignment="Left" VerticalAlignment="Top" Width="163" Margin="91,166,0,0" TabIndex="4"/>
+        <ComboBox x:Name="HeaderFontColor2" HorizontalAlignment="Left" VerticalAlignment="Top" Width="129" Margin="268,166,0,0" TabIndex="5"/>
+        <Label Content="Header 2" HorizontalAlignment="Left" Margin="17,164,0,0" VerticalAlignment="Top" Width="69" HorizontalContentAlignment="Center" Height="26"/>
+        <Label Content="Values" HorizontalAlignment="Left" Margin="17,192,0,0" VerticalAlignment="Top" Width="69" HorizontalContentAlignment="Center" Height="26"/>
     </Grid>
 </Window>
