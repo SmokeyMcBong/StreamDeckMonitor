@@ -23,14 +23,12 @@ namespace StreamDeckMonitor
             var displayBrightness = Convert.ToByte(SettingsMgr.displayBrightness);
             ImageMgr.deck.SetBrightness(displayBrightness);
 
+            //create all necessary header template images 
+            ImageMgr.ProcessHeaderImages();
 
             //set if using animations or static images
             if (SettingsMgr.AnimCheck() == 0)
             {
-                //create all necessary header template images 
-                ImageMgr.ProcessHeaderImages();
-
-                //set static images
                 ImageMgr.SetStaticImg("cpu", SettingsMgr.KeyLocCpuHeader);
                 ImageMgr.SetStaticImg("gpu", SettingsMgr.KeyLocGpuHeader);
                 ImageMgr.SetStaticImg(SettingsMgr.imageName, SettingsMgr.KeyLocBgImg1);
@@ -46,13 +44,6 @@ namespace StreamDeckMonitor
             }
             else
             {
-                //process and save video frames for animation
-                ImageMgr.ProcessFrames();
-
-                //create all header template images 
-                ImageMgr.ProcessHeaderImages();
-
-                //set static images
                 ImageMgr.SetStaticImg("cpu", SettingsMgr.KeyLocCpuHeader);
                 ImageMgr.SetStaticImg("gpu", SettingsMgr.KeyLocGpuHeader);
 

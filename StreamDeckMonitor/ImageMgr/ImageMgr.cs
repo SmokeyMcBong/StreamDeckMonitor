@@ -5,8 +5,7 @@ using System.Drawing.Drawing2D;
 using System.Drawing.Text;
 using Accord.Video.FFMPEG;
 using System.IO;
-using System.Linq;
-using System.Collections.Generic;
+using System.Drawing.Imaging;
 
 namespace StreamDeckMonitor
 {
@@ -32,7 +31,7 @@ namespace StreamDeckMonitor
             CreateImage("Load", SettingsMgr.ImageLocLoad, SettingsMgr.headerFontSize2, 35f, 18f);
             CreateImage("Time", SettingsMgr.ImageLocTime, SettingsMgr.headerFontSize2, 35f, 18f);
 
-            void CreateImage(string text, string filename, int textsize, Single x, Single y)
+            void CreateImage(string text, string filename, int textSize, Single x, Single y)
             {
                 Font font;
                 Brush myBrushText;
@@ -54,12 +53,12 @@ namespace StreamDeckMonitor
                     //create images using defined font styles in config
                     if (text == "Cpu:" || text == "Gpu:")
                     {
-                        font = new Font(SettingsMgr.myFontHeader1, textsize);
+                        font = new Font(SettingsMgr.myFontHeader1, textSize);
                         myBrushText = SettingsMgr.HeaderBrush1;
                     }
                     else
                     {
-                        font = new Font(SettingsMgr.myFontHeader2, textsize);
+                        font = new Font(SettingsMgr.myFontHeader2, textSize);
                         myBrushText = SettingsMgr.HeaderBrush2;
                     }
 
@@ -77,82 +76,56 @@ namespace StreamDeckMonitor
             }
         }
 
-        private static int adjustedCount;
-
         //extract and resize video frames for animation
-        public static void ProcessFrames()
-        {
-            //create working dir
-            Directory.CreateDirectory(SettingsMgr.frameDir);
-
-            //create instance of video reader and open video file
-            VideoFileReader vidReader = new VideoFileReader();
-            vidReader.Open(SettingsMgr.animationImgDir + SettingsMgr.animName + ".mp4");
-
-            //read frames out of it
-            int frameCount = Convert.ToInt32(vidReader.FrameCount);
-
-            if (frameCount >= SettingsMgr.framesToProcess)
-            {
-                adjustedCount = SettingsMgr.framesToProcess;
-            }
-            else
-            {
-                adjustedCount = frameCount;
-            }
-
-            for (int i = 0; i < adjustedCount; i++)
-            {
-                //get, resize and save frames
-                Bitmap videoFrame = new Bitmap(vidReader.ReadVideoFrame(), new Size(dimens, dimens));
-                videoFrame.Save(SettingsMgr.frameDir + i + ".bmp");
-
-                //dispose the frame when it is no longer required
-                videoFrame.Dispose();
-            }
-            vidReader.Close();
-        }
-
-        //start the animation process using the stored frames
         public static void StartAnimation()
         {
-            //frametime delay
-            int frametime = SettingsMgr.FrametimeValue();
-
-            //create ordered file list of images in frameDir
-            List<string> frameCollection = new List<string> { };
-            foreach (var capturedFrame in Directory.GetFiles(SettingsMgr.frameDir))
-            {
-                frameCollection.Add(capturedFrame);
-            }
-
-            //playback sequence : Forward
-            var seqForward = frameCollection.OrderBy(x => x.Length).Take(adjustedCount);
-
-            //playback sequence : Reverse
-            var seqReverse = seqForward.Reverse().Take(adjustedCount);
-
-            //start animation playback loop
             while (true)
             {
-                //start image playback sequence : Forward
-                foreach (var frame in seqForward)
+                //create instance of video reader and open video file
+                VideoFileReader vidReader = new VideoFileReader();
+                string fileExt = ".mp4";
+                vidReader.Open(SettingsMgr.animationImgDir + SettingsMgr.animName + fileExt);                
+
+                int frameCount = Convert.ToInt32(vidReader.FrameCount);
+                int adjustedCount;
+
+                if (frameCount >= SettingsMgr.framesToProcess)
                 {
-                    var forwardFrames = StreamDeckKeyBitmap.FromFile(frame);
-                    ShowAnim(forwardFrames);
+                    adjustedCount = SettingsMgr.framesToProcess;
+                }
+                else
+                {
+                    adjustedCount = frameCount;
                 }
 
-                //start image playback sequence : Reverse
-                foreach (var frame in seqReverse)
+                for (int i = 0; i < adjustedCount; i++)
                 {
-                    var reverseFrames = StreamDeckKeyBitmap.FromFile(frame);
-                    ShowAnim(reverseFrames);
+                    using (var vidStream = new MemoryStream())
+                    {
+                        //resize and save frames to MemoryStream
+                        Bitmap videoFrame = new Bitmap(vidReader.ReadVideoFrame(), new Size(dimens, dimens));
+                        videoFrame.Save(vidStream, ImageFormat.Png);
+
+                        //dispose the video frame
+                        videoFrame.Dispose();
+
+                        //process animation from stream
+                        vidStream.Seek(0, SeekOrigin.Begin);
+                        var animStream = StreamDeckKeyBitmap.FromStream(vidStream);
+                        ShowAnim(animStream);
+                        vidStream.Close();
+                    }
                 }
+
+                vidReader.Close();
             }
 
             //send images to the deck in the sequence the frames are received
             void ShowAnim(StreamDeckKeyBitmap anim)
             {
+                //frametime delay
+                int frametime = SettingsMgr.FrametimeValue();
+
                 deck.SetKeyBitmap(SettingsMgr.KeyLocBgImg1, anim);
                 deck.SetKeyBitmap(SettingsMgr.KeyLocBgImg2, anim);
                 deck.SetKeyBitmap(SettingsMgr.KeyLocBgImg3, anim);
@@ -161,7 +134,6 @@ namespace StreamDeckMonitor
                 deck.SetKeyBitmap(SettingsMgr.KeyLocBgImg6, anim);
                 deck.SetKeyBitmap(SettingsMgr.KeyLocBgImg7, anim);
 
-                //define frametime
                 System.Threading.Thread.Sleep(frametime);
             }
         }
