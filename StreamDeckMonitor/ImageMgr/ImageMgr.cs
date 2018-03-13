@@ -6,6 +6,7 @@ using System.Drawing.Text;
 using Accord.Video.FFMPEG;
 using System.IO;
 using System.Drawing.Imaging;
+using System.Collections.Generic;
 
 namespace StreamDeckMonitor
 {
@@ -76,15 +77,15 @@ namespace StreamDeckMonitor
             }
         }
 
-        //extract and resize video frames for animation
+        //process video frames for animation
         public static void StartAnimation()
         {
             while (true)
             {
                 //create instance of video reader and open video file
                 VideoFileReader vidReader = new VideoFileReader();
-                string fileExt = ".mp4";
-                vidReader.Open(SettingsMgr.animationImgDir + SettingsMgr.animName + fileExt);                
+                string vidFile = SettingsMgr.animationImgDir + SettingsMgr.animName + ".mp4";
+                vidReader.Open(vidFile);
 
                 int frameCount = Convert.ToInt32(vidReader.FrameCount);
                 int adjustedCount;
@@ -109,7 +110,7 @@ namespace StreamDeckMonitor
                         //dispose the video frame
                         videoFrame.Dispose();
 
-                        //process animation from stream
+                        //display animation from stream
                         vidStream.Seek(0, SeekOrigin.Begin);
                         var animStream = StreamDeckKeyBitmap.FromStream(vidStream);
                         ShowAnim(animStream);
@@ -120,20 +121,27 @@ namespace StreamDeckMonitor
                 vidReader.Close();
             }
 
-            //send images to the deck in the sequence the frames are received
-            void ShowAnim(StreamDeckKeyBitmap anim)
+            //display animation
+            void ShowAnim(StreamDeckKeyBitmap animStream)
             {
+                List<int> buttonList = new List<int>
+                {
+                    SettingsMgr.KeyLocBgImg1,
+                    SettingsMgr.KeyLocBgImg2,
+                    SettingsMgr.KeyLocBgImg3,
+                    SettingsMgr.KeyLocBgImg4,
+                    SettingsMgr.KeyLocBgImg5,
+                    SettingsMgr.KeyLocBgImg6,
+                    SettingsMgr.KeyLocBgImg7
+                };
+
+                foreach (var button in buttonList)
+                {
+                    deck.SetKeyBitmap(button, animStream);
+                }
+
                 //frametime delay
                 int frametime = SettingsMgr.FrametimeValue();
-
-                deck.SetKeyBitmap(SettingsMgr.KeyLocBgImg1, anim);
-                deck.SetKeyBitmap(SettingsMgr.KeyLocBgImg2, anim);
-                deck.SetKeyBitmap(SettingsMgr.KeyLocBgImg3, anim);
-                deck.SetKeyBitmap(SettingsMgr.KeyLocBgImg4, anim);
-                deck.SetKeyBitmap(SettingsMgr.KeyLocBgImg5, anim);
-                deck.SetKeyBitmap(SettingsMgr.KeyLocBgImg6, anim);
-                deck.SetKeyBitmap(SettingsMgr.KeyLocBgImg7, anim);
-
                 System.Threading.Thread.Sleep(frametime);
             }
         }
@@ -204,10 +212,17 @@ namespace StreamDeckMonitor
                         }
                     }
 
-                    bitmap.Save(tempimagefilepath);//save the image file
+                    using (var valuesStream = new MemoryStream())
+                    {
+                        bitmap.Save(valuesStream, ImageFormat.Png);
+                        bitmap.Dispose();
 
-                    var tempBitmap = StreamDeckKeyBitmap.FromFile(tempimagefilepath);
-                    deck.SetKeyBitmap(location, tempBitmap);
+                        //display values using stream
+                        valuesStream.Seek(0, SeekOrigin.Begin);
+                        var valStream = StreamDeckKeyBitmap.FromStream(valuesStream);
+                        deck.SetKeyBitmap(location, valStream);
+                        valuesStream.Close();
+                    }
                 }
             }
         }

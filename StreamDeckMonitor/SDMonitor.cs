@@ -14,7 +14,10 @@ namespace StreamDeckMonitor
             //make sure only one instance is running
             SettingsMgr.CheckForTwins();
 
-            //define openhardwaremonitor sensors (CPU temp data requires 'highestAvailable' requestedExecutionLevel !!)
+            //MSI Afterburner MACM shared memory
+            HardwareMonitor mahm = new HardwareMonitor();
+
+            //define openhardwaremonitor sensors and connect (CPU temp data requires 'highestAvailable' requestedExecutionLevel !!)
             Computer computer = new Computer() { CPUEnabled = true, GPUEnabled = true };
             computer.Open();
 
@@ -56,16 +59,18 @@ namespace StreamDeckMonitor
                 //start loop
                 while (true)
                 {
+                    //add key press handler, if pressed send exit command 
+                    ImageMgr.deck.KeyPressed += DeckKeyPressed;
+
+                    //connect to msi afterburner and reload values
+                    var framerateEntry = mahm.GetEntry(HardwareMonitor.GPU_GLOBAL_INDEX, MONITORING_SOURCE_ID.FRAMERATE);
+                    mahm.Connect();
+                    mahm.ReloadEntry(framerateEntry);
+
                     try
                     {
-                        //connect to MSI Afterburner MACM shared memory
-                        HardwareMonitor mahm = new HardwareMonitor();
-
-                        //Get monitoring data
-                        HardwareMonitorEntry framerate = mahm.GetEntry(HardwareMonitor.GPU_GLOBAL_INDEX, MONITORING_SOURCE_ID.FRAMERATE);
-
                         //get values for framerate and pass to process
-                        int framerateInt = (int)Math.Round(framerate.Data);
+                        int framerateInt = (int)Math.Round(framerateEntry.Data);
                         string dataValue = framerateInt.ToString();
                         string type = "f";
                         ImageMgr.ProcessValueImg(dataValue, type, SettingsMgr.KeyLocFps);
@@ -156,6 +161,7 @@ namespace StreamDeckMonitor
                                         }
                                     }
                                 }
+
                                 //search for load sensor
                                 if (sensor.SensorType == SensorType.Load)
                                 {
@@ -185,8 +191,11 @@ namespace StreamDeckMonitor
                     //wait 1 second before restarting loop
                     System.Threading.Thread.Sleep(1000);
 
-                    //check for key presses, if pressed send exit command 
-                    ImageMgr.deck.KeyPressed += DeckKeyPressed;
+                    //close msi afturburner monitoring connection
+                    mahm.Disconnect();
+
+                    //remove handler
+                    ImageMgr.deck.KeyPressed -= DeckKeyPressed;
                 }
             }
 
@@ -196,7 +205,12 @@ namespace StreamDeckMonitor
                 //clean display and set brightness back to rough default of 60%
                 ImageMgr.deck.ClearKeys();
                 ImageMgr.deck.SetBrightness(60);
-                //exit             
+
+                //close monitoring connections
+                mahm.Disconnect();
+                computer.Close();
+
+                //exit
                 Environment.Exit(Environment.ExitCode);
             }
         }
