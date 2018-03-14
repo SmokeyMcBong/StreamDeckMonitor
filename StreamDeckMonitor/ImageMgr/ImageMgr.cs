@@ -24,13 +24,19 @@ namespace StreamDeckMonitor
             //create working dir
             Directory.CreateDirectory(SettingsMgr.generatedDir);
 
+            //header text locations
+            Single xAxis = 35;
+            Single yAxis = 35;
+            Single xAxis2 = 35;            
+            Single yAxis2 = 18;
+
             //start the image header creation
-            CreateImage("Cpu:", SettingsMgr.ImageLocCpu, SettingsMgr.headerFontSize1, 35f, 35f);
-            CreateImage("Gpu:", SettingsMgr.ImageLocGpu, SettingsMgr.headerFontSize1, 35f, 35f);
-            CreateImage("F/sec", SettingsMgr.ImageLocFps, SettingsMgr.headerFontSize2, 35f, 18f);
-            CreateImage("Temp", SettingsMgr.ImageLocTemp, SettingsMgr.headerFontSize2, 35f, 18f);
-            CreateImage("Load", SettingsMgr.ImageLocLoad, SettingsMgr.headerFontSize2, 35f, 18f);
-            CreateImage("Time", SettingsMgr.ImageLocTime, SettingsMgr.headerFontSize2, 35f, 18f);
+            CreateImage("Cpu:", SettingsMgr.ImageLocCpu, SettingsMgr.headerFontSize1, xAxis, yAxis);
+            CreateImage("Gpu:", SettingsMgr.ImageLocGpu, SettingsMgr.headerFontSize1, xAxis, yAxis);
+            CreateImage("F/sec", SettingsMgr.ImageLocFps, SettingsMgr.headerFontSize2, xAxis2, yAxis2);
+            CreateImage("Temp", SettingsMgr.ImageLocTemp, SettingsMgr.headerFontSize2, xAxis2, yAxis2);
+            CreateImage("Load", SettingsMgr.ImageLocLoad, SettingsMgr.headerFontSize2, xAxis2, yAxis2);
+            CreateImage("Time", SettingsMgr.ImageLocTime, SettingsMgr.headerFontSize2, xAxis2, yAxis2);
 
             void CreateImage(string text, string filename, int textSize, Single x, Single y)
             {
@@ -71,7 +77,7 @@ namespace StreamDeckMonitor
                             Alignment = StringAlignment.Center
                         };
                         graphics.DrawString(text, font, myBrushText, textLocation, format);
-                        bitmap.Save(filename);//save the image file 
+                        bitmap.Save(filename);
                     }
                 }
             }
@@ -188,7 +194,7 @@ namespace StreamDeckMonitor
                 {
                     PointF dataLocation = new PointF(36f, 50f);
                     String typeImage = imagefilepath;
-                    Bitmap bitmap = (Bitmap)Image.FromFile(typeImage);//load the image file
+                    Bitmap bitmap = (Bitmap)Image.FromFile(typeImage);
 
                     using (Graphics graphics = Graphics.FromImage(bitmap))
                     {
