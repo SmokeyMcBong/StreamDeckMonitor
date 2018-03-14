@@ -149,7 +149,7 @@ namespace StreamDeckMonitor
                                     //get values for cpu and pass to process
                                     foreach (string value in valueList)
                                     {
-                                        if (value.Contains("Core #1"))
+                                        if (value.Contains("CPU Package"))
                                         {
                                             string resultPackage = value.Substring(Math.Max(0, value.Length - 2));
                                             if (!resultPackage.Contains("#"))
