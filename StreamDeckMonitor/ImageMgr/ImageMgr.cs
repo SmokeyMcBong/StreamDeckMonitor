@@ -6,7 +6,6 @@ using System.Drawing.Text;
 using Accord.Video.FFMPEG;
 using System.IO;
 using System.Drawing.Imaging;
-using System.Collections.Generic;
 
 namespace StreamDeckMonitor
 {
@@ -27,7 +26,7 @@ namespace StreamDeckMonitor
             //header text locations
             Single xAxis = 35;
             Single yAxis = 35;
-            Single xAxis2 = 35;            
+            Single xAxis2 = 35;
             Single yAxis2 = 18;
 
             //start the image header creation
@@ -130,18 +129,7 @@ namespace StreamDeckMonitor
             //display animation
             void ShowAnim(StreamDeckKeyBitmap animStream)
             {
-                List<int> buttonList = new List<int>
-                {
-                    SettingsMgr.KeyLocBgImg1,
-                    SettingsMgr.KeyLocBgImg2,
-                    SettingsMgr.KeyLocBgImg3,
-                    SettingsMgr.KeyLocBgImg4,
-                    SettingsMgr.KeyLocBgImg5,
-                    SettingsMgr.KeyLocBgImg6,
-                    SettingsMgr.KeyLocBgImg7
-                };
-
-                foreach (var button in buttonList)
+                foreach (var button in SettingsMgr.SurroundImageList())
                 {
                     deck.SetKeyBitmap(button, animStream);
                 }
@@ -175,22 +163,22 @@ namespace StreamDeckMonitor
             {
                 if (type.Equals("f"))
                 {
-                    ProcessImage(SettingsMgr.ImageLocFps, SettingsMgr.TempImageLocFps);
+                    ProcessImage(SettingsMgr.ImageLocFps);
                 }
                 if (type.Equals("t"))
                 {
-                    ProcessImage(SettingsMgr.ImageLocTemp, SettingsMgr.TempImageLocTemp);
+                    ProcessImage(SettingsMgr.ImageLocTemp);
                 }
                 if (type.Equals("l"))
                 {
-                    ProcessImage(SettingsMgr.ImageLocLoad, SettingsMgr.TempImageLocLoad);
+                    ProcessImage(SettingsMgr.ImageLocLoad);
                 }
                 if (type.Equals("ti"))
                 {
-                    ProcessImage(SettingsMgr.ImageLocTime, SettingsMgr.TempImageLocTime);
+                    ProcessImage(SettingsMgr.ImageLocTime);
                 }
 
-                void ProcessImage(string imagefilepath, string tempimagefilepath)
+                void ProcessImage(string imagefilepath)
                 {
                     PointF dataLocation = new PointF(36f, 50f);
                     String typeImage = imagefilepath;

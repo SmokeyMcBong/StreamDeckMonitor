@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System.Collections.Generic;
+using System.Drawing;
 using System.Drawing.Text;
 using System.IO;
 using System.Linq;
@@ -322,6 +323,21 @@ namespace StreamDeckMonitor
             get { return 2; }
         }
 
+        public static List<int> SurroundImageList()
+        {
+            List<int> buttonList = new List<int>
+            {
+                KeyLocBgImg1,
+                KeyLocBgImg2,
+                KeyLocBgImg3,
+                KeyLocBgImg4,
+                KeyLocBgImg5,
+                KeyLocBgImg6,
+                KeyLocBgImg7
+            };
+            return buttonList;
+        }
+
         //define template image locations
         public static string ImageLocCpu
         {
@@ -346,24 +362,6 @@ namespace StreamDeckMonitor
         public static string ImageLocTime
         {
             get { return (generatedDir + "time.png"); }
-        }
-
-        //define temporary image locations
-        public static string TempImageLocFps
-        {
-            get { return (generatedDir + "f.png"); }
-        }
-        public static string TempImageLocTemp
-        {
-            get { return (generatedDir + "t.png"); }
-        }
-        public static string TempImageLocLoad
-        {
-            get { return (generatedDir + "l.png"); }
-        }
-        public static string TempImageLocTime
-        {
-            get { return (generatedDir + "ti.png"); }
         }
     }
 }

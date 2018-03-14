@@ -26,30 +26,24 @@ namespace StreamDeckMonitor
             var displayBrightness = Convert.ToByte(SettingsMgr.displayBrightness);
             ImageMgr.deck.SetBrightness(displayBrightness);
 
-            //create all necessary header template images 
+            //create and process all necessary header images 
             ImageMgr.ProcessHeaderImages();
+            ImageMgr.SetStaticImg("cpu", SettingsMgr.KeyLocCpuHeader);
+            ImageMgr.SetStaticImg("gpu", SettingsMgr.KeyLocGpuHeader);
 
-            //set if using animations or static images
+            //check if using animations or static images
             if (SettingsMgr.AnimCheck() == 0)
             {
-                ImageMgr.SetStaticImg("cpu", SettingsMgr.KeyLocCpuHeader);
-                ImageMgr.SetStaticImg("gpu", SettingsMgr.KeyLocGpuHeader);
-                ImageMgr.SetStaticImg(SettingsMgr.imageName, SettingsMgr.KeyLocBgImg1);
-                ImageMgr.SetStaticImg(SettingsMgr.imageName, SettingsMgr.KeyLocBgImg2);
-                ImageMgr.SetStaticImg(SettingsMgr.imageName, SettingsMgr.KeyLocBgImg3);
-                ImageMgr.SetStaticImg(SettingsMgr.imageName, SettingsMgr.KeyLocBgImg4);
-                ImageMgr.SetStaticImg(SettingsMgr.imageName, SettingsMgr.KeyLocBgImg5);
-                ImageMgr.SetStaticImg(SettingsMgr.imageName, SettingsMgr.KeyLocBgImg6);
-                ImageMgr.SetStaticImg(SettingsMgr.imageName, SettingsMgr.KeyLocBgImg7);
+                foreach (var button in SettingsMgr.SurroundImageList())
+                {
+                    ImageMgr.SetStaticImg(SettingsMgr.imageName, button);
+                }
 
                 //start standard loop without the image animations 
                 StartMe();
             }
             else
             {
-                ImageMgr.SetStaticImg("cpu", SettingsMgr.KeyLocCpuHeader);
-                ImageMgr.SetStaticImg("gpu", SettingsMgr.KeyLocGpuHeader);
-
                 //start both loops in parallel
                 Parallel.Invoke(() => ImageMgr.StartAnimation(), () => StartMe());
             }
