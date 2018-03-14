@@ -134,6 +134,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>move $(TargetPath)  $(SolutionDir)\StreamDeckMonitor\bin\x86\Release\</PostBuildEvent>
+    <PostBuildEvent>move $(TargetPath)  $(SolutionDir)\StreamDeckMonitor\bin\x86\Release\
+"C:\Program Files\7-Zip\7z.exe" a  -r $(SolutionDir)\StreamDeckMonitor\bin\x86\Release\StreamDeckMonitor_vX.zip -w $(SolutionDir)\StreamDeckMonitor\bin\x86\Release\* -mem=AES256</PostBuildEvent>
   </PropertyGroup>
 </Project>
