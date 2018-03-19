@@ -55,6 +55,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -64,15 +65,18 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="UIAutomationProvider" />
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="SettingsMgr\ThreadMgr.cs" />
     <Compile Include="SettingsMgr\SettingsMgr.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -134,7 +138,10 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>move $(TargetPath)  $(SolutionDir)\StreamDeckMonitor\bin\x86\Release\ &amp; wait 5
-"C:\Program Files\7-Zip\7z.exe" a  -r $(SolutionDir)\StreamDeckMonitor\bin\x86\Release\StreamDeckMonitor_vX.zip -w $(SolutionDir)\StreamDeckMonitor\bin\x86\Release\* -mem=AES256</PostBuildEvent>
+    <PostBuildEvent>move $(TargetPath)  $(SolutionDir)\StreamDeckMonitor\bin\x86\Release\
+call "$(SolutionDir)\Package Release Build.bat" $(SolutionDir)
+
+
+</PostBuildEvent>
   </PropertyGroup>
 </Project>

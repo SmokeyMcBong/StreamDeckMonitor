@@ -8,6 +8,12 @@ namespace Configurator
 {
     class SettingsMgr
     {
+        //check for duplicate instances
+        public static void CheckForTwins()
+        {
+            if (Process.GetProcessesByName(Path.GetFileNameWithoutExtension(Assembly.GetEntryAssembly().Location)).Count() > 1) Process.GetCurrentProcess().Kill();
+        }
+
         //resource directory locations
         private static string absoluteRoot = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location).ToString();
         private static string fontDir = absoluteRoot + "/Customize/Fonts/";
@@ -37,6 +43,11 @@ namespace Configurator
         public static int valueFontSize;
         public static int framesToProcess;
         public static int displayBrightness;
+
+        //set font size, framerate and frame amount max values
+        public static int fsMax = 99;
+        public static int frMax = 100;
+        public static int faMax = 600;
 
         public static List<string> fontList;
         public static List<string> colorList;

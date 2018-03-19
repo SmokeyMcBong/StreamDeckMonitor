@@ -1,8 +1,7 @@
 ﻿using System;
-using System.ComponentModel;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -15,10 +14,17 @@ namespace Configurator
 
         public MainWindow()
         {
+            //make sure only one instance is running
+            SettingsMgr.CheckForTwins();
             InitializeComponent();
 
             //load all values from config file
             currentProfile = SettingsMgr.config.Read("selectedProfile", "Current_Profile");
+            PrepValueDisplay(currentProfile);
+        }
+
+        private void PrepValueDisplay(string currentProfile)
+        {
             SettingsMgr.LoadValues(currentProfile);
             DisplayValues(currentProfile);
         }
@@ -64,85 +70,202 @@ namespace Configurator
             }
         }
 
-        //format text inputs on the fly to make sure only numerical values are entered
-        private string resetValue = "";
-
+        //format text inputs on the fly to make sure only numerical values are entered        
         void HeaderFontSize1Input(object sender, TextChangedEventArgs e)
         {
-            HeaderFontSize1.Text = Regex.Replace(HeaderFontSize1.Text, "[^0-9]+", "");
-
-            if (HeaderFontSize1.Text.StartsWith("0"))
-            {
-                HeaderFontSize1.Text = resetValue;
-            }
+            string value = HeaderFontSize1.Text;
+            HeaderFontSize1.Text = FormatValue(value, "");
         }
 
         void HeaderFontSize2Input(object sender, TextChangedEventArgs e)
         {
-            HeaderFontSize2.Text = Regex.Replace(HeaderFontSize2.Text, "[^0-9]+", "");
-
-            if (HeaderFontSize2.Text.StartsWith("0"))
-            {
-                HeaderFontSize2.Text = resetValue;
-            }
+            string value = HeaderFontSize2.Text;
+            HeaderFontSize2.Text = FormatValue(value, "");
         }
 
         void ValuesFontSizeInput(object sender, TextChangedEventArgs e)
         {
-            ValuesFontSize.Text = Regex.Replace(ValuesFontSize.Text, "[^0-9]+", "");
-
-            if (ValuesFontSize.Text.StartsWith("0"))
-            {
-                ValuesFontSize.Text = resetValue;
-            }
+            string value = ValuesFontSize.Text;
+            ValuesFontSize.Text = FormatValue(value, "");
         }
 
-        //format text inputs on the fly to make sure only numerical values are entered
         void AnimFramerateInput(object sender, TextChangedEventArgs e)
         {
-            AnimFramerate.Text = Regex.Replace(AnimFramerate.Text, "[^0-9]+", "");
-
-            if (AnimFramerate.Text.StartsWith("0"))
-            {
-                AnimFramerate.Text = resetValue;
-            }
-
-            //also limit max enterable value to 100
-            if (AnimFramerate.Text.Length != 0)
-            {
-                if (int.Parse(AnimFramerate.Text) >= 101)
-                {
-                    AnimFramerate.Text = resetValue.ToString();
-                }
-            }
+            string value = AnimFramerate.Text;
+            AnimFramerate.Text = FormatValue(value, "FR");
         }
 
         void FrameTotalInput(object sender, TextChangedEventArgs e)
         {
-            FrameTotal.Text = Regex.Replace(FrameTotal.Text, "[^0-9]+", "");
+            string value = FrameTotal.Text;
+            FrameTotal.Text = FormatValue(value, "FA");
+        }
 
-            if (FrameTotal.Text.StartsWith("0"))
+        private string FormatValue(string valueText, string type)
+        {
+            string formattedValue = "";
+
+            formattedValue = Regex.Replace(valueText, "[^0-9]+", "");
+
+            if (formattedValue.StartsWith("0"))
             {
-                FrameTotal.Text = resetValue;
+                formattedValue = "1";
             }
 
-            //also limit max enterable value to 600
-            if (FrameTotal.Text.Length != 0)
+            if (type != "")
             {
-                if (int.Parse(FrameTotal.Text) >= 601)
+                if (type == "FR")
                 {
-                    FrameTotal.Text = resetValue.ToString();
+                    if (int.Parse(formattedValue) > SettingsMgr.frMax)
+                    {
+                        formattedValue = SettingsMgr.frMax.ToString();
+                    }
+                }
+
+                if (type == "FA")
+                {
+                    if (int.Parse(formattedValue) > SettingsMgr.faMax)
+                    {
+                        formattedValue = SettingsMgr.faMax.ToString();
+                    }
                 }
             }
+
+            return formattedValue;
         }
 
+        //Up and Down adjustment buttons
+        private void ClickH1FSUp(object sender, RoutedEventArgs e)
+        {
+            int getValue = int.Parse(HeaderFontSize1.Text);
+            HeaderFontSize1.Text = ReturnValue(getValue, "FS", "Up").ToString();
+        }
+
+        private void ClickH1FSDown(object sender, RoutedEventArgs e)
+        {
+            int getValue = int.Parse(HeaderFontSize1.Text);
+            HeaderFontSize1.Text = ReturnValue(getValue, "FS", "Down").ToString();
+        }
+
+        private void ClickH2FSUp(object sender, RoutedEventArgs e)
+        {
+            int getValue = int.Parse(HeaderFontSize2.Text);
+            HeaderFontSize2.Text = ReturnValue(getValue, "FS", "Up").ToString();
+        }
+
+        private void ClickH2FSDown(object sender, RoutedEventArgs e)
+        {
+            int getValue = int.Parse(HeaderFontSize2.Text);
+            HeaderFontSize2.Text = ReturnValue(getValue, "FS", "Down").ToString();
+        }
+
+        private void ClickVFSUp(object sender, RoutedEventArgs e)
+        {
+            int getValue = int.Parse(ValuesFontSize.Text);
+            ValuesFontSize.Text = ReturnValue(getValue, "FS", "Up").ToString();
+        }
+
+        private void ClickVFSDown(object sender, RoutedEventArgs e)
+        {
+            int getValue = int.Parse(ValuesFontSize.Text);
+            ValuesFontSize.Text = ReturnValue(getValue, "FS", "Down").ToString();
+        }
+
+        private void ClickFRUp(object sender, RoutedEventArgs e)
+        {
+            int getValue = int.Parse(AnimFramerate.Text);
+            AnimFramerate.Text = ReturnValue(getValue, "FR", "Up").ToString();
+        }
+
+        private void ClickFRDown(object sender, RoutedEventArgs e)
+        {
+            int getValue = int.Parse(AnimFramerate.Text);
+            AnimFramerate.Text = ReturnValue(getValue, "FR", "Down").ToString();
+        }
+
+        private void ClickFAUp(object sender, RoutedEventArgs e)
+        {
+            int getValue = int.Parse(FrameTotal.Text);
+            FrameTotal.Text = ReturnValue(getValue, "FA", "Up").ToString();
+        }
+
+        private void ClickFADown(object sender, RoutedEventArgs e)
+        {
+            int getValue = int.Parse(FrameTotal.Text);
+            FrameTotal.Text = ReturnValue(getValue, "FA", "Down").ToString();
+        }
+
+        private int ReturnValue(int value, string type, string direction)
+        {
+            int adjustedValue = 0;
+            int maxValue = 0;
+
+            //set max numerical numbers allowed in each textbox
+            if (type == "FS")
+            {
+                maxValue = SettingsMgr.fsMax;
+            }
+            if (type == "FR")
+            {
+                maxValue = SettingsMgr.frMax;
+            }
+            if (type == "FA")
+            {
+                maxValue = SettingsMgr.faMax;
+            }
+
+            //process values
+            if (direction == "Up")
+            {
+                if (value == maxValue)
+                {
+                    adjustedValue = maxValue;
+                }
+                else
+                {
+                    adjustedValue = value + 1;
+                }
+            }
+
+            if (direction == "Down")
+            {
+                if (value == 1)
+                {
+                    adjustedValue = 1;
+                }
+                else
+                {
+                    adjustedValue = value - 1;
+                }
+            }
+
+            return adjustedValue;
+        }
+
+        //profile switcher
         private void Profiles_DropDownClosed(object sender, EventArgs e)
         {
+            //save selected profile to config
             currentProfile = Profiles.Text;
-            SettingsMgr.LoadValues(currentProfile);
-            DisplayValues(currentProfile);
+            string selectedProfile = "selectedProfile" + " " + currentProfile;
+
+            List<string> configValueList = new List<string>
+            {
+                selectedProfile
+            };
+
+            ThreadMgr.DoSaveInBackground(configValueList, this);
+
+            //display settings based on profile selected
+            PrepValueDisplay(currentProfile);
+
+            //display notification
+            Brush selectedColor = Brushes.DarkCyan;
+            string statusText = "Loaded " + currentProfile;
+            ThreadMgr.DoStatusInBackground(selectedColor, statusText, "", this);
         }
 
+        //brightness slider
         private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             int sliderValue = (int)e.NewValue;
@@ -153,155 +276,90 @@ namespace Configurator
         {
             //disable button while reloading values
             ButtonReload.IsEnabled = false;
-
-            //reload stored values from config file
-            currentProfile = Profiles.Text;
-            SettingsMgr.LoadValues(currentProfile);
-            DisplayValues(currentProfile);
-
-            //create a background worker to sleep for 1 second
-            var backgroundReload = new BackgroundWorker();
-            backgroundReload.DoWork += (s, ea) => Thread.Sleep(TimeSpan.FromSeconds(1));
-
-            //define work to be done
-            backgroundReload.RunWorkerCompleted += (s, ea) =>
-            {
-                StatusLabel.Content = "";
-                ButtonReload.IsEnabled = true;
-            };
+            ReloadSettings();
 
             //display notification
-            StatusLabel.Foreground = Brushes.Blue;
-            StatusLabel.Content = "Settings Reloaded !";
-
-            //start the background worker to reset both the label and button to default states
-            backgroundReload.RunWorkerAsync();
+            Brush selectedColor = Brushes.SlateBlue;
+            string statusText = "Settings Reloaded !";
+            ThreadMgr.DoStatusInBackground(selectedColor, statusText, "Reload", this);
         }
 
-        //save settings to ini file
+        private void ReloadSettings()
+        {
+            //reload stored values from config file
+            currentProfile = Profiles.Text;
+            PrepValueDisplay(currentProfile);
+        }
+
+        //external call back to ReloadSettings()
+        public void ReloadExt()
+        {
+            ReloadSettings();
+        }
+
+        //save settings to config file
         private void ClickSave(object sender, RoutedEventArgs e)
         {
             //disable button while saving values
             ButtonSave.IsEnabled = false;
 
-            currentProfile = Profiles.Text;
-
-            if (currentProfile != "")
-            {
-                SettingsMgr.config.Write("selectedProfile", Profiles.Text, "Current_Profile");
-            }
-
-            if (BrightnessPercent != null)
-            {
-                string formattedValue = new String(BrightnessPercent.Content.ToString().Where(Char.IsDigit).ToArray());
-                SettingsMgr.config.Write("displayBrightness", formattedValue, currentProfile);
-            }
-
-            if (HeaderFontSize1.Text != "")
-            {
-                SettingsMgr.config.Write("headerFontSize_1", HeaderFontSize1.Text, currentProfile);
-            }
-
-            if (HeaderFontSize2.Text != "")
-            {
-                SettingsMgr.config.Write("headerFontSize_2", HeaderFontSize2.Text, currentProfile);
-            }
-
-            if (ValuesFontSize.Text != "")
-            {
-                SettingsMgr.config.Write("valuesFontSize", ValuesFontSize.Text, currentProfile);
-            }
-
-            if (AnimFramerate.Text != "")
-            {
-                SettingsMgr.config.Write("animationFramerate", AnimFramerate.Text, currentProfile);
-            }
-
-            if (FrameTotal.Text != "")
-            {
-                SettingsMgr.config.Write("framesToProcess", FrameTotal.Text, currentProfile);
-            }
+            //grab all values to save to config file
+            string formattedValue = new String(BrightnessPercent.Content.ToString().Where(Char.IsDigit).ToArray());
+            string displayBrightness = "displayBrightness" + " " + formattedValue;
+            string headerFontSize1 = "headerFontSize_1" + " " + HeaderFontSize1.Text;
+            string headerFontSize2 = "headerFontSize_2" + " " + HeaderFontSize2.Text;
+            string valuesFontSize = "valuesFontSize" + " " + ValuesFontSize.Text;
+            string animationFramerate = "animationFramerate" + " " + AnimFramerate.Text;
+            string framesToProcess = "framesToProcess" + " " + FrameTotal.Text;
+            string animationEnabled;
 
             if (EnableAnim.IsChecked == true)
             {
-                SettingsMgr.config.Write("animationEnabled", "True", currentProfile);
+                animationEnabled = "animationEnabled" + " " + "True";
             }
             else
             {
-                SettingsMgr.config.Write("animationEnabled", "False", currentProfile);
+                animationEnabled = "animationEnabled" + " " + "False";
             }
 
-            if (StaticImages.SelectedValue != null)
+            string imageName = "imageName" + " " + StaticImages.SelectedValue.ToString();
+            string animName = "animName" + " " + Animations.SelectedValue.ToString();
+            string headerFontType1 = "headerFontType_1" + " " + HeaderFontType1.SelectedValue.ToString();
+            string headerFontType2 = "headerFontType_2" + " " + HeaderFontType2.SelectedValue.ToString();
+            string valuesFontType = "valuesFontType" + " " + ValuesFontType.SelectedValue.ToString();
+            string headerfontColor1 = "headerfontColor_1" + " " + HeaderFontColor1.SelectedValue.ToString();
+            string headerfontColor2 = "headerfontColor_2" + " " + HeaderFontColor2.SelectedValue.ToString();
+            string valuesFontColor = "valuesFontColor" + " " + ValuesFontColor.SelectedValue.ToString();
+            string backgroundColor = "backgroundColor" + " " + BackgroundFillColor.SelectedValue.ToString();
+
+            //store all values to pass to DoSaveInBackground()
+            List<string> configValueList = new List<string>
             {
-                SettingsMgr.config.Write("imageName", StaticImages.SelectedValue.ToString(), currentProfile);
-            }
+                displayBrightness,
+                headerFontSize1,
+                headerFontSize2,
+                valuesFontSize,
+                animationFramerate,
+                framesToProcess,
+                animationEnabled,
+                imageName,
+                animName,
+                headerFontType1,
+                headerFontType2,
+                valuesFontType,
+                headerfontColor1,
+                headerfontColor2,
+                valuesFontColor,
+                backgroundColor
+             };
 
-            if (Animations.SelectedValue != null)
-            {
-                SettingsMgr.config.Write("animName", Animations.SelectedValue.ToString(), currentProfile);
-            }
-
-            if (HeaderFontType1.SelectedValue != null)
-            {
-                SettingsMgr.config.Write("headerFontType_1", HeaderFontType1.SelectedValue.ToString(), currentProfile);
-            }
-
-            if (HeaderFontType2.SelectedValue != null)
-            {
-                SettingsMgr.config.Write("headerFontType_2", HeaderFontType2.SelectedValue.ToString(), currentProfile);
-            }
-
-            if (ValuesFontType.SelectedValue != null)
-            {
-                SettingsMgr.config.Write("valuesFontType", ValuesFontType.SelectedValue.ToString(), currentProfile);
-            }
-
-            if (HeaderFontColor1.SelectedValue != null)
-            {
-                SettingsMgr.config.Write("headerfontColor_1", HeaderFontColor1.SelectedValue.ToString(), currentProfile);
-            }
-
-            if (HeaderFontColor2.SelectedValue != null)
-            {
-                SettingsMgr.config.Write("headerfontColor_2", HeaderFontColor2.SelectedValue.ToString(), currentProfile);
-            }
-
-            if (ValuesFontColor.SelectedValue != null)
-            {
-                SettingsMgr.config.Write("valuesFontColor", ValuesFontColor.SelectedValue.ToString(), currentProfile);
-            }
-
-            if (BackgroundFillColor.SelectedValue != null)
-            {
-                SettingsMgr.config.Write("backgroundColor", BackgroundFillColor.SelectedValue.ToString(), currentProfile);
-            }
-
-            //if StreamDeckMonitor is running then refresh/restart the application to show new changes made
-            SettingsMgr.RestartSDM();
-
-            //create a background worker to sleep for 1 second
-            var backgroundSave = new BackgroundWorker();
-            backgroundSave.DoWork += (s, ea) => Thread.Sleep(TimeSpan.FromSeconds(1));
-
-            //define work to be done
-            backgroundSave.RunWorkerCompleted += (s, ea) =>
-            {
-                StatusLabel.Content = "";
-                ButtonSave.IsEnabled = true;
-            };
+            //send list to be processed in background thread
+            ThreadMgr.DoSaveInBackground(configValueList, this);
 
             //display notification
-            StatusLabel.Foreground = Brushes.Green;
-            StatusLabel.Content = "Settings Saved !";
-
-            //start the background worker to reset both the label and button to default states
-            backgroundSave.RunWorkerAsync();
-
-            currentProfile = Profiles.Text;
-
-            //reload stored values from config file
-            SettingsMgr.LoadValues(currentProfile);
-            DisplayValues(currentProfile);
+            Brush selectedColor = Brushes.Green;
+            string statusText = "Settings Saved !";
+            ThreadMgr.DoStatusInBackground(selectedColor, statusText, "Save", this);
         }
 
         //exit application
