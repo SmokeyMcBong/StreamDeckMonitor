@@ -48,7 +48,7 @@
     * Add custom Animation .mp4's to the following folder.. '\Customize\Animations'  
     ** The frames taken from the .mp4 video start from the very first frame ! **
     
-  ![](https://i.imgur.com/MQz8FZ1.png)  
+  ![](https://i.imgur.com/8XDM7Jx.png)  
 
 - Using the Configurator Application we can set...
     * Font type, color and size of both title headers and data values,
