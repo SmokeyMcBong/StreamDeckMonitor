@@ -7,20 +7,19 @@ namespace StreamDeckMonitor
 {
     class ConfigParser
     {
-        //set Path and EXE
         string Path;
         string EXE = Assembly.GetExecutingAssembly().GetName().Name;
 
         [DllImport("kernel32", CharSet = CharSet.Unicode)]
         static extern int GetPrivateProfileString(string Section, string Key, string Default, StringBuilder RetVal, int Size, string FilePath);
 
-        //define IniParser
+        //define ConfigParser
         public ConfigParser(string IniPath = null)
         {
             Path = new FileInfo(IniPath ?? EXE + ".ini").FullName.ToString();
         }
 
-        //read ini file key values
+        //read config file key values
         public string Read(string Key, string Section = null)
         {
             var RetVal = new StringBuilder(255);

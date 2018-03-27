@@ -14,27 +14,40 @@ namespace StreamDeckMonitor
             //make sure only one instance is running
             SettingsMgr.CheckForTwins();
 
-            //MSI Afterburner MACM shared memory
-            HardwareMonitor mahm = new HardwareMonitor();
-
-            //define openhardwaremonitor sensors and connect (CPU temp data requires 'highestAvailable' requestedExecutionLevel !!)
-            Computer computer = new Computer() { CPUEnabled = true, GPUEnabled = true };
-            computer.Open();
+            //create and process necessary header images 
+            ImageMgr.ProcessHeaderImages();
 
             //clean display and set brightness
             ImageMgr.deck.ClearKeys();
             var displayBrightness = Convert.ToByte(SettingsMgr.displayBrightness);
             ImageMgr.deck.SetBrightness(displayBrightness);
 
-            //create and process all necessary header images 
-            ImageMgr.ProcessHeaderImages();
-            ImageMgr.SetStaticImg("cpu", SettingsMgr.KeyLocCpuHeader);
-            ImageMgr.SetStaticImg("gpu", SettingsMgr.KeyLocGpuHeader);
+            //MSI Afterburner shared memory
+            HardwareMonitor mahm;
+
+            //check if MSIAfterburner process is running
+            string isABRunning = "False";
+            if (SettingsMgr.CheckForAB() == "True")
+            {
+                mahm = new HardwareMonitor();
+                isABRunning = "True";
+            }
+            else
+            {
+                mahm = null;
+            }
+
+            //define Librehardwaremonitor sensors and connect (CPU temp data requires 'highestAvailable' requestedExecutionLevel !!)
+            Computer computer = new Computer() { CPUEnabled = true, GPUEnabled = true };
+            computer.Open();
+
+            //set static header images 
+            ImageMgr.SetStaticHeaders();
 
             //check if using animations or static images
             if (SettingsMgr.AnimCheck() == 0)
             {
-                foreach (var button in SettingsMgr.SurroundImageList())
+                foreach (var button in SettingsMgr.BgButtonList())
                 {
                     ImageMgr.SetStaticImg(SettingsMgr.imageName, button);
                 }
@@ -57,31 +70,33 @@ namespace StreamDeckMonitor
                     ImageMgr.deck.KeyPressed += DeckKeyPressed;
 
                     //connect to msi afterburner and reload values
-                    var framerateEntry = mahm.GetEntry(HardwareMonitor.GPU_GLOBAL_INDEX, MONITORING_SOURCE_ID.FRAMERATE);
-                    mahm.Connect();
-                    mahm.ReloadEntry(framerateEntry);
-
-                    try
+                    if (isABRunning == "True")
                     {
+                        var framerateEntry = mahm.GetEntry(HardwareMonitor.GPU_GLOBAL_INDEX, MONITORING_SOURCE_ID.FRAMERATE);
+                        mahm.Connect();
+                        mahm.ReloadEntry(framerateEntry);
+
                         //get values for framerate and pass to process
                         int framerateInt = (int)Math.Round(framerateEntry.Data);
                         string dataValue = framerateInt.ToString();
                         string type = "f";
                         ImageMgr.ProcessValueImg(dataValue, type, SettingsMgr.KeyLocFps);
                     }
-
-                    finally
+                    else
                     {
-                        //get and set time 
-                        string timeOutput = DateTime.Now.ToString("hh:mm");
-
-                        if (timeOutput.StartsWith("0"))
-                        {
-                            timeOutput = timeOutput.Remove(0, 1);
-                        }
-
-                        ImageMgr.ProcessValueImg(timeOutput, "ti", SettingsMgr.KeyLocTimeHeader);
+                        string dataValue = "0";
+                        string type = "f";
+                        ImageMgr.ProcessValueImg(dataValue, type, SettingsMgr.KeyLocFps);
                     }
+
+                    //get and set time 
+                    string timeOutput = DateTime.Now.ToString("hh:mm");
+
+                    if (timeOutput.StartsWith("0"))
+                    {
+                        timeOutput = timeOutput.Remove(0, 1);
+                    }
+                    ImageMgr.ProcessValueImg(timeOutput, "ti", SettingsMgr.KeyLocTimeHeader);
 
                     //search hardware
                     foreach (IHardware hardware in computer.Hardware)
@@ -186,7 +201,10 @@ namespace StreamDeckMonitor
                     System.Threading.Thread.Sleep(1000);
 
                     //close msi afturburner monitoring connection
-                    mahm.Disconnect();
+                    if (isABRunning == "True")
+                    {
+                        mahm.Disconnect();
+                    }
 
                     //remove handler
                     ImageMgr.deck.KeyPressed -= DeckKeyPressed;
@@ -196,13 +214,16 @@ namespace StreamDeckMonitor
             //check for button input
             void DeckKeyPressed(object sender, StreamDeckKeyEventArgs e)
             {
+                //close all monitoring connections
+                if (isABRunning == "True")
+                {
+                    mahm.Disconnect();
+                }
+                computer.Close();
+
                 //clean display and set brightness back to rough default of 60%
                 ImageMgr.deck.ClearKeys();
                 ImageMgr.deck.SetBrightness(60);
-
-                //close monitoring connections
-                mahm.Disconnect();
-                computer.Close();
 
                 //exit
                 Environment.Exit(Environment.ExitCode);

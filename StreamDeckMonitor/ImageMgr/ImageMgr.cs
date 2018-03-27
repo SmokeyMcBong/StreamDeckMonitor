@@ -129,7 +129,7 @@ namespace StreamDeckMonitor
             //display animation
             void ShowAnim(StreamDeckKeyBitmap animStream)
             {
-                foreach (var button in SettingsMgr.SurroundImageList())
+                foreach (var button in SettingsMgr.BgButtonList())
                 {
                     deck.SetKeyBitmap(button, animStream);
                 }
@@ -138,6 +138,13 @@ namespace StreamDeckMonitor
                 int frametime = SettingsMgr.FrametimeValue();
                 System.Threading.Thread.Sleep(frametime);
             }
+        }
+
+        //set the static headers
+        public static void SetStaticHeaders()
+        {
+            SetStaticImg("cpu", SettingsMgr.KeyLocCpuHeader);
+            SetStaticImg("gpu", SettingsMgr.KeyLocGpuHeader);
         }
 
         //process static images and display

@@ -139,7 +139,6 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>move $(TargetPath)  $(SolutionDir)\StreamDeckMonitor\bin\x86\Release\
-call "$(SolutionDir)\Package Release Build.bat" $(SolutionDir)
 
 
 </PostBuildEvent>

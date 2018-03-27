@@ -9,15 +9,52 @@ namespace StreamDeckMonitor
 {
     class SettingsMgr
     {
-        /*  when starting this app using the StreamDeck, occasionally the button press can be registered more than
-            once in a very short amount of time, resulting in multiple instances of StreamDeckMonitor all starting and running at the same time.
-            the CheckForTwins() method makes sure that only one instance of StreamDeckMonitor runs
-        */
+        private static string sdm = "StreamDeckMonitor";
+        private static string ab = "MSIAfterburner";
 
-        //check for duplicate instances
+        //check for duplicate instances of StreamDeckMonitor
         public static void CheckForTwins()
         {
-            if (System.Diagnostics.Process.GetProcessesByName(Path.GetFileNameWithoutExtension(Assembly.GetEntryAssembly().Location)).Count() > 1) System.Diagnostics.Process.GetCurrentProcess().Kill();
+            if (IsProcessRunning(sdm) == "True")
+            {
+                System.Diagnostics.Process.GetCurrentProcess().Kill();
+            }
+        }
+
+        //check if MSIAfterburner is running               
+        public static string CheckForAB()
+        {
+            string abRunning = "False";
+            if (IsProcessRunning(ab) == "True")
+            {
+                abRunning = "True";
+            }
+            return abRunning;
+        }
+
+        //running process checker
+        static string IsProcessRunning(string processName)
+        {
+            string isRunning = "";
+
+            if (processName == sdm)
+            {
+                if (System.Diagnostics.Process.GetProcessesByName(Path.GetFileNameWithoutExtension(Assembly.GetEntryAssembly().Location)).Count() > 1)
+                {
+                    isRunning = "True";
+                }
+            }
+
+            if (processName == ab)
+            {
+                System.Diagnostics.Process[] proc = System.Diagnostics.Process.GetProcessesByName(processName);
+                if (proc.Length > 0)
+                {
+                    isRunning = "True";
+                }
+            }
+
+            return isRunning;
         }
 
         //define resource directory locations
@@ -323,7 +360,7 @@ namespace StreamDeckMonitor
             get { return 2; }
         }
 
-        public static List<int> SurroundImageList()
+        public static List<int> BgButtonList()
         {
             List<int> buttonList = new List<int>
             {
