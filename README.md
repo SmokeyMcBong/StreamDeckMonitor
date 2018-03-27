@@ -6,8 +6,8 @@
 [![Latest Version](https://img.shields.io/github/release/SmokeyMcBong/StreamDeckMonitor.svg)](https://github.com/SmokeyMcBong/StreamDeckMonitor/releases) 
 
 ##### Table of Contents:
-[Dependencies](https://github.com/SmokeyMcBong/StreamDeckMonitor#this-project-uses)  
 [About StreamDeckMonitor](https://github.com/SmokeyMcBong/StreamDeckMonitor#about-streamdeckmonitor)  
+[Installation](https://github.com/SmokeyMcBong/StreamDeckMonitor#installation)  
 [Customization](https://github.com/SmokeyMcBong/StreamDeckMonitor#customization)  
 
 ---
@@ -15,7 +15,7 @@
 ###### This project uses...
 * StreamDeckSharp .NET interface (https://github.com/OpenStreamDeck/StreamDeckSharp)  
 * MSI Afterburner .NET Class Library (https://forums.guru3d.com/threads/msi-afterburner-net-class-library.339656) 
-* OpenHardwareMonitorLib interface (https://github.com/openhardwaremonitor)
+* LibreHardwareMonitorLib interface (https://github.com/librehardwaremonitor)
 * Accord .NET Framework video frame capture libraries (https://github.com/accord-net/framework)
 ---
 
@@ -38,6 +38,17 @@
 #
 
 
+---
+
+
+##### Installation:
+- Download the [Latest Release](https://github.com/SmokeyMcBong/StreamDeckMonitor/releases) of StreamDeckMonitor
+- Unzip the entire zip file to a folder somewhere
+- Run StreamDeckMonitor.exe to start the application
+- Run Configurator.exe to open the bundled customization application
+ 
+[ ** For the framerate counter option to work, the necessary [MSI Afterburner Application](http://www.guru3d.com/files-details/msi-afterburner-beta-download.html) must be running ]
+#
 ---
 
 
