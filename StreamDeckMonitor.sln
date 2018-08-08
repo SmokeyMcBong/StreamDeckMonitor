@@ -7,7 +7,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StreamDeckMonitor", "Stream
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Configurator", "Configurator\Configurator.csproj", "{2931852D-FDB8-47BC-B2FF-8E73AB15F533}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "SharedManagers", "SharedManagers\SharedManagers.shproj", "{DC5D30B8-6180-48FA-B5A4-8059EE2060AB}"
+EndProject
 Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		SharedManagers\SharedManagers.projitems*{2931852d-fdb8-47bc-b2ff-8e73ab15f533}*SharedItemsImports = 4
+		SharedManagers\SharedManagers.projitems*{bb39dc81-4867-4b33-ac2b-3c6b866f79eb}*SharedItemsImports = 4
+		SharedManagers\SharedManagers.projitems*{dc5d30b8-6180-48fa-b5a4-8059ee2060ab}*SharedItemsImports = 13
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|x86 = Debug|x86
@@ -29,8 +36,8 @@ Global
 		{2931852D-FDB8-47BC-B2FF-8E73AB15F533}.Debug|x86.Build.0 = Debug|Any CPU
 		{2931852D-FDB8-47BC-B2FF-8E73AB15F533}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2931852D-FDB8-47BC-B2FF-8E73AB15F533}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2931852D-FDB8-47BC-B2FF-8E73AB15F533}.Release|x86.ActiveCfg = Release|Any CPU
-		{2931852D-FDB8-47BC-B2FF-8E73AB15F533}.Release|x86.Build.0 = Release|Any CPU
+		{2931852D-FDB8-47BC-B2FF-8E73AB15F533}.Release|x86.ActiveCfg = Release|x86
+		{2931852D-FDB8-47BC-B2FF-8E73AB15F533}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

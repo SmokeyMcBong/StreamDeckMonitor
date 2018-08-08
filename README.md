@@ -19,7 +19,7 @@
 * Accord .NET Framework video frame capture libraries (https://github.com/accord-net/framework)
 ---
 
-  ![](https://i.imgur.com/vl4t6N8.gif)
+  ![](https://i.imgur.com/vl4t6N8.gif) ![](https://i.imgur.com/obFUxFh.gif) 
  
 ---
 
@@ -32,8 +32,10 @@
     * GPU Temperature,   
     * GPU Load,  
     * Current Time.   
+- Full Clock view by pressing the Clock button (Top Left button)  
+  ** Press the FPS button (Top Right button) to go back to StreamDeckMonitor
+- Fully close and exit by pressing the Middle button 
 - Customizable using the 'Configurator' application
-- Closes itself when any button is pressed on the Stream Deck
 - Lightweight code
 #
 
@@ -59,7 +61,7 @@
     * Add custom Animation .mp4's to the following folder.. '\Customize\Animations'  
     ** The frames taken from the .mp4 video start from the very first frame ! **
     
-  ![](https://i.imgur.com/8XDM7Jx.png)  
+  ![](https://i.imgur.com/I1JXel5.png)  
 
 - Using the Configurator Application we can set...
     * Font type, color and size of both title headers and data values,
@@ -69,6 +71,9 @@
     * Set animation framerate (max 100 fps),
     * Set animation total frame amount (max 600 frames),
     * Display brightness.
+    * Clock font options for both Time and Date
+    * View full clock or compact view
+    * Show or hide the Date
 - Full Save/Load Profile support. 
 
 #

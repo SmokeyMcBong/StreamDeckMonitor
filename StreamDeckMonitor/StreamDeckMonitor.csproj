@@ -80,6 +80,7 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>true</Prefer32Bit>
     <IntermediateOutputPath>C:\Users\theFONZ\AppData\Local\Temp\vsC33B.tmp\x86\Release\</IntermediateOutputPath>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Accord">
@@ -103,6 +104,7 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -110,8 +112,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ImageMgr\ImageMgr.cs" />
-    <Compile Include="SettingsMgr\ConfigParser.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -119,7 +119,6 @@
     </Compile>
     <Compile Include="SDMonitor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SettingsMgr\SettingsMgr.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
@@ -150,11 +149,41 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
+  <Import Project="..\SharedManagers\SharedManagers.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy /E "$(ProjectDir)\include"  "$(TargetDir)"
-for /r "$(TargetDir)" %25%25x in (*.dll) do move "%25%25x" "$(TargetDir)\res\lib"
+    <PostBuildEvent>:: Copy ALL necessary libraries to release folder ::
+xcopy /E "$(ProjectDir)\include"  "$(TargetDir)"
+for /r "$(TargetDir)" %25%25x in (*.dll) do move "%25%25x" "$(TargetDir)\ext\libs"
+
+:: Create All Folders ::
+md "$(TargetDir)\ext\libs\AccordVideoFramework"
+md "$(TargetDir)\ext\libs\LibreHardwareMonitor"
+md  "$(TargetDir)\ext\libs\MSIAfterburner.NET"
+md "$(TargetDir)\ext\libs\StreamDeckSharp"
+
+:: Move Accord Video Framework Libraries to their folder ::
+move "$(TargetDir)\ext\libs\Accord.dll"  "$(TargetDir)\ext\libs\AccordVideoFramework"
+move "$(TargetDir)\ext\libs\Accord.Video.dll"  "$(TargetDir)\ext\libs\AccordVideoFramework"
+move "$(TargetDir)\ext\libs\Accord.Video.FFMPEG.dll"  "$(TargetDir)\ext\libs\AccordVideoFramework"
+move "$(TargetDir)\ext\libs\avcodec-57.dll"  "$(TargetDir)\ext\libs\AccordVideoFramework"
+move "$(TargetDir)\ext\libs\avdevice-57.dll"  "$(TargetDir)\ext\libs\AccordVideoFramework"
+move "$(TargetDir)\ext\libs\avfilter-6.dll"  "$(TargetDir)\ext\libs\AccordVideoFramework"
+move "$(TargetDir)\ext\libs\avformat-57.dll"  "$(TargetDir)\ext\libs\AccordVideoFramework"
+move "$(TargetDir)\ext\libs\avutil-55.dll"  "$(TargetDir)\ext\libs\AccordVideoFramework"
+move "$(TargetDir)\ext\libs\ffmpeg.exe"  "$(TargetDir)\ext\libs\AccordVideoFramework"
+move "$(TargetDir)\ext\libs\postproc-54.dll"  "$(TargetDir)\ext\libs\AccordVideoFramework"
+move "$(TargetDir)\ext\libs\swresample-2.dll"  "$(TargetDir)\ext\libs\AccordVideoFramework"
+move "$(TargetDir)\ext\libs\swscale-4.dll"  "$(TargetDir)\ext\libs\AccordVideoFramework"
+
+:: Move LibreHardwareMonitor Library to its folder ::
+move "$(TargetDir)\ext\libs\OpenHardwareMonitorLib.dll"  "$(TargetDir)\ext\libs\LibreHardwareMonitor"
+
+:: Move MSIAfterburner.NET Library to its folder ::
+move "$(TargetDir)\ext\libs\MSIAfterburner.NET.dll"  "$(TargetDir)\ext\libs\MSIAfterburner.NET"
+
+:: Move StreamDeckSharp Library to its folder ::
+move "$(TargetDir)\ext\libs\StreamDeckSharp.dll"  "$(TargetDir)\ext\libs\StreamDeckSharp"
 </PostBuildEvent>
   </PropertyGroup>
 </Project>

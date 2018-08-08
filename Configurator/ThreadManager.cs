@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Threading;
 using System.Windows.Media;
+using SharedManagers;
 
 namespace Configurator
 {
-    class ThreadMgr
+    class ThreadManager
     {
         //background worker for displaying current status
         public static void DoStatusInBackground(Brush selectedColor, string statusText, string button, MainWindow configurator)
@@ -45,7 +46,19 @@ namespace Configurator
         }
 
         //background worker for saving settings to config file
-        public static void DoSaveInBackground(List<string> configValueList, MainWindow configurator)
+        public static void DoSaveInBackground(List<string> configValueList, string configType, MainWindow configurator)
+        {
+            if (configType == "mainconfig")
+            {
+                SaveMainSettings(configValueList, configurator);
+            }
+            else if (configType == "clockconfig")
+            {
+                SaveClockSettings(configValueList, configurator);
+            }
+        }
+
+        private static void SaveMainSettings(List<string> configValueList, MainWindow configurator)
         {
             string currentProfile;
 
@@ -80,12 +93,46 @@ namespace Configurator
                             }
 
                             //write the type and value to config file under the correct profile heading
-                            SettingsMgr.config.Write(settingType, settingValue, currentProfile);
+                            SharedSettings.config.Write(settingType, settingValue, currentProfile);
+                        }
+                    }
+                };
+
+                //start the background worker to reset both the label and button to default states
+                backgroundSave.RunWorkerAsync();
+            }
+        }
+
+        private static void SaveClockSettings(List<string> configValueList, MainWindow configurator)
+        {
+            if (configValueList != null)
+            {
+                //create a background worker
+                var backgroundSave = new BackgroundWorker();
+                backgroundSave.DoWork += (s, ea) => Thread.Sleep(TimeSpan.FromSeconds(0));
+
+                //define work to be done
+                backgroundSave.RunWorkerCompleted += (s, ea) =>
+                {
+                    foreach (var configSetting in configValueList)
+                    {
+                        if (configSetting != "" || configSetting != null)
+                        {
+                            //split the raw string into both type and value
+                            string rawString = configSetting;
+                            string[] splitString = rawString.Split(new char[] { ' ' }, 2);
+
+                            splitString[1] = splitString[1].TrimStart();
+                            string settingType = splitString[0];
+                            string settingValue = splitString[1];
+
+                            //write the type and value to config file under the correct profile heading
+                            SharedSettings.config.Write(settingType, settingValue, "Clock_Settings");
                         }
                     }
 
                     configurator.ReloadExt();
-                    SettingsMgr.RestartSDM();
+                    SettingsManagerConfig.RestartSDM();
                 };
 
                 //start the background worker to reset both the label and button to default states

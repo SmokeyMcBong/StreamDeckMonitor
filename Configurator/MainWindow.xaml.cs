@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using SharedManagers;
 
 namespace Configurator
 {
@@ -15,52 +16,82 @@ namespace Configurator
         public MainWindow()
         {
             //make sure only one instance is running
-            SettingsMgr.CheckForTwins();
+            SharedSettings.CheckForTwins();
             InitializeComponent();
 
             //load all values from config file
-            currentProfile = SettingsMgr.config.Read("selectedProfile", "Current_Profile");
+            currentProfile = SharedSettings.config.Read("selectedProfile", "Current_Profile");
             PrepValueDisplay(currentProfile);
         }
 
         private void PrepValueDisplay(string currentProfile)
         {
-            SettingsMgr.LoadValues(currentProfile);
+            SettingsManagerConfig.LoadValues(currentProfile);
             DisplayValues(currentProfile);
         }
 
         private void DisplayValues(string currentProfile)
         {
             //display current settings according to Settings.ini values
-            HeaderFontSize1.Text = SettingsMgr.headerFontSize1.ToString();
-            HeaderFontSize2.Text = SettingsMgr.headerFontSize2.ToString();
-            ValuesFontSize.Text = SettingsMgr.valueFontSize.ToString();
-            AnimFramerate.Text = SettingsMgr.animFramerate.ToString();
-            HeaderFontType1.ItemsSource = SettingsMgr.fontList;
-            HeaderFontType1.SelectedValue = SettingsMgr.headerFont1;
-            HeaderFontType2.ItemsSource = SettingsMgr.fontList;
-            HeaderFontType2.SelectedValue = SettingsMgr.headerFont2;
-            HeaderFontColor1.ItemsSource = SettingsMgr.colorList;
-            HeaderFontColor1.SelectedValue = SettingsMgr.headerFontColor1;
-            HeaderFontColor2.ItemsSource = SettingsMgr.colorList;
-            HeaderFontColor2.SelectedValue = SettingsMgr.headerFontColor2;
-            ValuesFontType.ItemsSource = SettingsMgr.fontList;
-            ValuesFontType.SelectedValue = SettingsMgr.valueFont;
-            ValuesFontColor.ItemsSource = SettingsMgr.colorList;
-            ValuesFontColor.SelectedValue = SettingsMgr.valuesFontColor;
-            BackgroundFillColor.ItemsSource = SettingsMgr.colorList;
-            BackgroundFillColor.SelectedValue = SettingsMgr.backgroundFillColor;
-            StaticImages.ItemsSource = SettingsMgr.imageList;
-            StaticImages.SelectedValue = SettingsMgr.imageName;
-            Animations.ItemsSource = SettingsMgr.animList;
-            Animations.SelectedValue = SettingsMgr.animName;
-            FrameTotal.Text = SettingsMgr.framesToProcess.ToString();
-            BrightnessSlider.Value = SettingsMgr.displayBrightness;
-            Profiles.ItemsSource = SettingsMgr.profileList;
+            HeaderFontSize1.Text = SettingsManagerConfig.headerFontSize1.ToString();
+            HeaderFontSize2.Text = SettingsManagerConfig.headerFontSize2.ToString();
+            ValuesFontSize.Text = SettingsManagerConfig.valueFontSize.ToString();
+            AnimFramerate.Text = SettingsManagerConfig.animFramerate.ToString();
+            HeaderFontType1.ItemsSource = SettingsManagerConfig.fontList;
+            HeaderFontType1.SelectedValue = SettingsManagerConfig.headerFont1;
+            HeaderFontType2.ItemsSource = SettingsManagerConfig.fontList;
+            HeaderFontType2.SelectedValue = SettingsManagerConfig.headerFont2;
+            HeaderFontColor1.ItemsSource = SettingsManagerConfig.colorList;
+            HeaderFontColor1.SelectedValue = SettingsManagerConfig.headerFontColor1;
+            HeaderFontColor2.ItemsSource = SettingsManagerConfig.colorList;
+            HeaderFontColor2.SelectedValue = SettingsManagerConfig.headerFontColor2;
+            ValuesFontType.ItemsSource = SettingsManagerConfig.fontList;
+            ValuesFontType.SelectedValue = SettingsManagerConfig.valueFont;
+            ValuesFontColor.ItemsSource = SettingsManagerConfig.colorList;
+            ValuesFontColor.SelectedValue = SettingsManagerConfig.valuesFontColor;
+            BackgroundFillColor.ItemsSource = SettingsManagerConfig.colorList;
+            BackgroundFillColor.SelectedValue = SettingsManagerConfig.backgroundFillColor;
+            StaticImages.ItemsSource = SettingsManagerConfig.imageList;
+            StaticImages.SelectedValue = SettingsManagerConfig.imageName;
+            Animations.ItemsSource = SettingsManagerConfig.animList;
+            Animations.SelectedValue = SettingsManagerConfig.animName;
+            FrameTotal.Text = SettingsManagerConfig.framesToProcess.ToString();
+            BrightnessSlider.Value = SettingsManagerConfig.displayBrightness;
+            Profiles.ItemsSource = SettingsManagerConfig.profileList;
             Profiles.SelectedValue = currentProfile;
+            //clock settings
+            TimeFontType.ItemsSource = SettingsManagerConfig.fontList;
+            TimeFontType.SelectedValue = SettingsManagerConfig.timeFont;
+            DateFontType.ItemsSource = SettingsManagerConfig.fontList;
+            DateFontType.SelectedValue = SettingsManagerConfig.dateFont;
+            TimeFontSize.Text = SettingsManagerConfig.timeFontSize.ToString();
+            DateFontSize.Text = SettingsManagerConfig.dateFontSize.ToString();
+            TimeFontColor.ItemsSource = SettingsManagerConfig.colorList;
+            TimeFontColor.SelectedValue = SettingsManagerConfig.timeFontColor;
+            DateFontColor.ItemsSource = SettingsManagerConfig.colorList;
+            DateFontColor.SelectedValue = SettingsManagerConfig.dateFontColor;
+            
+
+            if (SharedSettings.IsCompactView() == "True")
+            {
+                IsCompact.IsChecked = true;
+            }
+            else
+            {
+                IsCompact.IsChecked = false;
+            }
+
+            if (SharedSettings.IsDateShown() == "True")
+            {
+                IsDateShown.IsChecked = true;
+            }
+            else
+            {
+                IsDateShown.IsChecked = false;
+            }
 
             //display if animations are enabled
-            if (SettingsMgr.isEnabled == 0)
+            if (SharedSettings.IsAnimationEnabled(currentProfile) != "True")
             {
                 EnableStatic.IsChecked = true;
             }
@@ -116,17 +147,17 @@ namespace Configurator
             {
                 if (type == "FR")
                 {
-                    if (int.Parse(formattedValue) > SettingsMgr.frMax)
+                    if (int.Parse(formattedValue) > SettingsManagerConfig.frMax)
                     {
-                        formattedValue = SettingsMgr.frMax.ToString();
+                        formattedValue = SettingsManagerConfig.frMax.ToString();
                     }
                 }
 
                 if (type == "FA")
                 {
-                    if (int.Parse(formattedValue) > SettingsMgr.faMax)
+                    if (int.Parse(formattedValue) > SettingsManagerConfig.faMax)
                     {
-                        formattedValue = SettingsMgr.faMax.ToString();
+                        formattedValue = SettingsManagerConfig.faMax.ToString();
                     }
                 }
             }
@@ -195,6 +226,31 @@ namespace Configurator
             FrameTotal.Text = ReturnValue(getValue, "FA", "Down").ToString();
         }
 
+        //clock settings
+        private void ClickTFSUp(object sender, RoutedEventArgs e)
+        {
+            int getValue = int.Parse(TimeFontSize.Text);
+            TimeFontSize.Text = ReturnValue(getValue, "FS", "Up").ToString();
+        }
+
+        private void ClickTFSDown(object sender, RoutedEventArgs e)
+        {
+            int getValue = int.Parse(TimeFontSize.Text);
+            TimeFontSize.Text = ReturnValue(getValue, "FS", "Down").ToString();
+        }
+
+        private void ClickDFSUp(object sender, RoutedEventArgs e)
+        {
+            int getValue = int.Parse(DateFontSize.Text);
+            DateFontSize.Text = ReturnValue(getValue, "FS", "Up").ToString();
+        }
+
+        private void ClickDFSDown(object sender, RoutedEventArgs e)
+        {
+            int getValue = int.Parse(DateFontSize.Text);
+            DateFontSize.Text = ReturnValue(getValue, "FS", "Down").ToString();
+        }
+
         private int ReturnValue(int value, string type, string direction)
         {
             int adjustedValue = 0;
@@ -203,15 +259,15 @@ namespace Configurator
             //set max numerical numbers allowed in each textbox
             if (type == "FS")
             {
-                maxValue = SettingsMgr.fsMax;
+                maxValue = SettingsManagerConfig.fsMax;
             }
             if (type == "FR")
             {
-                maxValue = SettingsMgr.frMax;
+                maxValue = SettingsManagerConfig.frMax;
             }
             if (type == "FA")
             {
-                maxValue = SettingsMgr.faMax;
+                maxValue = SettingsManagerConfig.faMax;
             }
 
             //process values
@@ -254,7 +310,7 @@ namespace Configurator
                 selectedProfile
             };
 
-            ThreadMgr.DoSaveInBackground(configValueList, this);
+            ThreadManager.DoSaveInBackground(configValueList, "mainconfig", this);
 
             //display settings based on profile selected
             PrepValueDisplay(currentProfile);
@@ -262,7 +318,7 @@ namespace Configurator
             //display notification
             Brush selectedColor = Brushes.DarkCyan;
             string statusText = "Loaded " + currentProfile;
-            ThreadMgr.DoStatusInBackground(selectedColor, statusText, "", this);
+            ThreadManager.DoStatusInBackground(selectedColor, statusText, "", this);
         }
 
         //brightness slider
@@ -281,7 +337,7 @@ namespace Configurator
             //display notification
             Brush selectedColor = Brushes.SlateBlue;
             string statusText = "Settings Reloaded !";
-            ThreadMgr.DoStatusInBackground(selectedColor, statusText, "Reload", this);
+            ThreadManager.DoStatusInBackground(selectedColor, statusText, "Reload", this);
         }
 
         private void ReloadSettings()
@@ -331,6 +387,33 @@ namespace Configurator
             string headerfontColor2 = "headerfontColor_2" + " " + HeaderFontColor2.SelectedValue.ToString();
             string valuesFontColor = "valuesFontColor" + " " + ValuesFontColor.SelectedValue.ToString();
             string backgroundColor = "backgroundColor" + " " + BackgroundFillColor.SelectedValue.ToString();
+            //clock settings
+            string timeFont = "timeFontType" + " " + TimeFontType.SelectedValue.ToString();
+            string dateFont = "dateFontType" + " " + DateFontType.SelectedValue.ToString();
+            string timeFontSize = "timeFontSize" + " " + TimeFontSize.Text;
+            string dateFontSize = "dateFontSize" + " " + DateFontSize.Text;
+            string timeFontColor = "timeFontColor" + " " + TimeFontColor.SelectedValue.ToString();
+            string dateFontColor = "dateFontColor" + " " + DateFontColor.SelectedValue.ToString();
+            string isCompact;
+            string isDateShown;
+
+            if (IsCompact.IsChecked == true)
+            {
+                isCompact = "compactView" + " " + "True";
+            }
+            else
+            {
+                isCompact = "compactView" + " " + "False";
+            }
+
+            if (IsDateShown.IsChecked == true)
+            {
+                isDateShown = "showDate" + " " + "True";
+            }
+            else
+            {
+                isDateShown = "showDate" + " " + "False";
+            }
 
             //store all values to pass to DoSaveInBackground()
             List<string> configValueList = new List<string>
@@ -350,16 +433,30 @@ namespace Configurator
                 headerfontColor1,
                 headerfontColor2,
                 valuesFontColor,
-                backgroundColor
+                backgroundColor,
              };
 
-            //send list to be processed in background thread
-            ThreadMgr.DoSaveInBackground(configValueList, this);
+            //store all clock values to pass to DoSaveInBackground()
+            List<string> clockValueList = new List<string>
+            {
+                timeFont,
+                dateFont,
+                timeFontSize,
+                dateFontSize,
+                timeFontColor,
+                dateFontColor,
+                isCompact,
+                isDateShown
+             };
+
+            //send lists to be processed in background threads
+            ThreadManager.DoSaveInBackground(configValueList, "mainconfig", this);
+            ThreadManager.DoSaveInBackground(clockValueList, "clockconfig", this);
 
             //display notification
             Brush selectedColor = Brushes.Green;
             string statusText = "Settings Saved !";
-            ThreadMgr.DoStatusInBackground(selectedColor, statusText, "Save", this);
+            ThreadManager.DoStatusInBackground(selectedColor, statusText, "Save", this);
         }
 
         //exit application
