@@ -1,21 +1,23 @@
 ﻿using System;
-using StreamDeckSharp;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Text;
 using Accord.Video.FFMPEG;
 using System.IO;
 using System.Drawing.Imaging;
+using OpenMacroBoard.SDK;
+using StreamDeckSharp;
 
 namespace SharedManagers
 {
     class ImageManager
     {
         //define StreamDeck
-        public static IStreamDeck deck = StreamDeck.FromHID();
+        public static IMacroBoard deck = StreamDeck.OpenDevice();
 
         //define StreamDeck icon dimensions
-        public static int dimens = deck.IconSize;
+        public static int dimensWidth = 72;
+        public static int dimensHeight = 72;
 
         //flag for stopping animations before closing for a clean exit 
         public static bool exitflag = false;
@@ -27,10 +29,10 @@ namespace SharedManagers
             Directory.CreateDirectory(SharedSettings.generatedDir);
 
             //header text locations
-            Single xAxis = 35;
-            Single yAxis = 35;
-            Single xAxis2 = 35;
-            Single yAxis2 = 18;
+            float xAxis = 35;
+            float yAxis = 35;
+            float xAxis2 = 35;
+            float yAxis2 = 18;
 
             //start the image header creation
             CreateImage("Cpu:", "header1", SettingsManagerSDM.ImageLocCpu, SettingsManagerSDM.headerFontSize1, xAxis, yAxis);
@@ -42,12 +44,12 @@ namespace SharedManagers
             CreateImage(":", "time", SettingsManagerSDM.ImageLocColon, SettingsManagerSDM.timeFontSize, xAxis, yAxis);
             CreateImage("", "header1", SettingsManagerSDM.ImageLocBlank, SettingsManagerSDM.headerFontSize1, xAxis, yAxis);
 
-            void CreateImage(string text, string type, string filename, int textSize, Single x, Single y)
+            void CreateImage(string text, string type, string filename, int textSize, float x, float y)
             {
                 Font font;
                 Brush myBrushText;
                 PointF textLocation = new PointF(x, y);
-                Bitmap bitmap = new Bitmap(dimens, dimens);
+                Bitmap bitmap = new Bitmap(dimensWidth, dimensHeight);
                 using (Graphics graphics = Graphics.FromImage(bitmap))
                 {
                     //Some nice defaults for better quality (StreamDeckSharp.Examples.Drawing)
@@ -59,7 +61,7 @@ namespace SharedManagers
 
                     //background fill color
                     Brush myBrushFill = SettingsManagerSDM.BackgroundBrush;
-                    graphics.FillRectangle(myBrushFill, 0, 0, dimens, dimens);
+                    graphics.FillRectangle(myBrushFill, 0, 0, dimensHeight, dimensHeight);
 
                     if (type == "header1")
                     {
@@ -123,7 +125,7 @@ namespace SharedManagers
                     using (var vidStream = new MemoryStream())
                     {
                         //resize and save frames to MemoryStream
-                        Bitmap videoFrame = new Bitmap(vidReader.ReadVideoFrame(), new Size(dimens, dimens));
+                        Bitmap videoFrame = new Bitmap(vidReader.ReadVideoFrame(), new Size(dimensHeight, dimensHeight));
                         videoFrame.Save(vidStream, ImageFormat.Png);
 
                         //dispose the video frame
@@ -131,7 +133,7 @@ namespace SharedManagers
 
                         //display animation from stream
                         vidStream.Seek(0, SeekOrigin.Begin);
-                        var animStream = StreamDeckKeyBitmap.FromStream(vidStream);
+                        var animStream = KeyBitmap.Create.FromStream(vidStream);
                         ShowAnim(animStream);
                         vidStream.Close();
                     }
@@ -140,7 +142,7 @@ namespace SharedManagers
                 vidReader.Close();
 
                 //display animation
-                void ShowAnim(StreamDeckKeyBitmap animStream)
+                void ShowAnim(KeyBitmap animStream)
                 {
                     foreach (var button in SettingsManagerSDM.BgButtonList())
                     {
@@ -174,7 +176,7 @@ namespace SharedManagers
             {
                 bitmapLocation = SharedSettings.generatedDir + headerType + ".png";
             }
-            var staticBitmap = StreamDeckKeyBitmap.FromFile(bitmapLocation);
+            var staticBitmap = KeyBitmap.Create.FromFile(bitmapLocation);
             deck.SetKeyBitmap(headerLocation, staticBitmap);
         }
 
@@ -251,7 +253,7 @@ namespace SharedManagers
 
                         //display values using stream
                         valuesStream.Seek(0, SeekOrigin.Begin);
-                        var valStream = StreamDeckKeyBitmap.FromStream(valuesStream);
+                        var valStream = KeyBitmap.Create.FromStream(valuesStream);
                         deck.SetKeyBitmap(location, valStream);
                         valuesStream.Close();
                     }
@@ -281,10 +283,10 @@ namespace SharedManagers
             //expanded clock view
             else
             {
-                var locationHours1 = 9;
-                var locationHours2 = 8;
-                var locationMinutes1 = 6;
-                var locationMinutes2 = 5;
+                var locationHours1 = 5;
+                var locationHours2 = 6;
+                var locationMinutes1 = 8;
+                var locationMinutes2 = 9;
 
                 string hours1 = hours[0].ToString();
                 string hours2 = hours[1].ToString();
@@ -299,9 +301,9 @@ namespace SharedManagers
 
             if (showDate == "True")
             {
-                var locationDayOfWeek = 13;
+                var locationDayOfWeek = 11;
                 var locationDate = 12;
-                var locationMonth = 11;
+                var locationMonth = 13;
 
                 ProcessValueImg(dayString, "bl-sm", locationDayOfWeek);
                 ProcessValueImg(dateString, "bl-sm", locationDate);
@@ -317,7 +319,7 @@ namespace SharedManagers
             while (true)
             {
                 if (exitflag) break;
-                var loc = StreamDeckKeyBitmap.FromFile(SettingsManagerSDM.ImageLocColon);
+                var loc = KeyBitmap.Create.FromFile(SettingsManagerSDM.ImageLocColon);
                 deck.SetKeyBitmap(locationColon, loc);
 
                 //animate clock colon every second

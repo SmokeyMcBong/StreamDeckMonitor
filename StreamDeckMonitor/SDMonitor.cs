@@ -1,11 +1,11 @@
 ﻿using MSI.Afterburner;
 using OpenHardwareMonitor.Hardware;
-using StreamDeckSharp;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using SharedManagers;
 using System.Windows.Forms;
+using OpenMacroBoard.SDK;
 
 namespace StreamDeckMonitor
 {
@@ -17,6 +17,20 @@ namespace StreamDeckMonitor
             //make sure only one instance is running
             SharedSettings.CheckForTwins();
 
+            //check for device layout and adjust for Mini or Standard StreamDeck
+            if (SettingsManagerSDM.CheckForLayout() != null)
+            {
+                if (SettingsManagerSDM.CheckForLayout() == "Standard")
+                {
+                    //do stuff
+                }
+
+                if (SettingsManagerSDM.CheckForLayout() == "Mini")
+                {
+                    //do other stuff
+                }
+            }          
+           
             //clean display and set brightness
             ImageManager.deck.ClearKeys();
             var displayBrightness = Convert.ToByte(SettingsManagerSDM.displayBrightness);
@@ -94,7 +108,7 @@ namespace StreamDeckMonitor
                             try
                             {
                                 //add key press handler, if pressed send exit command 
-                                ImageManager.deck.KeyPressed += DeckKeyPressed;
+                                ImageManager.deck.KeyStateChanged += DeckKeyPressed;
 
                                 //connect to msi afterburner and reload values
                                 if (isABRunning == true)
@@ -125,7 +139,7 @@ namespace StreamDeckMonitor
                                 ImageManager.ProcessValueImg(timeOutput, "ti", SettingsManagerSDM.KeyLocTimeHeader);
 
                                 //search hardware
-                                foreach (IHardware hardware in computer.Hardware)
+                                foreach (OpenHardwareMonitor.Hardware.IHardware hardware in computer.Hardware)
                                 {
                                     hardware.Update();
 
@@ -228,7 +242,7 @@ namespace StreamDeckMonitor
                                 System.Threading.Thread.Sleep(1000);
 
                                 //remove handler
-                                ImageManager.deck.KeyPressed -= DeckKeyPressed;
+                                ImageManager.deck.KeyStateChanged -= DeckKeyPressed;
                             }
 
                             catch (Exception)
@@ -238,11 +252,11 @@ namespace StreamDeckMonitor
                         }
 
                         //check for button input
-                        void DeckKeyPressed(object sender, StreamDeckKeyEventArgs e)
+                        void DeckKeyPressed(object sender, OpenMacroBoard.SDK.KeyEventArgs e)
                         {
                             try
                             {
-                                if (e.Key == 4)
+                                if (e.Key == 0)
                                 {
                                     if (e.IsDown == true)
                                     {
@@ -312,7 +326,7 @@ namespace StreamDeckMonitor
                     try
                     {
                         //add key press handler, if pressed send exit command 
-                        ImageManager.deck.KeyPressed += DeckKeyPressed;
+                        ImageManager.deck.KeyStateChanged += DeckKeyPressed;
 
                         //get current time
                         DateTime now = DateTime.Now;
@@ -333,7 +347,7 @@ namespace StreamDeckMonitor
                         System.Threading.Thread.Sleep(10000);
 
                         //remove handler
-                        ImageManager.deck.KeyPressed -= DeckKeyPressed;
+                        ImageManager.deck.KeyStateChanged -= DeckKeyPressed;
                     }
 
                     catch (Exception)
@@ -343,11 +357,11 @@ namespace StreamDeckMonitor
                 }
 
                 //check for button input
-                void DeckKeyPressed(object sender, StreamDeckKeyEventArgs e)
+                void DeckKeyPressed(object sender, OpenMacroBoard.SDK.KeyEventArgs e)
                 {
                     try
                     {
-                        if (e.Key == 0)
+                        if (e.Key == 4)
                         {
                             if (e.IsDown == true)
                             {

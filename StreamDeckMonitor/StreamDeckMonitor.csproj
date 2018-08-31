@@ -98,6 +98,9 @@
     <Reference Include="OpenHardwareMonitorLib">
       <HintPath>libs\OpenHardwareMonitorLib.dll</HintPath>
     </Reference>
+    <Reference Include="OpenMacroBoard.SDK">
+      <HintPath>libs\OpenMacroBoard.SDK.dll</HintPath>
+    </Reference>
     <Reference Include="StreamDeckSharp">
       <HintPath>libs\StreamDeckSharp.dll</HintPath>
     </Reference>
@@ -183,7 +186,11 @@ move "$(TargetDir)\ext\libs\OpenHardwareMonitorLib.dll"  "$(TargetDir)\ext\libs\
 move "$(TargetDir)\ext\libs\MSIAfterburner.NET.dll"  "$(TargetDir)\ext\libs\MSIAfterburner.NET"
 
 :: Move StreamDeckSharp Library to its folder ::
+
+
 move "$(TargetDir)\ext\libs\StreamDeckSharp.dll"  "$(TargetDir)\ext\libs\StreamDeckSharp"
+
+move "$(TargetDir)\ext\libs\OpenMacroBoard.SDK.dll"  "$(TargetDir)\ext\libs\StreamDeckSharp"
 </PostBuildEvent>
   </PropertyGroup>
 </Project>

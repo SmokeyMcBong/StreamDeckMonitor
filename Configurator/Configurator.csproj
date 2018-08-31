@@ -80,8 +80,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\StreamDeckMonitor\libs\OpenHardwareMonitorLib.dll</HintPath>
     </Reference>
-    <Reference Include="StreamDeckSharp, Version=0.1.8.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="OpenMacroBoard.SDK">
+      <HintPath>..\StreamDeckMonitor\libs\OpenMacroBoard.SDK.dll</HintPath>
+    </Reference>
+    <Reference Include="StreamDeckSharp">
       <HintPath>..\StreamDeckMonitor\libs\StreamDeckSharp.dll</HintPath>
     </Reference>
     <Reference Include="System" />

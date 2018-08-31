@@ -278,6 +278,23 @@ namespace SharedManagers
 
     class SettingsManagerSDM
     {
+        //check for Layout key count
+        private static readonly int deckKeyCount = ImageManager.deck.Keys.Count();
+        public static string CheckForLayout()
+        {
+            string deckLayout = "";
+            if (deckKeyCount == 6)
+            {
+                deckLayout = "Mini";
+            }
+
+            if (deckKeyCount == 15)
+            {
+                deckLayout = "Standard";
+            }
+            return deckLayout;
+        }
+
         //check if MSIAfterburner is running 
         private static readonly string ab = "MSIAfterburner";
         public static bool CheckForAB()
@@ -544,17 +561,22 @@ namespace SharedManagers
         public static FontFamily myFontTime = LoadFontFamily(SharedSettings.fontDir + timeFont + ".ttf", out myFonts);
         public static FontFamily myFontDate = LoadFontFamily(SharedSettings.fontDir + dateFont + ".ttf", out myFonts);
 
-        /*  StreamDeck button layout for reference ...        
-                -key locations-  
-                 4  3  2  1  0    
-                 9  8  7  6  5    
-                 14 13 12 11 10           
+        /*  StreamDeck button layout for reference ...     
+         *  
+           -key locations(Standard)-  
+              0   1   2   3   4
+              5   6   7   8   9
+             10  11  12  13  14       
+             
+            -key locations(Mini)-  
+                 0   1   2 
+                 3   4   5    
        */
 
         //define key locations
         public static int KeyLocFps
         {
-            get { return 0; }
+            get { return 4; }
         }
         public static int KeyLocCpuTemp
         {
@@ -566,23 +588,23 @@ namespace SharedManagers
         }
         public static int KeyLocCpuLoad
         {
-            get { return 6; }
+            get { return 8; }
         }
         public static int KeyLocGpuLoad
         {
-            get { return 11; }
+            get { return 13; }
         }
         public static int KeyLocCpuHeader
         {
-            get { return 8; }
+            get { return 6; }
         }
         public static int KeyLocGpuHeader
         {
-            get { return 13; }
+            get { return 11; }
         }
         public static int KeyLocTimeHeader
         {
-            get { return 4; }
+            get { return 0; }
         }
         public static int KeyLocBgImg1
         {
