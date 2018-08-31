@@ -275,8 +275,8 @@ namespace SharedManagers
             //compact clock view
             if (isCompact == "True")
             {
-                var locationHours = 8;
-                var locationMinutes = 6;
+                var locationHours = 6;
+                var locationMinutes = 8;
                 ProcessValueImg(hours, "bl", locationHours);
                 ProcessValueImg(minutes, "bl", locationMinutes);
             }
