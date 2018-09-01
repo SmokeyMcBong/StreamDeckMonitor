@@ -1,15 +1,14 @@
 ﻿using MSI.Afterburner;
 using OpenHardwareMonitor.Hardware;
+using OpenMacroBoard.SDK;
+using SharedManagers;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using SharedManagers;
 using System.Windows.Forms;
-using OpenMacroBoard.SDK;
 
 namespace StreamDeckMonitor
 {
-
     class SDMonitor
     {
         static void Main(string[] args)
@@ -22,15 +21,15 @@ namespace StreamDeckMonitor
             {
                 if (SettingsManagerSDM.CheckForLayout() == "Standard")
                 {
-                    //do stuff
+                    //do stuff 
                 }
 
                 if (SettingsManagerSDM.CheckForLayout() == "Mini")
                 {
                     //do other stuff
                 }
-            }          
-           
+            }
+
             //clean display and set brightness
             ImageManager.deck.ClearKeys();
             var displayBrightness = Convert.ToByte(SettingsManagerSDM.displayBrightness);

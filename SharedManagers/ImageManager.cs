@@ -1,12 +1,12 @@
-﻿using System;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Drawing.Text;
-using Accord.Video.FFMPEG;
-using System.IO;
-using System.Drawing.Imaging;
+﻿using Accord.Video.FFMPEG;
 using OpenMacroBoard.SDK;
 using StreamDeckSharp;
+using System;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
+using System.Drawing.Text;
+using System.IO;
 
 namespace SharedManagers
 {

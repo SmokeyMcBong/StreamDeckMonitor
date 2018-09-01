@@ -1,11 +1,11 @@
-﻿using System;
+﻿using SharedManagers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using SharedManagers;
 
 namespace Configurator
 {
@@ -70,7 +70,7 @@ namespace Configurator
             TimeFontColor.SelectedValue = SettingsManagerConfig.timeFontColor;
             DateFontColor.ItemsSource = SettingsManagerConfig.colorList;
             DateFontColor.SelectedValue = SettingsManagerConfig.dateFontColor;
-            
+
 
             if (SharedSettings.IsCompactView() == "True")
             {
@@ -105,31 +105,152 @@ namespace Configurator
         void HeaderFontSize1Input(object sender, TextChangedEventArgs e)
         {
             string value = HeaderFontSize1.Text;
-            HeaderFontSize1.Text = FormatValue(value, "");
+            if (value == "" || value == " ")
+            {
+                HeaderFontSize1.Text = FormatValue("1", "");
+            }
+            else
+            {
+                if (IsDigitsOnly(value))
+                {
+                    HeaderFontSize1.Text = FormatValue(value, "");
+                }
+                else
+                {
+                    HeaderFontSize1.Text = FormatValue("1", "");
+                }
+            }
         }
 
         void HeaderFontSize2Input(object sender, TextChangedEventArgs e)
         {
             string value = HeaderFontSize2.Text;
-            HeaderFontSize2.Text = FormatValue(value, "");
+            if (value == "" || value == " ")
+            {
+                HeaderFontSize2.Text = FormatValue("1", "");
+            }
+            else
+            {
+                if (IsDigitsOnly(value))
+                {
+                    HeaderFontSize2.Text = FormatValue(value, "");
+                }
+                else
+                {
+                    HeaderFontSize2.Text = FormatValue("1", "");
+                }
+            }
         }
 
         void ValuesFontSizeInput(object sender, TextChangedEventArgs e)
         {
             string value = ValuesFontSize.Text;
-            ValuesFontSize.Text = FormatValue(value, "");
+            if (value == "" || value == " ")
+            {
+                ValuesFontSize.Text = FormatValue("1", "");
+            }
+            else
+            {
+                if (IsDigitsOnly(value))
+                {
+                    ValuesFontSize.Text = FormatValue(value, "");
+                }
+                else
+                {
+                    ValuesFontSize.Text = FormatValue("1", "");
+                }
+            }
         }
 
         void AnimFramerateInput(object sender, TextChangedEventArgs e)
         {
             string value = AnimFramerate.Text;
-            AnimFramerate.Text = FormatValue(value, "FR");
+            if (value == "" || value == " ")
+            {
+                AnimFramerate.Text = FormatValue("1", "FR");
+            }
+            else
+            {
+                if (IsDigitsOnly(value))
+                {
+                    AnimFramerate.Text = FormatValue(value, "FR");
+                }
+                else
+                {
+                    AnimFramerate.Text = FormatValue("1", "FR");
+                }
+            }
         }
 
         void FrameTotalInput(object sender, TextChangedEventArgs e)
         {
             string value = FrameTotal.Text;
-            FrameTotal.Text = FormatValue(value, "FA");
+            if (value == "" || value == " ")
+            {
+                FrameTotal.Text = FormatValue("1", "FA");
+            }
+            else
+            {
+                if (IsDigitsOnly(value))
+                {
+                    FrameTotal.Text = FormatValue(value, "FA");
+                }
+                else
+                {
+                    FrameTotal.Text = FormatValue("1", "FA");
+                }
+            }
+        }
+
+        void HeaderFontSizeClock1Input(object sender, TextChangedEventArgs e)
+        {
+            string value = TimeFontSize.Text;
+            if (value == "" || value == " ")
+            {
+                TimeFontSize.Text = FormatValue("1", "");
+            }
+            else
+            {
+                if (IsDigitsOnly(value))
+                {
+                    TimeFontSize.Text = FormatValue(value, "");
+                }
+                else
+                {
+                    TimeFontSize.Text = FormatValue("1", "");
+                }
+            }
+        }
+
+        void HeaderFontSizeClock2Input(object sender, TextChangedEventArgs e)
+        {
+            string value = DateFontSize.Text;
+            if (value == "" || value == " ")
+            {
+                DateFontSize.Text = FormatValue("1", "");
+            }
+            else
+            {
+                if (IsDigitsOnly(value))
+                {
+                    DateFontSize.Text = FormatValue(value, "");
+                }
+                else
+                {
+                    DateFontSize.Text = FormatValue("1", "");
+                }
+            }
+        }
+
+        private bool IsDigitsOnly(string str)
+        {
+            foreach (char c in str)
+            {
+                if (c < '0' || c > '9')
+                    return false;
+            }
+
+            return true;
         }
 
         private string FormatValue(string valueText, string type)
