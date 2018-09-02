@@ -45,7 +45,7 @@ namespace SharedManagers
             CreateImage("Gpu:", "header1", SettingsManagerSDM.ImageLocGpu, SettingsManagerSDM.headerFontSize1, xAxis, yAxis);
             CreateImage("Temp", "header2", SettingsManagerSDM.ImageLocTemp, SettingsManagerSDM.headerFontSize2, xAxis2, yAxis2);
             CreateImage("Load", "header2", SettingsManagerSDM.ImageLocLoad, SettingsManagerSDM.headerFontSize2, xAxis2, yAxis2);
-            CreateImage(":", "time", SettingsManagerSDM.ImageLocColon, SettingsManagerSDM.timeFontSize, xAxis, yAxis);
+            CreateImage(":", "colon", SettingsManagerSDM.ImageLocColon, SettingsManagerSDM.colonFontSize, xAxis, yAxis);
             CreateImage("", "header1", SettingsManagerSDM.ImageLocBlank, SettingsManagerSDM.headerFontSize1, xAxis, yAxis);
 
             void CreateImage(string text, string type, string filename, int textSize, float x, float y)
@@ -81,6 +81,11 @@ namespace SharedManagers
                     {
                         font = new Font(SettingsManagerSDM.timeFont, textSize);
                         myBrushText = SettingsManagerSDM.TimeBrush;
+                    }
+                    if (type == "colon")
+                    {
+                        font = new Font(SettingsManagerSDM.colonFont, textSize);
+                        myBrushText = SettingsManagerSDM.ColonBrush;
                     }
                     else
                     {
@@ -362,6 +367,7 @@ namespace SharedManagers
             while (true)
             {
                 if (exitflag) break;
+
                 var loc = KeyBitmap.Create.FromFile(SettingsManagerSDM.ImageLocColon);
                 deck.SetKeyBitmap(locationColon, loc);
 

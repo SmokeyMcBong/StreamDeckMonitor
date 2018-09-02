@@ -164,14 +164,14 @@
         <Label Content="Time" HorizontalAlignment="Left" Margin="725,138,0,0" VerticalAlignment="Top" Width="59" HorizontalContentAlignment="Center" Height="26"/>
         <Label Content="Font Type:" Margin="789,109,0,0" VerticalAlignment="Top" Height="30" HorizontalAlignment="Left" Width="163" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
         <Label Content="Font Size:" Margin="1104,109,0,0" VerticalAlignment="Top" Height="30" HorizontalAlignment="Left" Width="61" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
-        <TextBox x:Name="DateFontSize" Height="22" Margin="1110,166,0,0" TextWrapping="Wrap" VerticalAlignment="Top" UndoLimit="0" MaxLines="1" MaxLength="2" IsUndoEnabled="False" TextAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" TextChanged="HeaderFontSizeClock2Input" HorizontalAlignment="Left" Width="36" TabIndex="6"/>
+        <TextBox x:Name="ColonFontSize" Height="22" Margin="1110,166,0,0" TextWrapping="Wrap" VerticalAlignment="Top" UndoLimit="0" MaxLines="1" MaxLength="2" IsUndoEnabled="False" TextAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" TextChanged="HeaderFontSizeClock2Input" HorizontalAlignment="Left" Width="36" TabIndex="6"/>
         <TextBox x:Name="TimeFontSize" Height="22" Margin="1110,139,0,0" TextWrapping="Wrap" VerticalAlignment="Top" UndoLimit="0" MaxLines="1" MaxLength="2" IsUndoEnabled="False" TextAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" TextChanged="HeaderFontSizeClock1Input" HorizontalAlignment="Left" Width="36" TabIndex="3"/>
         <ComboBox x:Name="TimeFontType" HorizontalAlignment="Left" VerticalAlignment="Top" Width="163" Margin="789,139,0,0" TabIndex="1" Height="22"/>
         <ComboBox x:Name="TimeFontColor" HorizontalAlignment="Left" VerticalAlignment="Top" Width="129" Margin="967,139,0,0" TabIndex="2" Height="22"/>
         <Label Content="Font Color:" Margin="967,109,0,0" VerticalAlignment="Top" Height="29" HorizontalAlignment="Left" Width="129" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-        <ComboBox x:Name="DateFontType" HorizontalAlignment="Left" VerticalAlignment="Top" Width="163" Margin="789,166,0,0" TabIndex="4" Height="22"/>
-        <ComboBox x:Name="DateFontColor" HorizontalAlignment="Left" VerticalAlignment="Top" Width="129" Margin="967,166,0,0" TabIndex="5" Height="22"/>
-        <Label Content="Date" HorizontalAlignment="Left" Margin="725,164,0,0" VerticalAlignment="Top" Width="59" HorizontalContentAlignment="Center" Height="26"/>
+        <ComboBox x:Name="ColonFontType" HorizontalAlignment="Left" VerticalAlignment="Top" Width="163" Margin="789,166,0,0" TabIndex="4" Height="22"/>
+        <ComboBox x:Name="ColonFontColor" HorizontalAlignment="Left" VerticalAlignment="Top" Width="129" Margin="967,166,0,0" TabIndex="5" Height="22"/>
+        <Label Content="Colon" HorizontalAlignment="Left" Margin="725,164,0,0" VerticalAlignment="Top" Width="59" HorizontalContentAlignment="Center" Height="26"/>
         <Label Content="                           **  To show the Clock press the Top-left button on the SteamDeck &#xA;            To go back to the StreamDeckMonitor press the Top-right button on the SteamDeck ** " HorizontalAlignment="Left" VerticalAlignment="Top" Margin="708,294,0,0" Width="486" VerticalContentAlignment="Center" Height="36" FontSize="10"/>
         <Button x:Name="ButtonH1FSUp_Copy"  Click="ClickH1FSUp" HorizontalAlignment="Left" VerticalAlignment="Top" Width="11" Margin="449,136,0,0" Height="17" Content="&gt;" VerticalContentAlignment="Top" Padding="1,-2,1,1" RenderTransformOrigin="0.5,0.5" BorderThickness="0,1,1,1">
             <Button.RenderTransform>
@@ -213,7 +213,7 @@
                 </TransformGroup>
             </Button.RenderTransform>
         </Button>
-        <Button x:Name="ButtonDFSUp" Click="ClickDFSUp" HorizontalAlignment="Left" VerticalAlignment="Top" Width="11" Margin="1148,163,0,0" Height="17" Content="&gt;" VerticalContentAlignment="Top" Padding="1,-2,1,1" RenderTransformOrigin="0.5,0.5" BorderThickness="0,1,1,1">
+        <Button x:Name="ButtonCFSUp" Click="ClickCFSUp" HorizontalAlignment="Left" VerticalAlignment="Top" Width="11" Margin="1148,163,0,0" Height="17" Content="&gt;" VerticalContentAlignment="Top" Padding="1,-2,1,1" RenderTransformOrigin="0.5,0.5" BorderThickness="0,1,1,1">
             <Button.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -223,7 +223,7 @@
                 </TransformGroup>
             </Button.RenderTransform>
         </Button>
-        <Button x:Name="ButtonDFSDown" Click="ClickDFSDown" Content="&lt;"  HorizontalAlignment="Left" VerticalAlignment="Top" Width="11" Margin="1148,174,0,0" Height="17" VerticalContentAlignment="Top" Padding="0,-2,1,1" RenderTransformOrigin="0.5,0.5">
+        <Button x:Name="ButtonCFSDown" Click="ClickCFSDown" Content="&lt;"  HorizontalAlignment="Left" VerticalAlignment="Top" Width="11" Margin="1148,174,0,0" Height="17" VerticalContentAlignment="Top" Padding="0,-2,1,1" RenderTransformOrigin="0.5,0.5">
             <Button.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -233,8 +233,32 @@
                 </TransformGroup>
             </Button.RenderTransform>
         </Button>
-        <CheckBox x:Name="IsCompact" Content="Compact Clock" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="898,218,0,0" Width="108"/>
-        <CheckBox x:Name="IsDateShown" Content="Show Date" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="898,238,0,0" Width="108"/>
+        <CheckBox x:Name="IsCompact" Content="Compact Clock" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="898,234,0,0" Width="108"/>
+        <CheckBox x:Name="IsDateShown" Content="Show Date" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="898,254,0,0" Width="108"/>
         <Label x:Name="DeviceName" Content="" VerticalAlignment="Top" Margin="967,26,22,0" HorizontalContentAlignment ="Right" MouseDoubleClick="DeviceName_MouseDoubleClick" VerticalContentAlignment="Center" Height="36" FontSize="12"/>
+        <TextBox x:Name="DateFontSize" Height="22" Margin="1110,193,0,0" TextWrapping="Wrap" VerticalAlignment="Top" UndoLimit="0" MaxLines="1" MaxLength="2" IsUndoEnabled="False" TextAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" TextChanged="HeaderFontSizeClock2Input" HorizontalAlignment="Left" Width="36" TabIndex="6"/>
+        <ComboBox x:Name="DateFontType" HorizontalAlignment="Left" VerticalAlignment="Top" Width="163" Margin="789,193,0,0" TabIndex="4" Height="22"/>
+        <ComboBox x:Name="DateFontColor" HorizontalAlignment="Left" VerticalAlignment="Top" Width="129" Margin="967,193,0,0" TabIndex="5" Height="22"/>
+        <Label Content="Date" HorizontalAlignment="Left" Margin="725,191,0,0" VerticalAlignment="Top" Width="59" HorizontalContentAlignment="Center" Height="26"/>
+        <Button x:Name="ButtonDFSUp" Click="ClickDFSUp" HorizontalAlignment="Left" VerticalAlignment="Top" Width="11" Margin="1148,190,0,0" Height="17" Content="&gt;" VerticalContentAlignment="Top" Padding="1,-2,1,1" RenderTransformOrigin="0.5,0.5" BorderThickness="0,1,1,1">
+            <Button.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="-90"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Button.RenderTransform>
+        </Button>
+        <Button x:Name="ButtonDFSDown" Click="ClickDFSDown" Content="&lt;"  HorizontalAlignment="Left" VerticalAlignment="Top" Width="11" Margin="1148,201,0,0" Height="17" VerticalContentAlignment="Top" Padding="0,-2,1,1" RenderTransformOrigin="0.5,0.5">
+            <Button.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="-90"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Button.RenderTransform>
+        </Button>
     </Grid>
 </Window>

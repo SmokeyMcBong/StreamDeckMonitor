@@ -117,6 +117,10 @@ namespace SharedManagers
         {
             return config.Read("timeFontType", "Clock_Settings");
         }
+        public static string ColonFontType()
+        {
+            return config.Read("colonFontType", "Clock_Settings");
+        }
         public static string DateFontType()
         {
             return config.Read("dateFontType", "Clock_Settings");
@@ -125,6 +129,10 @@ namespace SharedManagers
         {
             return int.Parse(config.Read("timeFontSize", "Clock_Settings"));
         }
+        public static int ColonFontSize()
+        {
+            return int.Parse(config.Read("colonFontSize", "Clock_Settings"));
+        }
         public static int DateFontSize()
         {
             return int.Parse(config.Read("dateFontSize", "Clock_Settings"));
@@ -132,6 +140,10 @@ namespace SharedManagers
         public static string TimeFontColor()
         {
             return config.Read("timeFontColor", "Clock_Settings");
+        }
+        public static string ColonFontColor()
+        {
+            return config.Read("colonFontColor", "Clock_Settings");
         }
         public static string DateFontColor()
         {
@@ -171,10 +183,13 @@ namespace SharedManagers
         public static int displayBrightness;
         //clock settings
         public static string timeFont;
+        public static string colonFont;
         public static string dateFont;
         public static int timeFontSize;
+        public static int colonFontSize;
         public static int dateFontSize;
         public static string timeFontColor;
+        public static string colonFontColor;
         public static string dateFontColor;
         public static string clockBackgroundColor;
         public static string isCompactView;
@@ -211,10 +226,13 @@ namespace SharedManagers
             isAnimationEnabled = SharedSettings.IsAnimationEnabled(currentProfile);
             //clock settings
             timeFont = SharedSettings.TimeFontType();
+            colonFont = SharedSettings.ColonFontType();
             dateFont = SharedSettings.DateFontType();
             timeFontSize = int.Parse(SharedSettings.TimeFontSize().ToString());
+            colonFontSize = int.Parse(SharedSettings.ColonFontSize().ToString());
             dateFontSize = int.Parse(SharedSettings.DateFontSize().ToString());
             timeFontColor = SharedSettings.TimeFontColor();
+            colonFontColor = SharedSettings.ColonFontColor();
             dateFontColor = SharedSettings.DateFontColor();
             clockBackgroundColor = SharedSettings.ClockBackgroundColor();
             isCompactView = SharedSettings.IsCompactView();
@@ -357,10 +375,13 @@ namespace SharedManagers
         public static string animName = SharedSettings.AnimName(currentProfile);
         //clock settings
         public static string timeFont = SharedSettings.TimeFontType();
+        public static string colonFont = SharedSettings.ColonFontType();
         public static string dateFont = SharedSettings.DateFontType();
         public static int timeFontSize = int.Parse(SharedSettings.TimeFontSize().ToString());
+        public static int colonFontSize = int.Parse(SharedSettings.ColonFontSize().ToString());
         public static int dateFontSize = int.Parse(SharedSettings.DateFontSize().ToString());
         public static string timeFontColor = SharedSettings.TimeFontColor();
+        public static string colonFontColor = SharedSettings.ColonFontColor();
         public static string dateFontColor = SharedSettings.DateFontColor();
         public static string clockBackgroundColor = SharedSettings.ClockBackgroundColor();
 
@@ -451,6 +472,16 @@ namespace SharedManagers
                 return myBrush;
             }
         }
+
+        public static SolidBrush ColonBrush
+        {
+            get
+            {
+                SetBrush(colonFontColor);
+                return myBrush;
+            }
+        }
+
         public static SolidBrush DateBrush
         {
             get
@@ -563,6 +594,7 @@ namespace SharedManagers
         public static FontFamily myFontValues = LoadFontFamily(SharedSettings.fontDir + valueFont + ".ttf", out myFonts);
         //clock settings
         public static FontFamily myFontTime = LoadFontFamily(SharedSettings.fontDir + timeFont + ".ttf", out myFonts);
+        public static FontFamily myFontColon = LoadFontFamily(SharedSettings.fontDir + colonFont + ".ttf", out myFonts);
         public static FontFamily myFontDate = LoadFontFamily(SharedSettings.fontDir + dateFont + ".ttf", out myFonts);
 
         /*  StreamDeck button layout for reference ...     

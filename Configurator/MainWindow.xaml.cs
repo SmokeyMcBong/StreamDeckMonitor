@@ -93,12 +93,12 @@ namespace Configurator
                 ButtonFADown.IsEnabled = false;
                 IsCompact.IsChecked = true;
                 IsCompact.IsEnabled = false;
-            }            
+            }
 
             //display current settings according to Settings.ini values
             HeaderFontSize1.Text = SettingsManagerConfig.headerFontSize1.ToString();
             HeaderFontSize2.Text = SettingsManagerConfig.headerFontSize2.ToString();
-            ValuesFontSize.Text = SettingsManagerConfig.valueFontSize.ToString();            
+            ValuesFontSize.Text = SettingsManagerConfig.valueFontSize.ToString();
             HeaderFontType1.ItemsSource = SettingsManagerConfig.fontList;
             HeaderFontType1.SelectedValue = SettingsManagerConfig.headerFont1;
             HeaderFontType2.ItemsSource = SettingsManagerConfig.fontList;
@@ -119,14 +119,19 @@ namespace Configurator
             //clock settings
             TimeFontType.ItemsSource = SettingsManagerConfig.fontList;
             TimeFontType.SelectedValue = SettingsManagerConfig.timeFont;
+            ColonFontType.ItemsSource = SettingsManagerConfig.fontList;
+            ColonFontType.SelectedValue = SettingsManagerConfig.colonFont;
             DateFontType.ItemsSource = SettingsManagerConfig.fontList;
             DateFontType.SelectedValue = SettingsManagerConfig.dateFont;
             TimeFontSize.Text = SettingsManagerConfig.timeFontSize.ToString();
+            ColonFontSize.Text = SettingsManagerConfig.colonFontSize.ToString();
             DateFontSize.Text = SettingsManagerConfig.dateFontSize.ToString();
             TimeFontColor.ItemsSource = SettingsManagerConfig.colorList;
             TimeFontColor.SelectedValue = SettingsManagerConfig.timeFontColor;
+            ColonFontColor.ItemsSource = SettingsManagerConfig.colorList;
+            ColonFontColor.SelectedValue = SettingsManagerConfig.colonFontColor;
             DateFontColor.ItemsSource = SettingsManagerConfig.colorList;
-            DateFontColor.SelectedValue = SettingsManagerConfig.dateFontColor;            
+            DateFontColor.SelectedValue = SettingsManagerConfig.dateFontColor;
 
             if (SharedSettings.IsDateShown() == "True")
             {
@@ -135,7 +140,7 @@ namespace Configurator
             else
             {
                 IsDateShown.IsChecked = false;
-            }            
+            }
         }
 
         //format text inputs on the fly to make sure only numerical values are entered        
@@ -397,6 +402,18 @@ namespace Configurator
             TimeFontSize.Text = ReturnValue(getValue, "FS", "Down").ToString();
         }
 
+        private void ClickCFSUp(object sender, RoutedEventArgs e)
+        {
+            int getValue = int.Parse(ColonFontSize.Text);
+            ColonFontSize.Text = ReturnValue(getValue, "FS", "Up").ToString();
+        }
+
+        private void ClickCFSDown(object sender, RoutedEventArgs e)
+        {
+            int getValue = int.Parse(ColonFontSize.Text);
+            ColonFontSize.Text = ReturnValue(getValue, "FS", "Down").ToString();
+        }
+
         private void ClickDFSUp(object sender, RoutedEventArgs e)
         {
             int getValue = int.Parse(DateFontSize.Text);
@@ -547,10 +564,13 @@ namespace Configurator
             string backgroundColor = "backgroundColor" + " " + BackgroundFillColor.SelectedValue.ToString();
             //clock settings
             string timeFont = "timeFontType" + " " + TimeFontType.SelectedValue.ToString();
+            string colonFont = "colonFontType" + " " + ColonFontType.SelectedValue.ToString();
             string dateFont = "dateFontType" + " " + DateFontType.SelectedValue.ToString();
             string timeFontSize = "timeFontSize" + " " + TimeFontSize.Text;
+            string colonFontSize = "colonFontSize" + " " + ColonFontSize.Text;
             string dateFontSize = "dateFontSize" + " " + DateFontSize.Text;
             string timeFontColor = "timeFontColor" + " " + TimeFontColor.SelectedValue.ToString();
+            string colonFontColor = "colonFontColor" + " " + ColonFontColor.SelectedValue.ToString();
             string dateFontColor = "dateFontColor" + " " + DateFontColor.SelectedValue.ToString();
             string isCompact;
             string isDateShown;
@@ -598,10 +618,13 @@ namespace Configurator
             List<string> clockValueList = new List<string>
             {
                 timeFont,
+                colonFont,
                 dateFont,
                 timeFontSize,
+                colonFontSize,
                 dateFontSize,
                 timeFontColor,
+                colonFontColor,
                 dateFontColor,
                 isCompact,
                 isDateShown
