@@ -220,6 +220,7 @@ namespace StreamDeckMonitor
                                         ImageManager.exitflag = true;
                                         ImageManager.deck.ClearKeys();
                                         System.Threading.Thread.Sleep(1000);
+                                        ImageManager.deck.ShowLogo();
 
                                         //close StreamDeckMonitor
                                         ExitApp();
@@ -480,6 +481,7 @@ namespace StreamDeckMonitor
                                         ImageManager.exitflag = true;
                                         ImageManager.deck.ClearKeys();
                                         System.Threading.Thread.Sleep(1000);
+                                        ImageManager.deck.ShowLogo();
 
                                         //close StreamDeckMonitor
                                         ExitApp();
@@ -599,6 +601,7 @@ namespace StreamDeckMonitor
                                 ImageManager.exitflag = true;
                                 ImageManager.deck.ClearKeys();
                                 System.Threading.Thread.Sleep(1000);
+                                ImageManager.deck.ShowLogo();
 
                                 //close StreamDeckMonitor
                                 ExitApp();
