@@ -246,18 +246,6 @@ namespace StreamDeckMonitor
                 }
             }
 
-
-
-
-
-
-
-
-
-
-
-
-
             //MonitorState
             void StartMonitorState()
             {
@@ -312,6 +300,8 @@ namespace StreamDeckMonitor
                         while (true)
                         {
                             int countValue = counterDefault++;
+
+                            if (ImageManager.exitflag) break;
 
                             try
                             {
@@ -516,14 +506,6 @@ namespace StreamDeckMonitor
                 }
             }
 
-
-
-
-
-
-
-
-
             // ClockState
             void StartClockState()
             {
@@ -587,7 +569,6 @@ namespace StreamDeckMonitor
                 //check for button input
                 void DeckKeyPressed(object sender, OpenMacroBoard.SDK.KeyEventArgs e)
                 {
-
                     var monitorButton = 4;
                     var exitButton = 7;
 
@@ -595,7 +576,6 @@ namespace StreamDeckMonitor
                     {
                         monitorButton = 2;
                         exitButton = 4;
-
                     }
 
                     try

@@ -573,8 +573,6 @@ namespace SharedManagers
                  3   4   5    
        */
 
-
-
         //define Mini key locations
         public static int KeyLocCpuHeaderMini
         {
@@ -600,9 +598,6 @@ namespace SharedManagers
         {
             get { return 5; }
         }
-        
-
-
 
         //define key locations
         public static int KeyLocFps

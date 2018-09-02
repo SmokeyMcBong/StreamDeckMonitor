@@ -285,7 +285,7 @@ namespace SharedManagers
             var locationHours = 0;
             var locationMinutes = 2;
             ProcessValueImg(hours, "bl", locationHours);
-            ProcessValueImg(minutes, "bl", locationMinutes);            
+            ProcessValueImg(minutes, "bl", locationMinutes);
 
             if (showDate == "True")
             {
@@ -356,7 +356,7 @@ namespace SharedManagers
             if (SettingsManagerSDM.CheckForLayout() == "Mini")
             {
                 locationColon = 1;
-            }            
+            }
 
             //start loop
             while (true)
