@@ -52,6 +52,26 @@ namespace Configurator
                 Animations.SelectedValue = SettingsManagerConfig.animName;
                 FrameTotal.Text = SettingsManagerConfig.framesToProcess.ToString();
                 AnimFramerate.Text = SettingsManagerConfig.animFramerate.ToString();
+
+                //display is compact view is enabled
+                if (SharedSettings.IsCompactView() == "True")
+                {
+                    IsCompact.IsChecked = true;
+                }
+                else
+                {
+                    IsCompact.IsChecked = false;
+                }
+
+                //display if animations are enabled
+                if (SharedSettings.IsAnimationEnabled(currentProfile) != "True")
+                {
+                    EnableStatic.IsChecked = true;
+                }
+                else
+                {
+                    EnableAnim.IsChecked = true;
+                }
             }
 
             if (deckDevice == "2")
@@ -71,6 +91,7 @@ namespace Configurator
                 ButtonFRDown.IsEnabled = false;
                 ButtonFAUp.IsEnabled = false;
                 ButtonFADown.IsEnabled = false;
+                IsCompact.IsChecked = true;
                 IsCompact.IsEnabled = false;
             }            
 
@@ -105,16 +126,7 @@ namespace Configurator
             TimeFontColor.ItemsSource = SettingsManagerConfig.colorList;
             TimeFontColor.SelectedValue = SettingsManagerConfig.timeFontColor;
             DateFontColor.ItemsSource = SettingsManagerConfig.colorList;
-            DateFontColor.SelectedValue = SettingsManagerConfig.dateFontColor;
-
-            if (SharedSettings.IsCompactView() == "True")
-            {
-                IsCompact.IsChecked = true;
-            }
-            else
-            {
-                IsCompact.IsChecked = false;
-            }
+            DateFontColor.SelectedValue = SettingsManagerConfig.dateFontColor;            
 
             if (SharedSettings.IsDateShown() == "True")
             {
@@ -123,20 +135,7 @@ namespace Configurator
             else
             {
                 IsDateShown.IsChecked = false;
-            }
-
-            if (deckDevice == "1")
-            {
-                //display if animations are enabled
-                if (SharedSettings.IsAnimationEnabled(currentProfile) != "True")
-                {
-                    EnableStatic.IsChecked = true;
-                }
-                else
-                {
-                    EnableAnim.IsChecked = true;
-                }
-            }
+            }            
         }
 
         //format text inputs on the fly to make sure only numerical values are entered        
