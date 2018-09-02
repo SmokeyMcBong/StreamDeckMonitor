@@ -35,12 +35,16 @@ namespace SharedManagers
             float yAxis2 = 18;
 
             //start the image header creation
+            if (SettingsManagerSDM.CheckForLayout() == "Standard")
+            {
+                CreateImage("Time", "header2", SettingsManagerSDM.ImageLocTime, SettingsManagerSDM.headerFontSize2, xAxis2, yAxis2);
+                CreateImage("F/sec", "header2", SettingsManagerSDM.ImageLocFps, SettingsManagerSDM.headerFontSize2, xAxis2, yAxis2);
+            }
+
             CreateImage("Cpu:", "header1", SettingsManagerSDM.ImageLocCpu, SettingsManagerSDM.headerFontSize1, xAxis, yAxis);
             CreateImage("Gpu:", "header1", SettingsManagerSDM.ImageLocGpu, SettingsManagerSDM.headerFontSize1, xAxis, yAxis);
-            CreateImage("F/sec", "header2", SettingsManagerSDM.ImageLocFps, SettingsManagerSDM.headerFontSize2, xAxis2, yAxis2);
             CreateImage("Temp", "header2", SettingsManagerSDM.ImageLocTemp, SettingsManagerSDM.headerFontSize2, xAxis2, yAxis2);
             CreateImage("Load", "header2", SettingsManagerSDM.ImageLocLoad, SettingsManagerSDM.headerFontSize2, xAxis2, yAxis2);
-            CreateImage("Time", "header2", SettingsManagerSDM.ImageLocTime, SettingsManagerSDM.headerFontSize2, xAxis2, yAxis2);
             CreateImage(":", "time", SettingsManagerSDM.ImageLocColon, SettingsManagerSDM.timeFontSize, xAxis, yAxis);
             CreateImage("", "header1", SettingsManagerSDM.ImageLocBlank, SettingsManagerSDM.headerFontSize1, xAxis, yAxis);
 
@@ -160,8 +164,16 @@ namespace SharedManagers
         //set the static headers
         public static void SetStaticHeaders()
         {
-            SetStaticImg("cpu", SettingsManagerSDM.KeyLocCpuHeader);
-            SetStaticImg("gpu", SettingsManagerSDM.KeyLocGpuHeader);
+            if (SettingsManagerSDM.CheckForLayout() == "Mini")
+            {
+                SetStaticImg("cpu", SettingsManagerSDM.KeyLocCpuHeaderMini);
+                SetStaticImg("gpu", SettingsManagerSDM.KeyLocGpuHeaderMini);
+            }
+            else
+            {
+                SetStaticImg("cpu", SettingsManagerSDM.KeyLocCpuHeader);
+                SetStaticImg("gpu", SettingsManagerSDM.KeyLocGpuHeader);
+            }
         }
 
         //process static images and display
@@ -261,6 +273,32 @@ namespace SharedManagers
             }
         }
 
+        public static void ClockStateMini(string hours, string minutes)
+        {
+            string showDate = SharedSettings.ShowDate();
+            DateTime today = DateTime.Today;
+
+            string dayString = today.ToString("ddd");
+            string dateString = today.ToString("dd");
+            string monthString = today.ToString("MMM");
+
+            var locationHours = 0;
+            var locationMinutes = 2;
+            ProcessValueImg(hours, "bl", locationHours);
+            ProcessValueImg(minutes, "bl", locationMinutes);            
+
+            if (showDate == "True")
+            {
+                var locationDayOfWeek = 3;
+                var locationDate = 4;
+                var locationMonth = 5;
+
+                ProcessValueImg(dayString, "bl-sm", locationDayOfWeek);
+                ProcessValueImg(dateString, "bl-sm", locationDate);
+                ProcessValueImg(monthString, "bl-sm", locationMonth);
+            }
+        }
+
         public static void ClockState(string hours, string minutes)
         {
             string isCompact = SharedSettings.CompactView();
@@ -315,6 +353,11 @@ namespace SharedManagers
         {
             var locationColon = 7;
 
+            if (SettingsManagerSDM.CheckForLayout() == "Mini")
+            {
+                locationColon = 1;
+            }            
+
             //start loop
             while (true)
             {
@@ -324,7 +367,7 @@ namespace SharedManagers
 
                 //animate clock colon every second
                 System.Threading.Thread.Sleep(1000);
-                deck.ClearKey(7);
+                deck.ClearKey(locationColon);
                 System.Threading.Thread.Sleep(1000);
             }
         }

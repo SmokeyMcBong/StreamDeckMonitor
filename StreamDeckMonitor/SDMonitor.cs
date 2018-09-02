@@ -13,20 +13,17 @@ namespace StreamDeckMonitor
     {
         static void Main(string[] args)
         {
+            var isMiniDeck = false;
+
             //make sure only one instance is running
             SharedSettings.CheckForTwins();
 
             //check for device layout and adjust for Mini or Standard StreamDeck
             if (SettingsManagerSDM.CheckForLayout() != null)
             {
-                if (SettingsManagerSDM.CheckForLayout() == "Standard")
-                {
-                    //do stuff 
-                }
-
                 if (SettingsManagerSDM.CheckForLayout() == "Mini")
                 {
-                    //do other stuff
+                    isMiniDeck = true;
                 }
             }
 
@@ -41,13 +38,225 @@ namespace StreamDeckMonitor
             //check for State setting and start State accodingly
             if (SharedSettings.CurrentSate() == 1)
             {
-                StartMonitorState();
+                if (isMiniDeck == true)
+                {
+                    StartMonitorStateMini();
+                }
+                else
+                {
+                    StartMonitorState();
+                }
             }
 
             if (SharedSettings.CurrentSate() == 2)
             {
                 StartClockState();
             }
+
+            //MonitorStateMini
+            void StartMonitorStateMini()
+            {
+                try
+                {
+                    //define Librehardwaremonitor sensors and connect (CPU temp data requires 'highestAvailable' requestedExecutionLevel !!)
+                    Computer computer = new Computer() { CPUEnabled = true, GPUEnabled = true };
+                    computer.Open();
+
+                    //set static header images 
+                    ImageManager.SetStaticHeaders();
+
+                    StartMonitor();
+
+                    void StartMonitor()
+                    {
+                        int counterDefault = 1;
+
+                        //start loop
+                        while (true)
+                        {
+                            if (ImageManager.exitflag) break;
+
+                            int countValue = counterDefault++;
+
+                            try
+                            {
+                                //add key press handler, if pressed send exit command 
+                                ImageManager.deck.KeyStateChanged += DeckKeyPressed;
+
+                                //search hardware
+                                foreach (OpenHardwareMonitor.Hardware.IHardware hardware in computer.Hardware)
+                                {
+                                    hardware.Update();
+
+                                    //check for gpu sensor
+                                    if (hardware.HardwareType == HardwareType.GpuNvidia || hardware.HardwareType == HardwareType.GpuAti)
+                                    {
+                                        foreach (ISensor sensor in hardware.Sensors)
+                                        {
+                                            //search for temp sensor
+                                            if (sensor.SensorType == SensorType.Temperature)
+                                            {
+                                                string dataValue = sensor.Value.ToString() + "c";
+                                                string type = "t";
+                                                ImageManager.ProcessValueImg(dataValue, type, SettingsManagerSDM.KeyLocGpuTempMini);
+                                            }
+
+                                            //search for load sensor
+                                            if (sensor.SensorType == SensorType.Load)
+                                            {
+                                                //add gpu load sensors to list
+                                                string getValues = sensor.Name + sensor.Value.ToString();
+                                                List<string> valueList = new List<string>
+                                            {
+                                                getValues
+                                            };
+                                                //get values for gpu and pass to process
+                                                foreach (string value in valueList)
+                                                {
+                                                    if (value.Contains("GPU Core"))
+                                                    {
+                                                        //get values for gpu and pass to process
+                                                        int gpuLoadInt = (int)Math.Round(sensor.Value.Value);
+                                                        string dataValue = gpuLoadInt.ToString() + "%";
+                                                        string type = "l";
+                                                        ImageManager.ProcessValueImg(dataValue, type, SettingsManagerSDM.KeyLocGpuLoadMini);
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+
+                                    //check for cpu sensor
+                                    if (hardware.HardwareType == HardwareType.CPU)
+                                    {
+
+                                        foreach (ISensor sensor in hardware.Sensors)
+                                        {
+                                            //search for temp sensor
+                                            if (sensor.SensorType == SensorType.Temperature)
+                                            {
+                                                //add cpu temp sensors to list
+                                                string getValues = sensor.Name + sensor.Value.ToString();
+                                                List<string> valueList = new List<string>
+                                            {
+                                                getValues
+                                            };
+                                                //get values for cpu and pass to process
+                                                foreach (string value in valueList)
+                                                {
+                                                    if (value.Contains("CPU Package"))
+                                                    {
+                                                        string resultPackage = value.Substring(Math.Max(0, value.Length - 2));
+                                                        if (!resultPackage.Contains("#"))
+                                                        {
+                                                            string dataValue = resultPackage.ToString() + "c";
+                                                            string type = "t";
+                                                            ImageManager.ProcessValueImg(dataValue, type, SettingsManagerSDM.KeyLocCpuTempMini);
+                                                        }
+                                                    }
+                                                }
+                                            }
+
+                                            //search for load sensor
+                                            if (sensor.SensorType == SensorType.Load)
+                                            {
+                                                //add cpu load sensors to list
+                                                string getValues = sensor.Name + sensor.Value.ToString();
+                                                List<string> valueList = new List<string>
+                                            {
+                                                getValues
+                                            };
+                                                //get values for cpu and change Stream Deck image
+                                                foreach (string value in valueList)
+                                                {
+                                                    if (value.Contains("CPU Total"))
+                                                    {
+                                                        //get values for cpu and pass to process
+                                                        int cpuLoadInt = (int)Math.Round(sensor.Value.Value);
+                                                        string dataValue = cpuLoadInt.ToString() + "%";
+                                                        string type = "l";
+                                                        ImageManager.ProcessValueImg(dataValue, type, SettingsManagerSDM.KeyLocCpuLoadMini);
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+
+                                //wait 1 second before restarting loop
+                                System.Threading.Thread.Sleep(1000);
+
+                                //remove handler
+                                ImageManager.deck.KeyStateChanged -= DeckKeyPressed;
+                            }
+
+                            catch (Exception)
+                            {
+                                ExitApp();
+                            }
+                        }
+
+                        //check for button input
+                        void DeckKeyPressed(object sender, OpenMacroBoard.SDK.KeyEventArgs e)
+                        {
+                            try
+                            {
+                                if (e.Key == 0)
+                                {
+                                    if (e.IsDown == true)
+                                    {
+                                        //write State to config file then start ClockState
+                                        SharedSettings.config.Write("seletedState", "2", "Current_State");
+                                        //restart to show new state
+                                        RestartApp();
+                                    }
+                                }
+
+                                if (e.Key == 4)
+                                {
+                                    if (e.IsDown == true)
+                                    {
+                                        //stop animation and clear display for clean exit
+                                        ImageManager.exitflag = true;
+                                        ImageManager.deck.ClearKeys();
+                                        System.Threading.Thread.Sleep(1000);
+
+                                        //close StreamDeckMonitor
+                                        ExitApp();
+                                    }
+                                }
+                            }
+
+                            catch (Exception)
+                            {
+                                ExitApp();
+                            }
+                        }
+                    }
+                }
+
+                catch (Exception ex)
+                {
+                    if (ex.InnerException is StreamDeckSharp.Exceptions.StreamDeckNotFoundException)
+                    {
+                        string deviceNotFound = " 'Stream Deck' Device not found/connected ! ";
+                        MessageBox.Show(deviceNotFound);
+                    }
+                    ExitApp();
+                }
+            }
+
+
+
+
+
+
+
+
+
+
+
+
 
             //MonitorState
             void StartMonitorState()
@@ -307,11 +516,23 @@ namespace StreamDeckMonitor
                 }
             }
 
+
+
+
+
+
+
+
+
             // ClockState
             void StartClockState()
             {
-                //clear the FPS monitoring button image/animation again seperatly. This is to prevent corrupted images being left on that button when switching to Clock state
-                ImageManager.deck.ClearKey(0);
+                if (isMiniDeck == false)
+                {
+                    //clear the FPS monitoring button image/animation again seperatly. This is to prevent corrupted images being left on that button when switching to Clock state
+                    ImageManager.deck.ClearKey(0);
+                }
+
                 //start both loops in parallel
                 Parallel.Invoke(() => ImageManager.StartAnimClock(), () => StartClock());
             }
@@ -339,8 +560,16 @@ namespace StreamDeckMonitor
 
                         string minutes = now.ToString("mm");
 
-                        //send current time to ImageManager
-                        ImageManager.ClockState(hours, minutes);
+                        if (isMiniDeck == true)
+                        {
+                            //send current time to ImageManager
+                            ImageManager.ClockStateMini(hours, minutes);
+                        }
+                        else
+                        {
+                            //send current time to ImageManager
+                            ImageManager.ClockState(hours, minutes);
+                        }
 
                         //wait 10 seconds between getting current time
                         System.Threading.Thread.Sleep(10000);
@@ -358,9 +587,20 @@ namespace StreamDeckMonitor
                 //check for button input
                 void DeckKeyPressed(object sender, OpenMacroBoard.SDK.KeyEventArgs e)
                 {
+
+                    var monitorButton = 4;
+                    var exitButton = 7;
+
+                    if (isMiniDeck == true)
+                    {
+                        monitorButton = 2;
+                        exitButton = 4;
+
+                    }
+
                     try
                     {
-                        if (e.Key == 4)
+                        if (e.Key == monitorButton)
                         {
                             if (e.IsDown == true)
                             {
@@ -371,7 +611,7 @@ namespace StreamDeckMonitor
                             }
                         }
 
-                        if (e.Key == 7)
+                        if (e.Key == exitButton)
                         {
                             if (e.IsDown == true)
                             {

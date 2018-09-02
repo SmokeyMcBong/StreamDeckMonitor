@@ -335,18 +335,18 @@ namespace SharedManagers
 
         //store settings from ini file
         public static string currentProfile = SharedSettings.config.Read("selectedProfile", "Current_Profile");
-        private static string headerFont1 = SharedSettings.HeaderFont1(currentProfile);
-        private static string headerFont2 = SharedSettings.HeaderFont2(currentProfile);
-        private static string valueFont = SharedSettings.ValueFont(currentProfile);
-        private static string headerFontColor1 = SharedSettings.HeaderFontColor1(currentProfile);
-        private static string headerFontColor2 = SharedSettings.HeaderFontColor2(currentProfile);
-        private static string valuesFontColor = SharedSettings.ValuesFontColor(currentProfile);
+        private static readonly string headerFont1 = SharedSettings.HeaderFont1(currentProfile);
+        private static readonly string headerFont2 = SharedSettings.HeaderFont2(currentProfile);
+        private static readonly string valueFont = SharedSettings.ValueFont(currentProfile);
+        private static readonly string headerFontColor1 = SharedSettings.HeaderFontColor1(currentProfile);
+        private static readonly string headerFontColor2 = SharedSettings.HeaderFontColor2(currentProfile);
+        private static readonly string valuesFontColor = SharedSettings.ValuesFontColor(currentProfile);
         public static int headerFontSize1 = int.Parse(SharedSettings.HeaderFontSize1(currentProfile).ToString());
         public static int headerFontSize2 = int.Parse(SharedSettings.HeaderFontSize2(currentProfile).ToString());
         public static int valueFontSize = int.Parse(SharedSettings.ValueFontSize(currentProfile).ToString());
-        private static string backgroundFillColor = SharedSettings.BackgroundFillColor(currentProfile);
-        private static string isAnimationEnabled = SharedSettings.IsAnimationEnabled(currentProfile);
-        private static int animFramerate = int.Parse(SharedSettings.AnimFramerate(currentProfile).ToString());
+        private static readonly string backgroundFillColor = SharedSettings.BackgroundFillColor(currentProfile);
+        private static readonly string isAnimationEnabled = SharedSettings.IsAnimationEnabled(currentProfile);
+        private static readonly int animFramerate = int.Parse(SharedSettings.AnimFramerate(currentProfile).ToString());
         public static int displayBrightness = int.Parse(SharedSettings.DisplayBrightness(currentProfile).ToString());
         public static int framesToProcess = int.Parse(SharedSettings.FramesToProcess(currentProfile).ToString());
         public static string imageName = SharedSettings.ImageName(currentProfile);
@@ -380,29 +380,29 @@ namespace SharedManagers
         }
 
         //colored SolidBrushes
-        private static SolidBrush cyanBrush = new SolidBrush(Color.FromArgb(4, 232, 232));
-        private static SolidBrush brownBrush = new SolidBrush(Color.FromArgb(153, 76, 0));
-        private static SolidBrush orangeBrush = new SolidBrush(Color.FromArgb(255, 128, 0));
-        private static SolidBrush pinkBrush = new SolidBrush(Color.FromArgb(255, 0, 255));
-        private static SolidBrush yellowBrush = new SolidBrush(Color.FromArgb(255, 255, 51));
-        private static SolidBrush goldBrush = new SolidBrush(Color.FromArgb(255, 215, 0));
-        private static SolidBrush greenBrush = new SolidBrush(Color.FromArgb(0, 153, 0));
-        private static SolidBrush limeBrush = new SolidBrush(Color.FromArgb(0, 255, 0));
-        private static SolidBrush blackBrush = new SolidBrush(Color.FromArgb(0, 0, 0));
-        private static SolidBrush whiteBrush = new SolidBrush(Color.FromArgb(255, 255, 255));
-        private static SolidBrush blueBrush = new SolidBrush(Color.FromArgb(0, 102, 204));
-        private static SolidBrush purpleBrush = new SolidBrush(Color.FromArgb(76, 0, 153));
-        private static SolidBrush redBrush = new SolidBrush(Color.FromArgb(215, 0, 0));
-        private static SolidBrush silverBrush = new SolidBrush(Color.FromArgb(192, 192, 192));
-        private static SolidBrush greyBrush = new SolidBrush(Color.FromArgb(128, 128, 128));
-        private static SolidBrush salmonBrush = new SolidBrush(Color.FromArgb(250, 128, 114));
-        private static SolidBrush khakiBrush = new SolidBrush(Color.FromArgb(240, 230, 140));
-        private static SolidBrush oliveBrush = new SolidBrush(Color.FromArgb(128, 128, 0));
-        private static SolidBrush tealBrush = new SolidBrush(Color.FromArgb(0, 128, 128));
-        private static SolidBrush skyBlueBrush = new SolidBrush(Color.FromArgb(135, 206, 235));
-        private static SolidBrush beigeBrush = new SolidBrush(Color.FromArgb(207, 182, 155));
-        private static SolidBrush mintBrush = new SolidBrush(Color.FromArgb(152, 255, 152));
-        private static SolidBrush honeyDewBrush = new SolidBrush(Color.FromArgb(171, 217, 171));
+        private static readonly SolidBrush cyanBrush = new SolidBrush(Color.FromArgb(4, 232, 232));
+        private static readonly SolidBrush brownBrush = new SolidBrush(Color.FromArgb(153, 76, 0));
+        private static readonly SolidBrush orangeBrush = new SolidBrush(Color.FromArgb(255, 128, 0));
+        private static readonly SolidBrush pinkBrush = new SolidBrush(Color.FromArgb(255, 0, 255));
+        private static readonly SolidBrush yellowBrush = new SolidBrush(Color.FromArgb(255, 255, 51));
+        private static readonly SolidBrush goldBrush = new SolidBrush(Color.FromArgb(255, 215, 0));
+        private static readonly SolidBrush greenBrush = new SolidBrush(Color.FromArgb(0, 153, 0));
+        private static readonly SolidBrush limeBrush = new SolidBrush(Color.FromArgb(0, 255, 0));
+        private static readonly SolidBrush blackBrush = new SolidBrush(Color.FromArgb(0, 0, 0));
+        private static readonly SolidBrush whiteBrush = new SolidBrush(Color.FromArgb(255, 255, 255));
+        private static readonly SolidBrush blueBrush = new SolidBrush(Color.FromArgb(0, 102, 204));
+        private static readonly SolidBrush purpleBrush = new SolidBrush(Color.FromArgb(76, 0, 153));
+        private static readonly SolidBrush redBrush = new SolidBrush(Color.FromArgb(215, 0, 0));
+        private static readonly SolidBrush silverBrush = new SolidBrush(Color.FromArgb(192, 192, 192));
+        private static readonly SolidBrush greyBrush = new SolidBrush(Color.FromArgb(128, 128, 128));
+        private static readonly SolidBrush salmonBrush = new SolidBrush(Color.FromArgb(250, 128, 114));
+        private static readonly SolidBrush khakiBrush = new SolidBrush(Color.FromArgb(240, 230, 140));
+        private static readonly SolidBrush oliveBrush = new SolidBrush(Color.FromArgb(128, 128, 0));
+        private static readonly SolidBrush tealBrush = new SolidBrush(Color.FromArgb(0, 128, 128));
+        private static readonly SolidBrush skyBlueBrush = new SolidBrush(Color.FromArgb(135, 206, 235));
+        private static readonly SolidBrush beigeBrush = new SolidBrush(Color.FromArgb(207, 182, 155));
+        private static readonly SolidBrush mintBrush = new SolidBrush(Color.FromArgb(152, 255, 152));
+        private static readonly SolidBrush honeyDewBrush = new SolidBrush(Color.FromArgb(171, 217, 171));
 
         //set font color brushes
         private static SolidBrush myBrush;
@@ -573,6 +573,37 @@ namespace SharedManagers
                  3   4   5    
        */
 
+
+
+        //define Mini key locations
+        public static int KeyLocCpuHeaderMini
+        {
+            get { return 0; }
+        }
+        public static int KeyLocGpuHeaderMini
+        {
+            get { return 3; }
+        }
+        public static int KeyLocCpuTempMini
+        {
+            get { return 1; }
+        }
+        public static int KeyLocGpuTempMini
+        {
+            get { return 4; }
+        }
+        public static int KeyLocCpuLoadMini
+        {
+            get { return 2; }
+        }
+        public static int KeyLocGpuLoadMini
+        {
+            get { return 5; }
+        }
+        
+
+
+
         //define key locations
         public static int KeyLocFps
         {
@@ -635,6 +666,7 @@ namespace SharedManagers
             get { return 2; }
         }
 
+        //static and animated button list
         public static List<int> BgButtonList()
         {
             List<int> buttonList = new List<int>
