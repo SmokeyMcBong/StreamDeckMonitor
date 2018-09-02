@@ -15,6 +15,15 @@ namespace Configurator
 
         public MainWindow()
         {
+            //show Stream Deck Device choice window
+            string choiceMade = SharedSettings.config.Read("choiceMade", "StreamDeck_Device");
+            if (choiceMade == "false")
+            {
+                DeviceChoice deviceChoice = new DeviceChoice();
+                deviceChoice.Show();
+                Close();
+            }
+
             //make sure only one instance is running
             SharedSettings.CheckForTwins();
             InitializeComponent();
@@ -32,6 +41,28 @@ namespace Configurator
 
         private void DisplayValues(string currentProfile)
         {
+            string deckDevice = SharedSettings.config.Read("selectedDevice", "StreamDeck_Device");
+            if (deckDevice == "1")
+            {
+                DeviceName.Content = "Device:  Stream Deck";
+            }
+
+            if (deckDevice == "2")
+            {
+                DeviceName.Content = "Device:  Stream Deck - Mini";
+                EnableStatic.IsEnabled = false;
+                EnableAnim.IsEnabled = false;
+                StaticImages.IsEnabled = false;
+                Animations.IsEnabled = false;
+                AnimFramerate.IsEnabled = false;
+                FrameTotal.IsEnabled = false;
+                ButtonFRUp.IsEnabled = false;
+                ButtonFRDown.IsEnabled = false;
+                ButtonFAUp.IsEnabled = false;
+                ButtonFADown.IsEnabled = false;
+                IsCompact.IsEnabled = false;
+            }
+
             //display current settings according to Settings.ini values
             HeaderFontSize1.Text = SettingsManagerConfig.headerFontSize1.ToString();
             HeaderFontSize2.Text = SettingsManagerConfig.headerFontSize2.ToString();
@@ -70,7 +101,6 @@ namespace Configurator
             TimeFontColor.SelectedValue = SettingsManagerConfig.timeFontColor;
             DateFontColor.ItemsSource = SettingsManagerConfig.colorList;
             DateFontColor.SelectedValue = SettingsManagerConfig.dateFontColor;
-
 
             if (SharedSettings.IsCompactView() == "True")
             {
@@ -584,6 +614,13 @@ namespace Configurator
         private void ClickExit(object sender, RoutedEventArgs e)
         {
             Application.Current.Shutdown();
+        }
+
+        private void DeviceName_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            DeviceChoice deviceChoice = new DeviceChoice();
+            deviceChoice.Show();
+            Close();
         }
     }
 }

@@ -172,7 +172,7 @@
         <ComboBox x:Name="DateFontType" HorizontalAlignment="Left" VerticalAlignment="Top" Width="163" Margin="789,166,0,0" TabIndex="4" Height="22"/>
         <ComboBox x:Name="DateFontColor" HorizontalAlignment="Left" VerticalAlignment="Top" Width="129" Margin="967,166,0,0" TabIndex="5" Height="22"/>
         <Label Content="Date" HorizontalAlignment="Left" Margin="725,164,0,0" VerticalAlignment="Top" Width="59" HorizontalContentAlignment="Center" Height="26"/>
-        <Label Content="                           **  To show the Clock press the Time button on the SteamDeck (Top-left)&#xA;            To go back to the StreamDeckMonitor press the FPS button on the SteamDeck (Top-right) ** " HorizontalAlignment="Left" VerticalAlignment="Top" Margin="708,294,0,0" Width="486" VerticalContentAlignment="Center" Height="36" FontSize="10"/>
+        <Label Content="                           **  To show the Clock press the Top-left button on the SteamDeck &#xA;            To go back to the StreamDeckMonitor press the Top-right button on the SteamDeck ** " HorizontalAlignment="Left" VerticalAlignment="Top" Margin="708,294,0,0" Width="486" VerticalContentAlignment="Center" Height="36" FontSize="10"/>
         <Button x:Name="ButtonH1FSUp_Copy"  Click="ClickH1FSUp" HorizontalAlignment="Left" VerticalAlignment="Top" Width="11" Margin="449,136,0,0" Height="17" Content="&gt;" VerticalContentAlignment="Top" Padding="1,-2,1,1" RenderTransformOrigin="0.5,0.5" BorderThickness="0,1,1,1">
             <Button.RenderTransform>
                 <TransformGroup>
@@ -235,5 +235,6 @@
         </Button>
         <CheckBox x:Name="IsCompact" Content="Compact Clock" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="898,218,0,0" Width="108"/>
         <CheckBox x:Name="IsDateShown" Content="Show Date" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="898,238,0,0" Width="108"/>
+        <Label x:Name="DeviceName" Content="" VerticalAlignment="Top" Margin="967,26,22,0" HorizontalContentAlignment ="Right" MouseDoubleClick="DeviceName_MouseDoubleClick" VerticalContentAlignment="Center" Height="36" FontSize="12"/>
     </Grid>
 </Window>

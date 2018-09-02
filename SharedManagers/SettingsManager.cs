@@ -32,6 +32,10 @@ namespace SharedManagers
         public static ConfigParser config = new ConfigParser(configFile);
 
         //config file values
+        public static int DeckDevice()
+        {
+            return int.Parse(config.Read("selectedDevice", "StreamDeck_Device"));
+        }
         public static int CurrentSate()
         {
             return int.Parse(config.Read("seletedState", "Current_State"));
