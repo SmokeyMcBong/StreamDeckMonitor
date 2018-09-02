@@ -42,9 +42,16 @@ namespace Configurator
         private void DisplayValues(string currentProfile)
         {
             string deckDevice = SharedSettings.config.Read("selectedDevice", "StreamDeck_Device");
+
             if (deckDevice == "1")
             {
                 DeviceName.Content = "Device:  Stream Deck";
+                StaticImages.ItemsSource = SettingsManagerConfig.imageList;
+                StaticImages.SelectedValue = SettingsManagerConfig.imageName;
+                Animations.ItemsSource = SettingsManagerConfig.animList;
+                Animations.SelectedValue = SettingsManagerConfig.animName;
+                FrameTotal.Text = SettingsManagerConfig.framesToProcess.ToString();
+                AnimFramerate.Text = SettingsManagerConfig.animFramerate.ToString();
             }
 
             if (deckDevice == "2")
@@ -53,21 +60,24 @@ namespace Configurator
                 EnableStatic.IsEnabled = false;
                 EnableAnim.IsEnabled = false;
                 StaticImages.IsEnabled = false;
+                StaticImages.ItemsSource = null;
                 Animations.IsEnabled = false;
+                Animations.ItemsSource = null;
                 AnimFramerate.IsEnabled = false;
+                AnimFramerate.Text = null;
                 FrameTotal.IsEnabled = false;
+                FrameTotal.Text = null;
                 ButtonFRUp.IsEnabled = false;
                 ButtonFRDown.IsEnabled = false;
                 ButtonFAUp.IsEnabled = false;
                 ButtonFADown.IsEnabled = false;
                 IsCompact.IsEnabled = false;
-            }
+            }            
 
             //display current settings according to Settings.ini values
             HeaderFontSize1.Text = SettingsManagerConfig.headerFontSize1.ToString();
             HeaderFontSize2.Text = SettingsManagerConfig.headerFontSize2.ToString();
-            ValuesFontSize.Text = SettingsManagerConfig.valueFontSize.ToString();
-            AnimFramerate.Text = SettingsManagerConfig.animFramerate.ToString();
+            ValuesFontSize.Text = SettingsManagerConfig.valueFontSize.ToString();            
             HeaderFontType1.ItemsSource = SettingsManagerConfig.fontList;
             HeaderFontType1.SelectedValue = SettingsManagerConfig.headerFont1;
             HeaderFontType2.ItemsSource = SettingsManagerConfig.fontList;
@@ -82,11 +92,6 @@ namespace Configurator
             ValuesFontColor.SelectedValue = SettingsManagerConfig.valuesFontColor;
             BackgroundFillColor.ItemsSource = SettingsManagerConfig.colorList;
             BackgroundFillColor.SelectedValue = SettingsManagerConfig.backgroundFillColor;
-            StaticImages.ItemsSource = SettingsManagerConfig.imageList;
-            StaticImages.SelectedValue = SettingsManagerConfig.imageName;
-            Animations.ItemsSource = SettingsManagerConfig.animList;
-            Animations.SelectedValue = SettingsManagerConfig.animName;
-            FrameTotal.Text = SettingsManagerConfig.framesToProcess.ToString();
             BrightnessSlider.Value = SettingsManagerConfig.displayBrightness;
             Profiles.ItemsSource = SettingsManagerConfig.profileList;
             Profiles.SelectedValue = currentProfile;
@@ -120,14 +125,17 @@ namespace Configurator
                 IsDateShown.IsChecked = false;
             }
 
-            //display if animations are enabled
-            if (SharedSettings.IsAnimationEnabled(currentProfile) != "True")
+            if (deckDevice == "1")
             {
-                EnableStatic.IsChecked = true;
-            }
-            else
-            {
-                EnableAnim.IsChecked = true;
+                //display if animations are enabled
+                if (SharedSettings.IsAnimationEnabled(currentProfile) != "True")
+                {
+                    EnableStatic.IsChecked = true;
+                }
+                else
+                {
+                    EnableAnim.IsChecked = true;
+                }
             }
         }
 

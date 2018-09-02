@@ -159,8 +159,8 @@
             </Button.RenderTransform>
         </Button>
         <Border BorderBrush="Black" BorderThickness="1" Margin="708,63,0,80" HorizontalAlignment="Left" Width="486"/>
-        <Label Content="Clock Font Settings" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="881,62,0,0" Width="146" VerticalContentAlignment="Center" FontSize="14" Height="36" FontStyle="Italic"/>
-        <Separator HorizontalAlignment="Left" Height="22" Margin="881,82,0,0" VerticalAlignment="Top" Width="125"/>
+        <Label Content="Clock Font Settings" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="886,62,0,0" Width="146" VerticalContentAlignment="Center" FontSize="14" Height="36" FontStyle="Italic"/>
+        <Separator HorizontalAlignment="Left" Height="22" Margin="886,82,0,0" VerticalAlignment="Top" Width="126"/>
         <Label Content="Time" HorizontalAlignment="Left" Margin="725,138,0,0" VerticalAlignment="Top" Width="59" HorizontalContentAlignment="Center" Height="26"/>
         <Label Content="Font Type:" Margin="789,109,0,0" VerticalAlignment="Top" Height="30" HorizontalAlignment="Left" Width="163" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
         <Label Content="Font Size:" Margin="1104,109,0,0" VerticalAlignment="Top" Height="30" HorizontalAlignment="Left" Width="61" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
