@@ -19,6 +19,9 @@ namespace SharedManagers
         public static int dimensWidth = 72;
         public static int dimensHeight = 72;
 
+        //static header text - x Axis
+        public static float xAxis = 35;
+
         //flag for stopping animations before closing for a clean exit 
         public static bool exitflag = false;
 
@@ -28,25 +31,19 @@ namespace SharedManagers
             //create working dir
             Directory.CreateDirectory(SharedSettings.generatedDir);
 
-            //header text locations
-            float xAxis = 35;
-            float yAxis = 35;
-            float xAxis2 = 35;
-            float yAxis2 = 18;
-
             //start the image header creation
             if (SettingsManagerSDM.CheckForLayout() == "Standard")
             {
-                CreateImage("Time", "header2", SettingsManagerSDM.ImageLocTime, SettingsManagerSDM.headerFontSize2, xAxis2, yAxis2);
-                CreateImage("F/sec", "header2", SettingsManagerSDM.ImageLocFps, SettingsManagerSDM.headerFontSize2, xAxis2, yAxis2);
+                CreateImage("Time", "header2", SettingsManagerSDM.ImageLocTime, SettingsManagerSDM.headerFontSize2, xAxis, int.Parse(SettingsManagerSDM.headerFont2Position));
+                CreateImage("F/sec", "header2", SettingsManagerSDM.ImageLocFps, SettingsManagerSDM.headerFontSize2, xAxis, int.Parse(SettingsManagerSDM.headerFont2Position));
             }
 
-            CreateImage("Cpu:", "header1", SettingsManagerSDM.ImageLocCpu, SettingsManagerSDM.headerFontSize1, xAxis, yAxis);
-            CreateImage("Gpu:", "header1", SettingsManagerSDM.ImageLocGpu, SettingsManagerSDM.headerFontSize1, xAxis, yAxis);
-            CreateImage("Temp", "header2", SettingsManagerSDM.ImageLocTemp, SettingsManagerSDM.headerFontSize2, xAxis2, yAxis2);
-            CreateImage("Load", "header2", SettingsManagerSDM.ImageLocLoad, SettingsManagerSDM.headerFontSize2, xAxis2, yAxis2);
-            CreateImage(":", "colon", SettingsManagerSDM.ImageLocColon, SettingsManagerSDM.colonFontSize, xAxis, yAxis);
-            CreateImage("", "header1", SettingsManagerSDM.ImageLocBlank, SettingsManagerSDM.headerFontSize1, xAxis, yAxis);
+            CreateImage("Cpu:", "header1", SettingsManagerSDM.ImageLocCpu, SettingsManagerSDM.headerFontSize1, xAxis, int.Parse(SettingsManagerSDM.headerFont1Position));
+            CreateImage("Gpu:", "header1", SettingsManagerSDM.ImageLocGpu, SettingsManagerSDM.headerFontSize1, xAxis, int.Parse(SettingsManagerSDM.headerFont1Position));
+            CreateImage("Temp", "header2", SettingsManagerSDM.ImageLocTemp, SettingsManagerSDM.headerFontSize2, xAxis, int.Parse(SettingsManagerSDM.headerFont2Position));
+            CreateImage("Load", "header2", SettingsManagerSDM.ImageLocLoad, SettingsManagerSDM.headerFontSize2, xAxis, int.Parse(SettingsManagerSDM.headerFont2Position));
+            CreateImage(":", "colon", SettingsManagerSDM.ImageLocColon, SettingsManagerSDM.colonFontSize, xAxis, SettingsManagerSDM.colonPosition);
+            CreateImage("", "header1", SettingsManagerSDM.ImageLocBlank, SettingsManagerSDM.headerFontSize1, xAxis, 35);
 
             void CreateImage(string text, string type, string filename, int textSize, float x, float y)
             {
@@ -201,37 +198,41 @@ namespace SharedManagers
         public static void ProcessValueImg(string dataValue, string type, int location)
         {
             Brush myBrush = SettingsManagerSDM.ValuesBrush;
-            PointF dataLocation = new PointF(36f, 50f);
+            PointF dataLocation = new PointF(xAxis, 50);
             Font font = new Font(SettingsManagerSDM.myFontValues, SettingsManagerSDM.valueFontSize);
 
             if (!dataValue.Equals(null))
             {
                 if (type.Equals("f"))
                 {
+                    dataLocation = new PointF(xAxis, int.Parse(SettingsManagerSDM.valuesFontPosition));
                     ProcessImage(SettingsManagerSDM.ImageLocFps);
                 }
                 if (type.Equals("t"))
                 {
+                    dataLocation = new PointF(xAxis, int.Parse(SettingsManagerSDM.valuesFontPosition));
                     ProcessImage(SettingsManagerSDM.ImageLocTemp);
                 }
                 if (type.Equals("l"))
                 {
+                    dataLocation = new PointF(xAxis, int.Parse(SettingsManagerSDM.valuesFontPosition));
                     ProcessImage(SettingsManagerSDM.ImageLocLoad);
                 }
                 if (type.Equals("ti"))
                 {
+                    dataLocation = new PointF(xAxis, int.Parse(SettingsManagerSDM.valuesFontPosition));
                     ProcessImage(SettingsManagerSDM.ImageLocTime);
                 }
                 if (type.Equals("bl"))
                 {
-                    dataLocation = new PointF(35f, 35f);
+                    dataLocation = new PointF(xAxis, SettingsManagerSDM.timePosition);
                     myBrush = SettingsManagerSDM.TimeBrush;
                     font = new Font(SettingsManagerSDM.myFontTime, SettingsManagerSDM.timeFontSize);
                     ProcessImage(SettingsManagerSDM.ImageLocBlank);
                 }
                 if (type.Equals("bl-sm"))
                 {
-                    dataLocation = new PointF(35f, 35f);
+                    dataLocation = new PointF(xAxis, SettingsManagerSDM.datePosition);
                     myBrush = SettingsManagerSDM.DateBrush;
                     font = new Font(SettingsManagerSDM.myFontDate, SettingsManagerSDM.dateFontSize);
                     ProcessImage(SettingsManagerSDM.ImageLocBlank);

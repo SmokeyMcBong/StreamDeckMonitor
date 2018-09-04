@@ -111,6 +111,9 @@ namespace Configurator
             ValuesFontType.SelectedValue = SettingsManagerConfig.valueFont;
             ValuesFontColor.ItemsSource = SettingsManagerConfig.colorList;
             ValuesFontColor.SelectedValue = SettingsManagerConfig.valuesFontColor;
+            Header1Position.Text = SettingsManagerConfig.headerFont1Position.ToString();
+            Header2Position.Text = SettingsManagerConfig.headerFont2Position.ToString();
+            ValuePosition.Text = SettingsManagerConfig.valuesFontPosition.ToString();
             BackgroundFillColor.ItemsSource = SettingsManagerConfig.colorList;
             BackgroundFillColor.SelectedValue = SettingsManagerConfig.backgroundFillColor;
             BrightnessSlider.Value = SettingsManagerConfig.displayBrightness;
@@ -132,6 +135,9 @@ namespace Configurator
             ColonFontColor.SelectedValue = SettingsManagerConfig.colonFontColor;
             DateFontColor.ItemsSource = SettingsManagerConfig.colorList;
             DateFontColor.SelectedValue = SettingsManagerConfig.dateFontColor;
+            TimePosition.Text = SettingsManagerConfig.timePosition.ToString();
+            ColonPosition.Text = SettingsManagerConfig.colonPosition.ToString();
+            DatePosition.Text = SettingsManagerConfig.datePosition.ToString();
 
             if (SharedSettings.IsDateShown() == "True")
             {
@@ -144,7 +150,7 @@ namespace Configurator
         }
 
         //format text inputs on the fly to make sure only numerical values are entered        
-        void HeaderFontSize1Input(object sender, TextChangedEventArgs e)
+        private void HeaderFontSize1Input(object sender, TextChangedEventArgs e)
         {
             string value = HeaderFontSize1.Text;
             if (value == "" || value == " ")
@@ -164,7 +170,7 @@ namespace Configurator
             }
         }
 
-        void HeaderFontSize2Input(object sender, TextChangedEventArgs e)
+        private void HeaderFontSize2Input(object sender, TextChangedEventArgs e)
         {
             string value = HeaderFontSize2.Text;
             if (value == "" || value == " ")
@@ -184,7 +190,7 @@ namespace Configurator
             }
         }
 
-        void ValuesFontSizeInput(object sender, TextChangedEventArgs e)
+        private void ValuesFontSizeInput(object sender, TextChangedEventArgs e)
         {
             string value = ValuesFontSize.Text;
             if (value == "" || value == " ")
@@ -204,7 +210,67 @@ namespace Configurator
             }
         }
 
-        void AnimFramerateInput(object sender, TextChangedEventArgs e)
+        private void Header1PositionInput(object sender, TextChangedEventArgs e)
+        {
+            string value = Header1Position.Text;
+            if (value == "" || value == " ")
+            {
+                Header1Position.Text = FormatValue("1", "");
+            }
+            else
+            {
+                if (IsDigitsOnly(value))
+                {
+                    Header1Position.Text = FormatValue(value, "");
+                }
+                else
+                {
+                    Header1Position.Text = FormatValue("1", "");
+                }
+            }
+        }
+
+        private void Header2PositionInput(object sender, TextChangedEventArgs e)
+        {
+            string value = Header2Position.Text;
+            if (value == "" || value == " ")
+            {
+                Header2Position.Text = FormatValue("1", "");
+            }
+            else
+            {
+                if (IsDigitsOnly(value))
+                {
+                    Header2Position.Text = FormatValue(value, "");
+                }
+                else
+                {
+                    Header2Position.Text = FormatValue("1", "");
+                }
+            }
+        }
+
+        private void ValuesPositionInput(object sender, TextChangedEventArgs e)
+        {
+            string value = ValuePosition.Text;
+            if (value == "" || value == " ")
+            {
+                ValuePosition.Text = FormatValue("1", "");
+            }
+            else
+            {
+                if (IsDigitsOnly(value))
+                {
+                    ValuePosition.Text = FormatValue(value, "");
+                }
+                else
+                {
+                    ValuePosition.Text = FormatValue("1", "");
+                }
+            }
+        }
+
+        private void AnimFramerateInput(object sender, TextChangedEventArgs e)
         {
             string value = AnimFramerate.Text;
             if (value == "" || value == " ")
@@ -224,7 +290,7 @@ namespace Configurator
             }
         }
 
-        void FrameTotalInput(object sender, TextChangedEventArgs e)
+        private void FrameTotalInput(object sender, TextChangedEventArgs e)
         {
             string value = FrameTotal.Text;
             if (value == "" || value == " ")
@@ -244,7 +310,7 @@ namespace Configurator
             }
         }
 
-        void HeaderFontSizeClock1Input(object sender, TextChangedEventArgs e)
+        private void HeaderFontSizeClock1Input(object sender, TextChangedEventArgs e)
         {
             string value = TimeFontSize.Text;
             if (value == "" || value == " ")
@@ -264,7 +330,7 @@ namespace Configurator
             }
         }
 
-        void HeaderFontSizeClock2Input(object sender, TextChangedEventArgs e)
+        private void HeaderFontSizeClock2Input(object sender, TextChangedEventArgs e)
         {
             string value = DateFontSize.Text;
             if (value == "" || value == " ")
@@ -280,6 +346,66 @@ namespace Configurator
                 else
                 {
                     DateFontSize.Text = FormatValue("1", "");
+                }
+            }
+        }
+
+        private void TimePositionInput(object sender, TextChangedEventArgs e)
+        {
+            string value = TimePosition.Text;
+            if (value == "" || value == " ")
+            {
+                TimePosition.Text = FormatValue("1", "");
+            }
+            else
+            {
+                if (IsDigitsOnly(value))
+                {
+                    TimePosition.Text = FormatValue(value, "");
+                }
+                else
+                {
+                    TimePosition.Text = FormatValue("1", "");
+                }
+            }
+        }
+
+        private void ColonPositionInput(object sender, TextChangedEventArgs e)
+        {
+            string value = ColonPosition.Text;
+            if (value == "" || value == " ")
+            {
+                ColonPosition.Text = FormatValue("1", "");
+            }
+            else
+            {
+                if (IsDigitsOnly(value))
+                {
+                    ColonPosition.Text = FormatValue(value, "");
+                }
+                else
+                {
+                    ColonPosition.Text = FormatValue("1", "");
+                }
+            }
+        }
+
+        private void DatePositionInput(object sender, TextChangedEventArgs e)
+        {
+            string value = DatePosition.Text;
+            if (value == "" || value == " ")
+            {
+                DatePosition.Text = FormatValue("1", "");
+            }
+            else
+            {
+                if (IsDigitsOnly(value))
+                {
+                    DatePosition.Text = FormatValue(value, "");
+                }
+                else
+                {
+                    DatePosition.Text = FormatValue("1", "");
                 }
             }
         }
@@ -389,6 +515,42 @@ namespace Configurator
             FrameTotal.Text = ReturnValue(getValue, "FA", "Down").ToString();
         }
 
+        private void ClickH1PUp(object sender, RoutedEventArgs e)
+        {
+            int getValue = int.Parse(Header1Position.Text);
+            Header1Position.Text = ReturnValue(getValue, "FS", "Up").ToString();
+        }
+
+        private void ClickH1PDown(object sender, RoutedEventArgs e)
+        {
+            int getValue = int.Parse(Header1Position.Text);
+            Header1Position.Text = ReturnValue(getValue, "FS", "Down").ToString();
+        }
+
+        private void ClickH2PUp(object sender, RoutedEventArgs e)
+        {
+            int getValue = int.Parse(Header2Position.Text);
+            Header2Position.Text = ReturnValue(getValue, "FS", "Up").ToString();
+        }
+
+        private void ClickH2PDown(object sender, RoutedEventArgs e)
+        {
+            int getValue = int.Parse(Header2Position.Text);
+            Header2Position.Text = ReturnValue(getValue, "FS", "Down").ToString();
+        }
+
+        private void ClickVPUp(object sender, RoutedEventArgs e)
+        {
+            int getValue = int.Parse(ValuePosition.Text);
+            ValuePosition.Text = ReturnValue(getValue, "FS", "Up").ToString();
+        }
+
+        private void ClickVPDown(object sender, RoutedEventArgs e)
+        {
+            int getValue = int.Parse(ValuePosition.Text);
+            ValuePosition.Text = ReturnValue(getValue, "FS", "Down").ToString();
+        }
+
         //clock settings
         private void ClickTFSUp(object sender, RoutedEventArgs e)
         {
@@ -424,6 +586,42 @@ namespace Configurator
         {
             int getValue = int.Parse(DateFontSize.Text);
             DateFontSize.Text = ReturnValue(getValue, "FS", "Down").ToString();
+        }
+
+        private void ClickTPUp(object sender, RoutedEventArgs e)
+        {
+            int getValue = int.Parse(TimePosition.Text);
+            TimePosition.Text = ReturnValue(getValue, "FS", "Up").ToString();
+        }
+
+        private void ClickTPDown(object sender, RoutedEventArgs e)
+        {
+            int getValue = int.Parse(TimePosition.Text);
+            TimePosition.Text = ReturnValue(getValue, "FS", "Down").ToString();
+        }
+
+        private void ClickCPUp(object sender, RoutedEventArgs e)
+        {
+            int getValue = int.Parse(ColonPosition.Text);
+            ColonPosition.Text = ReturnValue(getValue, "FS", "Up").ToString();
+        }
+
+        private void ClickCPDown(object sender, RoutedEventArgs e)
+        {
+            int getValue = int.Parse(ColonPosition.Text);
+            ColonPosition.Text = ReturnValue(getValue, "FS", "Down").ToString();
+        }
+
+        private void ClickDPUp(object sender, RoutedEventArgs e)
+        {
+            int getValue = int.Parse(DatePosition.Text);
+            DatePosition.Text = ReturnValue(getValue, "FS", "Up").ToString();
+        }
+
+        private void ClickDPDown(object sender, RoutedEventArgs e)
+        {
+            int getValue = int.Parse(DatePosition.Text);
+            DatePosition.Text = ReturnValue(getValue, "FS", "Down").ToString();
         }
 
         private int ReturnValue(int value, string type, string direction)
@@ -562,6 +760,9 @@ namespace Configurator
             string headerfontColor2 = "headerfontColor_2" + " " + HeaderFontColor2.SelectedValue.ToString();
             string valuesFontColor = "valuesFontColor" + " " + ValuesFontColor.SelectedValue.ToString();
             string backgroundColor = "backgroundColor" + " " + BackgroundFillColor.SelectedValue.ToString();
+            string valuesFontPosition = "valuesFontPosition" + " " + ValuePosition.Text;
+            string headerfont1Position = "headerFontPosition_1" + " " + Header1Position.Text;
+            string headerfont2Position = "headerFontPosition_2" + " " + Header2Position.Text;
             //clock settings
             string timeFont = "timeFontType" + " " + TimeFontType.SelectedValue.ToString();
             string colonFont = "colonFontType" + " " + ColonFontType.SelectedValue.ToString();
@@ -572,6 +773,9 @@ namespace Configurator
             string timeFontColor = "timeFontColor" + " " + TimeFontColor.SelectedValue.ToString();
             string colonFontColor = "colonFontColor" + " " + ColonFontColor.SelectedValue.ToString();
             string dateFontColor = "dateFontColor" + " " + DateFontColor.SelectedValue.ToString();
+            string timePosition = "timeFontPosition" + " " + TimePosition.Text;
+            string colonPosition = "colonFontPosition" + " " + ColonPosition.Text;
+            string datePosition = "dateFontPosition" + " " + DatePosition.Text;
             string isCompact;
             string isDateShown;
 
@@ -611,6 +815,9 @@ namespace Configurator
                 headerfontColor1,
                 headerfontColor2,
                 valuesFontColor,
+                valuesFontPosition,
+                headerfont1Position,
+                headerfont2Position,
                 backgroundColor,
              };
 
@@ -626,6 +833,9 @@ namespace Configurator
                 timeFontColor,
                 colonFontColor,
                 dateFontColor,
+                timePosition,
+                colonPosition,
+                datePosition,
                 isCompact,
                 isDateShown
              };

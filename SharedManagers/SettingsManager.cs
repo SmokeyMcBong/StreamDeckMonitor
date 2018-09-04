@@ -72,6 +72,18 @@ namespace SharedManagers
         {
             return config.Read("valuesFontColor", currentProfile);
         }
+        public static string HeaderFont1Position(string currentProfile)
+        {
+            return config.Read("headerFontPosition_1", currentProfile);
+        }
+        public static string HeaderFont2Position(string currentProfile)
+        {
+            return config.Read("headerFontPosition_2", currentProfile);
+        }
+        public static string ValuesFontPosition(string currentProfile)
+        {
+            return config.Read("valuesFontPosition", currentProfile);
+        }
         public static string BackgroundFillColor(string currentProfile)
         {
             return config.Read("backgroundColor", currentProfile);
@@ -153,6 +165,18 @@ namespace SharedManagers
         {
             return config.Read("clockBackgroundColor", "Clock_Settings");
         }
+        public static string TimePosition()
+        {
+            return config.Read("timeFontPosition", "Clock_Settings");
+        }
+        public static string ColonPosition()
+        {
+            return config.Read("colonFontPosition", "Clock_Settings");
+        }
+        public static string DatePosition()
+        {
+            return config.Read("dateFontPosition", "Clock_Settings");
+        }
         public static string IsCompactView()
         {
             return config.Read("compactView", "Clock_Settings");
@@ -171,6 +195,9 @@ namespace SharedManagers
         public static string headerFontColor1;
         public static string headerFontColor2;
         public static string valuesFontColor;
+        public static string headerFont1Position;
+        public static string headerFont2Position;
+        public static string valuesFontPosition;
         public static string backgroundFillColor;
         public static int headerFontSize1;
         public static int headerFontSize2;
@@ -194,6 +221,9 @@ namespace SharedManagers
         public static string clockBackgroundColor;
         public static string isCompactView;
         public static string isDateShown;
+        public static int timePosition;
+        public static int colonPosition;
+        public static int datePosition;
 
         //set font size, framerate and frame amount max values
         public static int fsMax = 99;
@@ -214,6 +244,9 @@ namespace SharedManagers
             headerFontColor1 = SharedSettings.HeaderFontColor1(currentProfile);
             headerFontColor2 = SharedSettings.HeaderFontColor2(currentProfile);
             valuesFontColor = SharedSettings.ValuesFontColor(currentProfile);
+            headerFont1Position = SharedSettings.HeaderFont1Position(currentProfile);
+            headerFont2Position = SharedSettings.HeaderFont2Position(currentProfile);
+            valuesFontPosition = SharedSettings.ValuesFontPosition(currentProfile);
             backgroundFillColor = SharedSettings.BackgroundFillColor(currentProfile);
             headerFontSize1 = int.Parse(SharedSettings.HeaderFontSize1(currentProfile).ToString());
             headerFontSize2 = int.Parse(SharedSettings.HeaderFontSize2(currentProfile).ToString());
@@ -237,6 +270,9 @@ namespace SharedManagers
             clockBackgroundColor = SharedSettings.ClockBackgroundColor();
             isCompactView = SharedSettings.IsCompactView();
             isDateShown = SharedSettings.IsDateShown();
+            timePosition = int.Parse(SharedSettings.TimePosition().ToString());
+            colonPosition = int.Parse(SharedSettings.ColonPosition().ToString());
+            datePosition = int.Parse(SharedSettings.DatePosition().ToString());
 
             //create file list of fonts in fontDir
             fontList = new List<string> { };
@@ -363,6 +399,9 @@ namespace SharedManagers
         private static readonly string headerFontColor1 = SharedSettings.HeaderFontColor1(currentProfile);
         private static readonly string headerFontColor2 = SharedSettings.HeaderFontColor2(currentProfile);
         private static readonly string valuesFontColor = SharedSettings.ValuesFontColor(currentProfile);
+        public static string headerFont1Position = SharedSettings.HeaderFont1Position(currentProfile);
+        public static string headerFont2Position = SharedSettings.HeaderFont2Position(currentProfile);
+        public static string valuesFontPosition = SharedSettings.ValuesFontPosition(currentProfile);
         public static int headerFontSize1 = int.Parse(SharedSettings.HeaderFontSize1(currentProfile).ToString());
         public static int headerFontSize2 = int.Parse(SharedSettings.HeaderFontSize2(currentProfile).ToString());
         public static int valueFontSize = int.Parse(SharedSettings.ValueFontSize(currentProfile).ToString());
@@ -384,6 +423,9 @@ namespace SharedManagers
         public static string colonFontColor = SharedSettings.ColonFontColor();
         public static string dateFontColor = SharedSettings.DateFontColor();
         public static string clockBackgroundColor = SharedSettings.ClockBackgroundColor();
+        public static int timePosition = int.Parse(SharedSettings.TimePosition().ToString());
+        public static int colonPosition = int.Parse(SharedSettings.ColonPosition().ToString());
+        public static int datePosition = int.Parse(SharedSettings.DatePosition().ToString());
 
         public static int FrametimeValue()
         {
@@ -472,7 +514,6 @@ namespace SharedManagers
                 return myBrush;
             }
         }
-
         public static SolidBrush ColonBrush
         {
             get
@@ -481,7 +522,6 @@ namespace SharedManagers
                 return myBrush;
             }
         }
-
         public static SolidBrush DateBrush
         {
             get
