@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Forms;
 using System.Windows.Media;
 
 namespace Configurator
@@ -850,10 +851,28 @@ namespace Configurator
             ThreadManager.DoStatusInBackground(selectedColor, statusText, "Save", this);
         }
 
+        //restore default settings to config file
+        private void ClickRestoreConfig(object sender, RoutedEventArgs e)
+        {
+
+            if (System.Windows.Forms.MessageBox.Show("Are you sure you want to Reset ALL Profiles to their Default values ? ", " Reset ALL Profiles ", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
+            {
+                //disable button while saving values
+                ButtonRestoreConfig.IsEnabled = false;
+
+                ThreadManager.ResetAllProfiles(this);
+
+                //display notification
+                Brush selectedColor = Brushes.BlueViolet;
+                string statusText = "Stock Config Restored !";
+                ThreadManager.DoStatusInBackground(selectedColor, statusText, "Restore", this);
+            }
+        }
+
         //exit application
         private void ClickExit(object sender, RoutedEventArgs e)
         {
-            Application.Current.Shutdown();
+            System.Windows.Application.Current.Shutdown();
         }
 
         private void DeviceName_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
