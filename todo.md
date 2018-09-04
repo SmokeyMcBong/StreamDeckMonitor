@@ -3,8 +3,11 @@
 ##### ToDo:
 
 * Decide final StreamDeck Mini layouts 
-* Fix Ryzen CPU Temperature references
 
+
+##### Awaiting confirmation of fix:
+
+* Fix Ryzen CPU Temperature references
 
 
 ##### Completed:
