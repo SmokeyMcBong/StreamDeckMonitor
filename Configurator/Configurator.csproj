@@ -110,10 +110,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="RestoreConfigChoice.xaml.cs">
+      <DependentUpon>RestoreConfigChoice.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ThreadManager.cs" />
     <Compile Include="DeviceChoice.xaml.cs">
       <DependentUpon>DeviceChoice.xaml</DependentUpon>
     </Compile>
+    <Page Include="RestoreConfigChoice.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

@@ -854,18 +854,21 @@ namespace Configurator
         //restore default settings to config file
         private void ClickRestoreConfig(object sender, RoutedEventArgs e)
         {
+            RestoreConfigChoice restoreConfig = new RestoreConfigChoice();
+            restoreConfig.Show();
+        }
 
-            if (System.Windows.Forms.MessageBox.Show("Are you sure you want to Reset ALL Profiles to their Default values ? ", " Reset ALL Profiles ", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
+        public static void DoProfileRestore(string selectedProfiles)
+        {
+            if (System.Windows.Forms.MessageBox.Show("Are you sure you want to reset..\n\n" + selectedProfiles + "\nto default stock values ?? ", " Reset Profiles ", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
             {
-                //disable button while saving values
-                ButtonRestoreConfig.IsEnabled = false;
-
-                ThreadManager.ResetAllProfiles(this);
+                MainWindow ExistingInstanceOfMainWindow = GetWindow(System.Windows.Application.Current.MainWindow) as MainWindow;
+                ThreadManager.ResetAllProfiles(ExistingInstanceOfMainWindow, selectedProfiles);
 
                 //display notification
                 Brush selectedColor = Brushes.BlueViolet;
                 string statusText = "Stock Config Restored !";
-                ThreadManager.DoStatusInBackground(selectedColor, statusText, "Restore", this);
+                ThreadManager.DoStatusInBackground(selectedColor, statusText, "Restore", ExistingInstanceOfMainWindow);
             }
         }
 
