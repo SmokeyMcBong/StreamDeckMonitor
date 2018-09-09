@@ -10,15 +10,14 @@
     <Grid Background="White">
         <Image VerticalAlignment="Top" Source="resources/SDMlogo.png" Margin="22,18,0,0" HorizontalAlignment="Left" Width="259" Height="48"/>
         <Label Content=" Please choose which Profiles/Settings you wish to &#xD;&#xA;                     reset to default values .." HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,80,0,0" Width="283" VerticalContentAlignment="Center" Height="42"/>
-        <CheckBox x:Name="ResetProfile2" Content="Profile 2" Click="ResetProfile2_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="107,185,0,0" Width="75" TabIndex="11" Height="15"/>
-        <CheckBox x:Name="ResetProfile3" Content="Profile 3" Click="ResetProfile3_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="107,205,0,0" Width="75" TabIndex="11" Height="15"/>
-        <Button x:Name="ButtonResetProfiles" Content="Load Default's" Click="ButtonReset_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Width="99" Margin="90,253,0,0" Height="22" TabIndex="20" >
+        <CheckBox x:Name="ResetProfile2" Content="Profile 2" Click="ResetProfile2_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="120,184,0,0" Width="75" TabIndex="11" Height="15"/>
+        <CheckBox x:Name="ResetProfile3" Content="Profile 3" Click="ResetProfile3_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="120,204,0,0" Width="75" TabIndex="11" Height="15"/>
+        <Button x:Name="ButtonResetProfiles" Content="Load Default's" Click="ButtonReset_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Width="99" Margin="103,252,0,0" Height="22" TabIndex="20" >
         </Button>
-        <CheckBox x:Name="ResetProfile1" Content="Profile 1" Click="ResetProfile1_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="107,165,0,0" Width="75" TabIndex="11" Height="15"/>
-        <Button x:Name="ButtonCancel" Content="Cancel" Click="Cancel_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Width="50" Margin="115,280,0,0" Height="22" TabIndex="20" />
-        <CheckBox x:Name="ResetClock" Content="Clock" Click="ResetClock_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="107,145,0,0" Width="75" TabIndex="11" Height="15"/>
-        <CheckBox x:Name="ResetAllConfig" Content="Reset All" Click="ResetAllConfig_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="107,225,0,0" Width="75" TabIndex="11" Height="15"/>
-
+        <CheckBox x:Name="ResetProfile1" Content="Profile 1" Click="ResetProfile1_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="120,164,0,0" Width="75" TabIndex="11" Height="15"/>
+        <Button x:Name="ButtonCancel" Content="Cancel" Click="Cancel_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Width="50" Margin="128,279,0,0" Height="22" TabIndex="20" />
+        <CheckBox x:Name="ResetClock" Content="Clock" Click="ResetClock_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="120,144,0,0" Width="75" TabIndex="11" Height="15"/>
+        <CheckBox x:Name="ResetAllConfig" Content="Reset All" Click="ResetAllConfig_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="120,224,0,0" Width="75" TabIndex="11" Height="15"/>
     </Grid>
 
 </Window>

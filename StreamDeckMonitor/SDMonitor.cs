@@ -129,6 +129,22 @@ namespace StreamDeckMonitor
                                     //check for cpu sensor
                                     if (hardware.HardwareType == HardwareType.CPU)
                                     {
+                                        string cpuTempString;
+
+                                        if (hardware.Name.Contains("Ryzen"))
+                                        {
+                                            cpuTempString = "Core (Tdie)";
+                                        }
+
+                                        if (hardware.Name.Contains("Intel"))
+                                        {
+                                            cpuTempString = "CPU Package";
+                                        }
+
+                                        else
+                                        {
+                                            cpuTempString = "Core #0";
+                                        }
 
                                         foreach (ISensor sensor in hardware.Sensors)
                                         {
@@ -144,14 +160,14 @@ namespace StreamDeckMonitor
                                                 //get values for cpu and pass to process
                                                 foreach (string value in valueList)
                                                 {
-                                                    if (value.Contains("CPU Package"))
+                                                    if (value.Contains(cpuTempString))
                                                     {
                                                         string resultPackage = value.Substring(Math.Max(0, value.Length - 2));
                                                         if (!resultPackage.Contains("#"))
                                                         {
                                                             string dataValue = resultPackage.ToString() + "c";
                                                             string type = "t";
-                                                            ImageManager.ProcessValueImg(dataValue, type, SettingsManagerSDM.KeyLocCpuTempMini);
+                                                            ImageManager.ProcessValueImg(dataValue, type, SettingsManagerSDM.KeyLocCpuTemp);
                                                         }
                                                     }
                                                 }
@@ -175,7 +191,7 @@ namespace StreamDeckMonitor
                                                         int cpuLoadInt = (int)Math.Round(sensor.Value.Value);
                                                         string dataValue = cpuLoadInt.ToString() + "%";
                                                         string type = "l";
-                                                        ImageManager.ProcessValueImg(dataValue, type, SettingsManagerSDM.KeyLocCpuLoadMini);
+                                                        ImageManager.ProcessValueImg(dataValue, type, SettingsManagerSDM.KeyLocCpuLoad);
                                                     }
                                                 }
                                             }
@@ -383,6 +399,22 @@ namespace StreamDeckMonitor
                                     //check for cpu sensor
                                     if (hardware.HardwareType == HardwareType.CPU)
                                     {
+                                        string cpuTempString;
+
+                                        if (hardware.Name.Contains("Ryzen"))
+                                        {
+                                            cpuTempString = "Core (Tdie)";
+                                        }
+
+                                        if (hardware.Name.Contains("Intel"))
+                                        {
+                                            cpuTempString = "CPU Package";
+                                        }
+
+                                        else
+                                        {
+                                            cpuTempString = "Core #0";
+                                        }
 
                                         foreach (ISensor sensor in hardware.Sensors)
                                         {
@@ -398,7 +430,7 @@ namespace StreamDeckMonitor
                                                 //get values for cpu and pass to process
                                                 foreach (string value in valueList)
                                                 {
-                                                    if (value.Contains("CPU Package"))
+                                                    if (value.Contains(cpuTempString))
                                                     {
                                                         string resultPackage = value.Substring(Math.Max(0, value.Length - 2));
                                                         if (!resultPackage.Contains("#"))
