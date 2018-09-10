@@ -1,10 +1,10 @@
 ﻿using MSI.Afterburner;
 using OpenHardwareMonitor.Hardware;
-using SharedManagers;
 using StreamDeckSharp;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using SharedManagers;
 using System.Windows.Forms;
 
 namespace StreamDeckMonitor
@@ -182,15 +182,10 @@ namespace StreamDeckMonitor
                                             {
                                                 getValues
                                             };
-
-                                                //define naming scheme for intel and ryzen cpu temp sensors
-                                                string intel = "CPU Package";
-                                                string ryzen = "Core (Tdie)";
-
                                                 //get values for cpu and pass to process
                                                 foreach (string value in valueList)
                                                 {
-                                                    if (value.Contains(intel) || value.Contains(ryzen))
+                                                    if (value.Contains("CPU Package"))
                                                     {
                                                         string resultPackage = value.Substring(Math.Max(0, value.Length - 2));
                                                         if (!resultPackage.Contains("#"))
