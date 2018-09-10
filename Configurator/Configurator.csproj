@@ -80,8 +80,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\StreamDeckMonitor\libs\OpenHardwareMonitorLib.dll</HintPath>
     </Reference>
-    <Reference Include="StreamDeckSharp, Version=0.1.8.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="OpenMacroBoard.SDK">
+      <HintPath>..\StreamDeckMonitor\libs\OpenMacroBoard.SDK.dll</HintPath>
+    </Reference>
+    <Reference Include="StreamDeckSharp">
       <HintPath>..\StreamDeckMonitor\libs\StreamDeckSharp.dll</HintPath>
     </Reference>
     <Reference Include="System" />
@@ -108,7 +110,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="RestoreConfigChoice.xaml.cs">
+      <DependentUpon>RestoreConfigChoice.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ThreadManager.cs" />
+    <Compile Include="DeviceChoice.xaml.cs">
+      <DependentUpon>DeviceChoice.xaml</DependentUpon>
+    </Compile>
+    <Page Include="RestoreConfigChoice.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -121,6 +133,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="DeviceChoice.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">

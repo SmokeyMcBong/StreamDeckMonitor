@@ -1,11 +1,12 @@
-﻿using System;
+﻿using SharedManagers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Forms;
 using System.Windows.Media;
-using SharedManagers;
 
 namespace Configurator
 {
@@ -15,6 +16,15 @@ namespace Configurator
 
         public MainWindow()
         {
+            //show Stream Deck Device choice window
+            string choiceMade = SharedSettings.config.Read("choiceMade", "StreamDeck_Device");
+            if (choiceMade == "false")
+            {
+                DeviceChoice deviceChoice = new DeviceChoice();
+                deviceChoice.Show();
+                Close();
+            }
+
             //make sure only one instance is running
             SharedSettings.CheckForTwins();
             InitializeComponent();
@@ -26,60 +36,127 @@ namespace Configurator
 
         private void PrepValueDisplay(string currentProfile)
         {
-            SettingsManagerConfig.LoadValues(currentProfile);
+            SettingsConfigurator.LoadValues(currentProfile);
             DisplayValues(currentProfile);
         }
 
         private void DisplayValues(string currentProfile)
         {
+            string deckDevice = SharedSettings.config.Read("selectedDevice", "StreamDeck_Device");
+
+            if (deckDevice == "1")
+            {
+                DeviceName.Content = "Device:  Stream Deck";
+                StaticImages.ItemsSource = SettingsConfigurator.imageList;
+                StaticImages.SelectedValue = SettingsConfigurator.imageName;
+                Animations.ItemsSource = SettingsConfigurator.animList;
+                Animations.SelectedValue = SettingsConfigurator.animName;
+                FrameTotal.Text = SettingsConfigurator.framesToProcess.ToString();
+                AnimFramerate.Text = SettingsConfigurator.animFramerate.ToString();
+
+                //display is compact view is enabled
+                if (SharedSettings.IsCompactView() == "True")
+                {
+                    IsCompact.IsChecked = true;
+                }
+                else
+                {
+                    IsCompact.IsChecked = false;
+                }
+
+                //display if animations are enabled
+                if (SharedSettings.IsAnimationEnabled(currentProfile) != "True")
+                {
+                    EnableStatic.IsChecked = true;
+                }
+                else
+                {
+                    EnableAnim.IsChecked = true;
+                }
+            }
+
+            if (deckDevice == "2")
+            {
+                DeviceName.Content = "Device:  Stream Deck - Mini";
+                EnableStatic.Visibility = Visibility.Collapsed;
+                EnableAnim.Visibility = Visibility.Collapsed;
+                StaticImages.Visibility = Visibility.Collapsed;
+                StaticImages.ItemsSource = null;
+                Animations.Visibility = Visibility.Collapsed;
+                Animations.ItemsSource = null;
+                AnimFramerate.Visibility = Visibility.Collapsed;
+                AnimFramerate.Text = null;
+                FrameTotal.Visibility = Visibility.Collapsed;
+                FrameTotal.Text = null;
+                ButtonFRUp.Visibility = Visibility.Collapsed;
+                ButtonFRDown.Visibility = Visibility.Collapsed;
+                ButtonFAUp.Visibility = Visibility.Collapsed;
+                ButtonFADown.Visibility = Visibility.Collapsed;
+                IsCompact.IsChecked = true;
+                IsCompact.IsEnabled = false;
+                Seperator.Visibility = Visibility.Collapsed;
+                LabelFramerate1.Visibility = Visibility.Collapsed;
+                LabelFrameAmount1.Visibility = Visibility.Collapsed;
+                LabelFramerate2.Visibility = Visibility.Collapsed;
+                LabelFrameAmount2.Visibility = Visibility.Collapsed;
+                IsMiniFps.Visibility = Visibility.Visible;
+                LabelMiniFps.Visibility = Visibility.Visible;
+
+                if (SharedSettings.IsFpsCounter() == "True")
+                {
+                    IsMiniFps.IsChecked = true;
+                }
+                else
+                {
+                    IsMiniFps.IsChecked = false;
+                }
+
+                OptionsLabel.Content = " Stream Deck Mini Settings";
+            }
+
             //display current settings according to Settings.ini values
-            HeaderFontSize1.Text = SettingsManagerConfig.headerFontSize1.ToString();
-            HeaderFontSize2.Text = SettingsManagerConfig.headerFontSize2.ToString();
-            ValuesFontSize.Text = SettingsManagerConfig.valueFontSize.ToString();
-            AnimFramerate.Text = SettingsManagerConfig.animFramerate.ToString();
-            HeaderFontType1.ItemsSource = SettingsManagerConfig.fontList;
-            HeaderFontType1.SelectedValue = SettingsManagerConfig.headerFont1;
-            HeaderFontType2.ItemsSource = SettingsManagerConfig.fontList;
-            HeaderFontType2.SelectedValue = SettingsManagerConfig.headerFont2;
-            HeaderFontColor1.ItemsSource = SettingsManagerConfig.colorList;
-            HeaderFontColor1.SelectedValue = SettingsManagerConfig.headerFontColor1;
-            HeaderFontColor2.ItemsSource = SettingsManagerConfig.colorList;
-            HeaderFontColor2.SelectedValue = SettingsManagerConfig.headerFontColor2;
-            ValuesFontType.ItemsSource = SettingsManagerConfig.fontList;
-            ValuesFontType.SelectedValue = SettingsManagerConfig.valueFont;
-            ValuesFontColor.ItemsSource = SettingsManagerConfig.colorList;
-            ValuesFontColor.SelectedValue = SettingsManagerConfig.valuesFontColor;
-            BackgroundFillColor.ItemsSource = SettingsManagerConfig.colorList;
-            BackgroundFillColor.SelectedValue = SettingsManagerConfig.backgroundFillColor;
-            StaticImages.ItemsSource = SettingsManagerConfig.imageList;
-            StaticImages.SelectedValue = SettingsManagerConfig.imageName;
-            Animations.ItemsSource = SettingsManagerConfig.animList;
-            Animations.SelectedValue = SettingsManagerConfig.animName;
-            FrameTotal.Text = SettingsManagerConfig.framesToProcess.ToString();
-            BrightnessSlider.Value = SettingsManagerConfig.displayBrightness;
-            Profiles.ItemsSource = SettingsManagerConfig.profileList;
+            HeaderFontSize1.Text = SettingsConfigurator.headerFontSize1.ToString();
+            HeaderFontSize2.Text = SettingsConfigurator.headerFontSize2.ToString();
+            ValuesFontSize.Text = SettingsConfigurator.valueFontSize.ToString();
+            HeaderFontType1.ItemsSource = SettingsConfigurator.fontList;
+            HeaderFontType1.SelectedValue = SettingsConfigurator.headerFont1;
+            HeaderFontType2.ItemsSource = SettingsConfigurator.fontList;
+            HeaderFontType2.SelectedValue = SettingsConfigurator.headerFont2;
+            HeaderFontColor1.ItemsSource = SettingsConfigurator.colorList;
+            HeaderFontColor1.SelectedValue = SettingsConfigurator.headerFontColor1;
+            HeaderFontColor2.ItemsSource = SettingsConfigurator.colorList;
+            HeaderFontColor2.SelectedValue = SettingsConfigurator.headerFontColor2;
+            ValuesFontType.ItemsSource = SettingsConfigurator.fontList;
+            ValuesFontType.SelectedValue = SettingsConfigurator.valueFont;
+            ValuesFontColor.ItemsSource = SettingsConfigurator.colorList;
+            ValuesFontColor.SelectedValue = SettingsConfigurator.valuesFontColor;
+            Header1Position.Text = SettingsConfigurator.headerFont1Position.ToString();
+            Header2Position.Text = SettingsConfigurator.headerFont2Position.ToString();
+            ValuePosition.Text = SettingsConfigurator.valuesFontPosition.ToString();
+            BackgroundFillColor.ItemsSource = SettingsConfigurator.colorList;
+            BackgroundFillColor.SelectedValue = SettingsConfigurator.backgroundFillColor;
+            BrightnessSlider.Value = SettingsConfigurator.displayBrightness;
+            Profiles.ItemsSource = SettingsConfigurator.profileList;
             Profiles.SelectedValue = currentProfile;
             //clock settings
-            TimeFontType.ItemsSource = SettingsManagerConfig.fontList;
-            TimeFontType.SelectedValue = SettingsManagerConfig.timeFont;
-            DateFontType.ItemsSource = SettingsManagerConfig.fontList;
-            DateFontType.SelectedValue = SettingsManagerConfig.dateFont;
-            TimeFontSize.Text = SettingsManagerConfig.timeFontSize.ToString();
-            DateFontSize.Text = SettingsManagerConfig.dateFontSize.ToString();
-            TimeFontColor.ItemsSource = SettingsManagerConfig.colorList;
-            TimeFontColor.SelectedValue = SettingsManagerConfig.timeFontColor;
-            DateFontColor.ItemsSource = SettingsManagerConfig.colorList;
-            DateFontColor.SelectedValue = SettingsManagerConfig.dateFontColor;
-            
-
-            if (SharedSettings.IsCompactView() == "True")
-            {
-                IsCompact.IsChecked = true;
-            }
-            else
-            {
-                IsCompact.IsChecked = false;
-            }
+            TimeFontType.ItemsSource = SettingsConfigurator.fontList;
+            TimeFontType.SelectedValue = SettingsConfigurator.timeFont;
+            ColonFontType.ItemsSource = SettingsConfigurator.fontList;
+            ColonFontType.SelectedValue = SettingsConfigurator.colonFont;
+            DateFontType.ItemsSource = SettingsConfigurator.fontList;
+            DateFontType.SelectedValue = SettingsConfigurator.dateFont;
+            TimeFontSize.Text = SettingsConfigurator.timeFontSize.ToString();
+            ColonFontSize.Text = SettingsConfigurator.colonFontSize.ToString();
+            DateFontSize.Text = SettingsConfigurator.dateFontSize.ToString();
+            TimeFontColor.ItemsSource = SettingsConfigurator.colorList;
+            TimeFontColor.SelectedValue = SettingsConfigurator.timeFontColor;
+            ColonFontColor.ItemsSource = SettingsConfigurator.colorList;
+            ColonFontColor.SelectedValue = SettingsConfigurator.colonFontColor;
+            DateFontColor.ItemsSource = SettingsConfigurator.colorList;
+            DateFontColor.SelectedValue = SettingsConfigurator.dateFontColor;
+            TimePosition.Text = SettingsConfigurator.timePosition.ToString();
+            ColonPosition.Text = SettingsConfigurator.colonPosition.ToString();
+            DatePosition.Text = SettingsConfigurator.datePosition.ToString();
 
             if (SharedSettings.IsDateShown() == "True")
             {
@@ -89,47 +166,278 @@ namespace Configurator
             {
                 IsDateShown.IsChecked = false;
             }
-
-            //display if animations are enabled
-            if (SharedSettings.IsAnimationEnabled(currentProfile) != "True")
-            {
-                EnableStatic.IsChecked = true;
-            }
-            else
-            {
-                EnableAnim.IsChecked = true;
-            }
         }
 
         //format text inputs on the fly to make sure only numerical values are entered        
-        void HeaderFontSize1Input(object sender, TextChangedEventArgs e)
+        private void HeaderFontSize1Input(object sender, TextChangedEventArgs e)
         {
             string value = HeaderFontSize1.Text;
-            HeaderFontSize1.Text = FormatValue(value, "");
+            if (value == "" || value == " ")
+            {
+                HeaderFontSize1.Text = FormatValue("1", "");
+            }
+            else
+            {
+                if (IsDigitsOnly(value))
+                {
+                    HeaderFontSize1.Text = FormatValue(value, "");
+                }
+                else
+                {
+                    HeaderFontSize1.Text = FormatValue("1", "");
+                }
+            }
         }
 
-        void HeaderFontSize2Input(object sender, TextChangedEventArgs e)
+        private void HeaderFontSize2Input(object sender, TextChangedEventArgs e)
         {
             string value = HeaderFontSize2.Text;
-            HeaderFontSize2.Text = FormatValue(value, "");
+            if (value == "" || value == " ")
+            {
+                HeaderFontSize2.Text = FormatValue("1", "");
+            }
+            else
+            {
+                if (IsDigitsOnly(value))
+                {
+                    HeaderFontSize2.Text = FormatValue(value, "");
+                }
+                else
+                {
+                    HeaderFontSize2.Text = FormatValue("1", "");
+                }
+            }
         }
 
-        void ValuesFontSizeInput(object sender, TextChangedEventArgs e)
+        private void ValuesFontSizeInput(object sender, TextChangedEventArgs e)
         {
             string value = ValuesFontSize.Text;
-            ValuesFontSize.Text = FormatValue(value, "");
+            if (value == "" || value == " ")
+            {
+                ValuesFontSize.Text = FormatValue("1", "");
+            }
+            else
+            {
+                if (IsDigitsOnly(value))
+                {
+                    ValuesFontSize.Text = FormatValue(value, "");
+                }
+                else
+                {
+                    ValuesFontSize.Text = FormatValue("1", "");
+                }
+            }
         }
 
-        void AnimFramerateInput(object sender, TextChangedEventArgs e)
+        private void Header1PositionInput(object sender, TextChangedEventArgs e)
+        {
+            string value = Header1Position.Text;
+            if (value == "" || value == " ")
+            {
+                Header1Position.Text = FormatValue("1", "");
+            }
+            else
+            {
+                if (IsDigitsOnly(value))
+                {
+                    Header1Position.Text = FormatValue(value, "");
+                }
+                else
+                {
+                    Header1Position.Text = FormatValue("1", "");
+                }
+            }
+        }
+
+        private void Header2PositionInput(object sender, TextChangedEventArgs e)
+        {
+            string value = Header2Position.Text;
+            if (value == "" || value == " ")
+            {
+                Header2Position.Text = FormatValue("1", "");
+            }
+            else
+            {
+                if (IsDigitsOnly(value))
+                {
+                    Header2Position.Text = FormatValue(value, "");
+                }
+                else
+                {
+                    Header2Position.Text = FormatValue("1", "");
+                }
+            }
+        }
+
+        private void ValuesPositionInput(object sender, TextChangedEventArgs e)
+        {
+            string value = ValuePosition.Text;
+            if (value == "" || value == " ")
+            {
+                ValuePosition.Text = FormatValue("1", "");
+            }
+            else
+            {
+                if (IsDigitsOnly(value))
+                {
+                    ValuePosition.Text = FormatValue(value, "");
+                }
+                else
+                {
+                    ValuePosition.Text = FormatValue("1", "");
+                }
+            }
+        }
+
+        private void AnimFramerateInput(object sender, TextChangedEventArgs e)
         {
             string value = AnimFramerate.Text;
-            AnimFramerate.Text = FormatValue(value, "FR");
+            if (value == "" || value == " ")
+            {
+                AnimFramerate.Text = FormatValue("1", "FR");
+            }
+            else
+            {
+                if (IsDigitsOnly(value))
+                {
+                    AnimFramerate.Text = FormatValue(value, "FR");
+                }
+                else
+                {
+                    AnimFramerate.Text = FormatValue("1", "FR");
+                }
+            }
         }
 
-        void FrameTotalInput(object sender, TextChangedEventArgs e)
+        private void FrameTotalInput(object sender, TextChangedEventArgs e)
         {
             string value = FrameTotal.Text;
-            FrameTotal.Text = FormatValue(value, "FA");
+            if (value == "" || value == " ")
+            {
+                FrameTotal.Text = FormatValue("1", "FA");
+            }
+            else
+            {
+                if (IsDigitsOnly(value))
+                {
+                    FrameTotal.Text = FormatValue(value, "FA");
+                }
+                else
+                {
+                    FrameTotal.Text = FormatValue("1", "FA");
+                }
+            }
+        }
+
+        private void HeaderFontSizeClock1Input(object sender, TextChangedEventArgs e)
+        {
+            string value = TimeFontSize.Text;
+            if (value == "" || value == " ")
+            {
+                TimeFontSize.Text = FormatValue("1", "");
+            }
+            else
+            {
+                if (IsDigitsOnly(value))
+                {
+                    TimeFontSize.Text = FormatValue(value, "");
+                }
+                else
+                {
+                    TimeFontSize.Text = FormatValue("1", "");
+                }
+            }
+        }
+
+        private void HeaderFontSizeClock2Input(object sender, TextChangedEventArgs e)
+        {
+            string value = DateFontSize.Text;
+            if (value == "" || value == " ")
+            {
+                DateFontSize.Text = FormatValue("1", "");
+            }
+            else
+            {
+                if (IsDigitsOnly(value))
+                {
+                    DateFontSize.Text = FormatValue(value, "");
+                }
+                else
+                {
+                    DateFontSize.Text = FormatValue("1", "");
+                }
+            }
+        }
+
+        private void TimePositionInput(object sender, TextChangedEventArgs e)
+        {
+            string value = TimePosition.Text;
+            if (value == "" || value == " ")
+            {
+                TimePosition.Text = FormatValue("1", "");
+            }
+            else
+            {
+                if (IsDigitsOnly(value))
+                {
+                    TimePosition.Text = FormatValue(value, "");
+                }
+                else
+                {
+                    TimePosition.Text = FormatValue("1", "");
+                }
+            }
+        }
+
+        private void ColonPositionInput(object sender, TextChangedEventArgs e)
+        {
+            string value = ColonPosition.Text;
+            if (value == "" || value == " ")
+            {
+                ColonPosition.Text = FormatValue("1", "");
+            }
+            else
+            {
+                if (IsDigitsOnly(value))
+                {
+                    ColonPosition.Text = FormatValue(value, "");
+                }
+                else
+                {
+                    ColonPosition.Text = FormatValue("1", "");
+                }
+            }
+        }
+
+        private void DatePositionInput(object sender, TextChangedEventArgs e)
+        {
+            string value = DatePosition.Text;
+            if (value == "" || value == " ")
+            {
+                DatePosition.Text = FormatValue("1", "");
+            }
+            else
+            {
+                if (IsDigitsOnly(value))
+                {
+                    DatePosition.Text = FormatValue(value, "");
+                }
+                else
+                {
+                    DatePosition.Text = FormatValue("1", "");
+                }
+            }
+        }
+
+        private bool IsDigitsOnly(string str)
+        {
+            foreach (char c in str)
+            {
+                if (c < '0' || c > '9')
+                    return false;
+            }
+
+            return true;
         }
 
         private string FormatValue(string valueText, string type)
@@ -147,17 +455,17 @@ namespace Configurator
             {
                 if (type == "FR")
                 {
-                    if (int.Parse(formattedValue) > SettingsManagerConfig.frMax)
+                    if (int.Parse(formattedValue) > SettingsConfigurator.frMax)
                     {
-                        formattedValue = SettingsManagerConfig.frMax.ToString();
+                        formattedValue = SettingsConfigurator.frMax.ToString();
                     }
                 }
 
                 if (type == "FA")
                 {
-                    if (int.Parse(formattedValue) > SettingsManagerConfig.faMax)
+                    if (int.Parse(formattedValue) > SettingsConfigurator.faMax)
                     {
-                        formattedValue = SettingsManagerConfig.faMax.ToString();
+                        formattedValue = SettingsConfigurator.faMax.ToString();
                     }
                 }
             }
@@ -226,6 +534,42 @@ namespace Configurator
             FrameTotal.Text = ReturnValue(getValue, "FA", "Down").ToString();
         }
 
+        private void ClickH1PUp(object sender, RoutedEventArgs e)
+        {
+            int getValue = int.Parse(Header1Position.Text);
+            Header1Position.Text = ReturnValue(getValue, "FS", "Up").ToString();
+        }
+
+        private void ClickH1PDown(object sender, RoutedEventArgs e)
+        {
+            int getValue = int.Parse(Header1Position.Text);
+            Header1Position.Text = ReturnValue(getValue, "FS", "Down").ToString();
+        }
+
+        private void ClickH2PUp(object sender, RoutedEventArgs e)
+        {
+            int getValue = int.Parse(Header2Position.Text);
+            Header2Position.Text = ReturnValue(getValue, "FS", "Up").ToString();
+        }
+
+        private void ClickH2PDown(object sender, RoutedEventArgs e)
+        {
+            int getValue = int.Parse(Header2Position.Text);
+            Header2Position.Text = ReturnValue(getValue, "FS", "Down").ToString();
+        }
+
+        private void ClickVPUp(object sender, RoutedEventArgs e)
+        {
+            int getValue = int.Parse(ValuePosition.Text);
+            ValuePosition.Text = ReturnValue(getValue, "FS", "Up").ToString();
+        }
+
+        private void ClickVPDown(object sender, RoutedEventArgs e)
+        {
+            int getValue = int.Parse(ValuePosition.Text);
+            ValuePosition.Text = ReturnValue(getValue, "FS", "Down").ToString();
+        }
+
         //clock settings
         private void ClickTFSUp(object sender, RoutedEventArgs e)
         {
@@ -237,6 +581,18 @@ namespace Configurator
         {
             int getValue = int.Parse(TimeFontSize.Text);
             TimeFontSize.Text = ReturnValue(getValue, "FS", "Down").ToString();
+        }
+
+        private void ClickCFSUp(object sender, RoutedEventArgs e)
+        {
+            int getValue = int.Parse(ColonFontSize.Text);
+            ColonFontSize.Text = ReturnValue(getValue, "FS", "Up").ToString();
+        }
+
+        private void ClickCFSDown(object sender, RoutedEventArgs e)
+        {
+            int getValue = int.Parse(ColonFontSize.Text);
+            ColonFontSize.Text = ReturnValue(getValue, "FS", "Down").ToString();
         }
 
         private void ClickDFSUp(object sender, RoutedEventArgs e)
@@ -251,6 +607,42 @@ namespace Configurator
             DateFontSize.Text = ReturnValue(getValue, "FS", "Down").ToString();
         }
 
+        private void ClickTPUp(object sender, RoutedEventArgs e)
+        {
+            int getValue = int.Parse(TimePosition.Text);
+            TimePosition.Text = ReturnValue(getValue, "FS", "Up").ToString();
+        }
+
+        private void ClickTPDown(object sender, RoutedEventArgs e)
+        {
+            int getValue = int.Parse(TimePosition.Text);
+            TimePosition.Text = ReturnValue(getValue, "FS", "Down").ToString();
+        }
+
+        private void ClickCPUp(object sender, RoutedEventArgs e)
+        {
+            int getValue = int.Parse(ColonPosition.Text);
+            ColonPosition.Text = ReturnValue(getValue, "FS", "Up").ToString();
+        }
+
+        private void ClickCPDown(object sender, RoutedEventArgs e)
+        {
+            int getValue = int.Parse(ColonPosition.Text);
+            ColonPosition.Text = ReturnValue(getValue, "FS", "Down").ToString();
+        }
+
+        private void ClickDPUp(object sender, RoutedEventArgs e)
+        {
+            int getValue = int.Parse(DatePosition.Text);
+            DatePosition.Text = ReturnValue(getValue, "FS", "Up").ToString();
+        }
+
+        private void ClickDPDown(object sender, RoutedEventArgs e)
+        {
+            int getValue = int.Parse(DatePosition.Text);
+            DatePosition.Text = ReturnValue(getValue, "FS", "Down").ToString();
+        }
+
         private int ReturnValue(int value, string type, string direction)
         {
             int adjustedValue = 0;
@@ -259,15 +651,15 @@ namespace Configurator
             //set max numerical numbers allowed in each textbox
             if (type == "FS")
             {
-                maxValue = SettingsManagerConfig.fsMax;
+                maxValue = SettingsConfigurator.fsMax;
             }
             if (type == "FR")
             {
-                maxValue = SettingsManagerConfig.frMax;
+                maxValue = SettingsConfigurator.frMax;
             }
             if (type == "FA")
             {
-                maxValue = SettingsManagerConfig.faMax;
+                maxValue = SettingsConfigurator.faMax;
             }
 
             //process values
@@ -359,41 +751,140 @@ namespace Configurator
             //disable button while saving values
             ButtonSave.IsEnabled = false;
 
-            //grab all values to save to config file
-            string formattedValue = new String(BrightnessPercent.Content.ToString().Where(Char.IsDigit).ToArray());
-            string displayBrightness = "displayBrightness" + " " + formattedValue;
-            string headerFontSize1 = "headerFontSize_1" + " " + HeaderFontSize1.Text;
-            string headerFontSize2 = "headerFontSize_2" + " " + HeaderFontSize2.Text;
-            string valuesFontSize = "valuesFontSize" + " " + ValuesFontSize.Text;
-            string animationFramerate = "animationFramerate" + " " + AnimFramerate.Text;
-            string framesToProcess = "framesToProcess" + " " + FrameTotal.Text;
-            string animationEnabled;
+            //set lists depending on device
+            List<string> configValueList;
 
-            if (EnableAnim.IsChecked == true)
+            if (IsMiniFps.Visibility == Visibility.Visible)
             {
-                animationEnabled = "animationEnabled" + " " + "True";
+                //grab all values to save to config file
+                string formattedValue = new string(BrightnessPercent.Content.ToString().Where(char.IsDigit).ToArray());
+                string displayBrightness = "displayBrightness" + " " + formattedValue;
+                string headerFontSize1 = "headerFontSize_1" + " " + HeaderFontSize1.Text;
+                string headerFontSize2 = "headerFontSize_2" + " " + HeaderFontSize2.Text;
+                string valuesFontSize = "valuesFontSize" + " " + ValuesFontSize.Text;
+                string headerFontType1 = "headerFontType_1" + " " + HeaderFontType1.SelectedValue.ToString();
+                string headerFontType2 = "headerFontType_2" + " " + HeaderFontType2.SelectedValue.ToString();
+                string valuesFontType = "valuesFontType" + " " + ValuesFontType.SelectedValue.ToString();
+                string headerfontColor1 = "headerfontColor_1" + " " + HeaderFontColor1.SelectedValue.ToString();
+                string headerfontColor2 = "headerfontColor_2" + " " + HeaderFontColor2.SelectedValue.ToString();
+                string valuesFontColor = "valuesFontColor" + " " + ValuesFontColor.SelectedValue.ToString();
+                string backgroundColor = "backgroundColor" + " " + BackgroundFillColor.SelectedValue.ToString();
+                string valuesFontPosition = "valuesFontPosition" + " " + ValuePosition.Text;
+                string headerfont1Position = "headerFontPosition_1" + " " + Header1Position.Text;
+                string headerfont2Position = "headerFontPosition_2" + " " + Header2Position.Text;
+                //mini settings
+                string isFpsShown;
+
+                if (IsMiniFps.IsChecked == true)
+                {
+                    isFpsShown = "showFpsCounter" + " " + "True";
+                }
+                else
+                {
+                    isFpsShown = "showFpsCounter" + " " + "False";
+                }
+
+                //store all mini values to pass to DoSaveInBackground()
+                List<string> configMiniValueList = new List<string>
+                {
+                    isFpsShown
+                };
+
+                //send lists to be processed in background threads
+                ThreadManager.DoSaveInBackground(configMiniValueList, "miniconfig", this);
+
+                //store all values to pass to DoSaveInBackground()
+                configValueList = new List<string>
+                {
+                    displayBrightness,
+                    headerFontSize1,
+                    headerFontSize2,
+                    valuesFontSize,
+                    headerFontType1,
+                    headerFontType2,
+                    valuesFontType,
+                    headerfontColor1,
+                    headerfontColor2,
+                    valuesFontColor,
+                    valuesFontPosition,
+                    headerfont1Position,
+                    headerfont2Position,
+                    backgroundColor,
+                };
             }
+
             else
             {
-                animationEnabled = "animationEnabled" + " " + "False";
+                //grab all values to save to config file
+                string formattedValue = new string(BrightnessPercent.Content.ToString().Where(char.IsDigit).ToArray());
+                string displayBrightness = "displayBrightness" + " " + formattedValue;
+                string headerFontSize1 = "headerFontSize_1" + " " + HeaderFontSize1.Text;
+                string headerFontSize2 = "headerFontSize_2" + " " + HeaderFontSize2.Text;
+                string valuesFontSize = "valuesFontSize" + " " + ValuesFontSize.Text;
+                string headerFontType1 = "headerFontType_1" + " " + HeaderFontType1.SelectedValue.ToString();
+                string headerFontType2 = "headerFontType_2" + " " + HeaderFontType2.SelectedValue.ToString();
+                string valuesFontType = "valuesFontType" + " " + ValuesFontType.SelectedValue.ToString();
+                string headerfontColor1 = "headerfontColor_1" + " " + HeaderFontColor1.SelectedValue.ToString();
+                string headerfontColor2 = "headerfontColor_2" + " " + HeaderFontColor2.SelectedValue.ToString();
+                string valuesFontColor = "valuesFontColor" + " " + ValuesFontColor.SelectedValue.ToString();
+                string backgroundColor = "backgroundColor" + " " + BackgroundFillColor.SelectedValue.ToString();
+                string valuesFontPosition = "valuesFontPosition" + " " + ValuePosition.Text;
+                string headerfont1Position = "headerFontPosition_1" + " " + Header1Position.Text;
+                string headerfont2Position = "headerFontPosition_2" + " " + Header2Position.Text;
+                string animationFramerate = "animationFramerate" + " " + AnimFramerate.Text;
+                string framesToProcess = "framesToProcess" + " " + FrameTotal.Text;
+                string animationEnabled;
+
+                if (EnableAnim.IsChecked == true)
+                {
+                    animationEnabled = "animationEnabled" + " " + "True";
+                }
+                else
+                {
+                    animationEnabled = "animationEnabled" + " " + "False";
+                }
+
+                string imageName = "imageName" + " " + StaticImages.SelectedValue.ToString();
+                string animName = "animName" + " " + Animations.SelectedValue.ToString();
+
+                //store all values to pass to DoSaveInBackground()
+                configValueList = new List<string>
+                {
+                    displayBrightness,
+                    headerFontSize1,
+                    headerFontSize2,
+                    valuesFontSize,
+                    animationFramerate,
+                    framesToProcess,
+                    animationEnabled,
+                    imageName,
+                    animName,
+                    headerFontType1,
+                    headerFontType2,
+                    valuesFontType,
+                    headerfontColor1,
+                    headerfontColor2,
+                    valuesFontColor,
+                    valuesFontPosition,
+                    headerfont1Position,
+                    headerfont2Position,
+                    backgroundColor,
+                };
             }
 
-            string imageName = "imageName" + " " + StaticImages.SelectedValue.ToString();
-            string animName = "animName" + " " + Animations.SelectedValue.ToString();
-            string headerFontType1 = "headerFontType_1" + " " + HeaderFontType1.SelectedValue.ToString();
-            string headerFontType2 = "headerFontType_2" + " " + HeaderFontType2.SelectedValue.ToString();
-            string valuesFontType = "valuesFontType" + " " + ValuesFontType.SelectedValue.ToString();
-            string headerfontColor1 = "headerfontColor_1" + " " + HeaderFontColor1.SelectedValue.ToString();
-            string headerfontColor2 = "headerfontColor_2" + " " + HeaderFontColor2.SelectedValue.ToString();
-            string valuesFontColor = "valuesFontColor" + " " + ValuesFontColor.SelectedValue.ToString();
-            string backgroundColor = "backgroundColor" + " " + BackgroundFillColor.SelectedValue.ToString();
             //clock settings
             string timeFont = "timeFontType" + " " + TimeFontType.SelectedValue.ToString();
+            string colonFont = "colonFontType" + " " + ColonFontType.SelectedValue.ToString();
             string dateFont = "dateFontType" + " " + DateFontType.SelectedValue.ToString();
             string timeFontSize = "timeFontSize" + " " + TimeFontSize.Text;
+            string colonFontSize = "colonFontSize" + " " + ColonFontSize.Text;
             string dateFontSize = "dateFontSize" + " " + DateFontSize.Text;
             string timeFontColor = "timeFontColor" + " " + TimeFontColor.SelectedValue.ToString();
+            string colonFontColor = "colonFontColor" + " " + ColonFontColor.SelectedValue.ToString();
             string dateFontColor = "dateFontColor" + " " + DateFontColor.SelectedValue.ToString();
+            string timePosition = "timeFontPosition" + " " + TimePosition.Text;
+            string colonPosition = "colonFontPosition" + " " + ColonPosition.Text;
+            string datePosition = "dateFontPosition" + " " + DatePosition.Text;
             string isCompact;
             string isDateShown;
 
@@ -415,36 +906,21 @@ namespace Configurator
                 isDateShown = "showDate" + " " + "False";
             }
 
-            //store all values to pass to DoSaveInBackground()
-            List<string> configValueList = new List<string>
-            {
-                displayBrightness,
-                headerFontSize1,
-                headerFontSize2,
-                valuesFontSize,
-                animationFramerate,
-                framesToProcess,
-                animationEnabled,
-                imageName,
-                animName,
-                headerFontType1,
-                headerFontType2,
-                valuesFontType,
-                headerfontColor1,
-                headerfontColor2,
-                valuesFontColor,
-                backgroundColor,
-             };
-
             //store all clock values to pass to DoSaveInBackground()
             List<string> clockValueList = new List<string>
             {
                 timeFont,
+                colonFont,
                 dateFont,
                 timeFontSize,
+                colonFontSize,
                 dateFontSize,
                 timeFontColor,
+                colonFontColor,
                 dateFontColor,
+                timePosition,
+                colonPosition,
+                datePosition,
                 isCompact,
                 isDateShown
              };
@@ -459,10 +935,38 @@ namespace Configurator
             ThreadManager.DoStatusInBackground(selectedColor, statusText, "Save", this);
         }
 
+        //restore default settings to config file
+        private void ClickRestoreConfig(object sender, RoutedEventArgs e)
+        {
+            RestoreConfigChoice restoreConfig = new RestoreConfigChoice();
+            restoreConfig.Show();
+        }
+
+        public static void DoProfileRestore(string selectedProfiles)
+        {
+            if (System.Windows.Forms.MessageBox.Show("Are you sure you want to reset..\n\n" + selectedProfiles + "\nto default stock values ?? ", " Reset Profiles ", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
+            {
+                MainWindow ExistingInstanceOfMainWindow = GetWindow(System.Windows.Application.Current.MainWindow) as MainWindow;
+                ThreadManager.ResetAllProfiles(ExistingInstanceOfMainWindow, selectedProfiles);
+
+                //display notification
+                Brush selectedColor = Brushes.BlueViolet;
+                string statusText = "Stock Config Restored !";
+                ThreadManager.DoStatusInBackground(selectedColor, statusText, "Restore", ExistingInstanceOfMainWindow);
+            }
+        }
+
         //exit application
         private void ClickExit(object sender, RoutedEventArgs e)
         {
-            Application.Current.Shutdown();
+            System.Windows.Application.Current.Shutdown();
+        }
+
+        private void DeviceName_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            DeviceChoice deviceChoice = new DeviceChoice();
+            deviceChoice.Show();
+            Close();
         }
     }
 }

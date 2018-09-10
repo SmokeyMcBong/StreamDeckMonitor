@@ -54,7 +54,7 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject />
+    <StartupObject>StreamDeckMonitor.SDMonitor</StartupObject>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>resources\SDM.ico</ApplicationIcon>
@@ -98,6 +98,11 @@
     <Reference Include="OpenHardwareMonitorLib">
       <HintPath>libs\OpenHardwareMonitorLib.dll</HintPath>
     </Reference>
+    <Reference Include="OpenMacroBoard.SDK">
+      <HintPath>libs\OpenMacroBoard.SDK.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="StreamDeckSharp">
       <HintPath>libs\StreamDeckSharp.dll</HintPath>
     </Reference>
@@ -110,6 +115,7 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\Resources.Designer.cs">
@@ -183,7 +189,11 @@ move "$(TargetDir)\ext\libs\OpenHardwareMonitorLib.dll"  "$(TargetDir)\ext\libs\
 move "$(TargetDir)\ext\libs\MSIAfterburner.NET.dll"  "$(TargetDir)\ext\libs\MSIAfterburner.NET"
 
 :: Move StreamDeckSharp Library to its folder ::
+
+
 move "$(TargetDir)\ext\libs\StreamDeckSharp.dll"  "$(TargetDir)\ext\libs\StreamDeckSharp"
+
+move "$(TargetDir)\ext\libs\OpenMacroBoard.SDK.dll"  "$(TargetDir)\ext\libs\StreamDeckSharp"
 </PostBuildEvent>
   </PropertyGroup>
 </Project>

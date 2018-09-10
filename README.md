@@ -24,6 +24,7 @@
 ---
 
 ##### About StreamDeckMonitor:
+- Now supports both the standard Stream Deck and the Stream Deck Mini devices
 - Runs as non-visible console application in the background
 - Automatically gets the following data every second...  
     * Framerate Data,    
@@ -32,9 +33,10 @@
     * GPU Temperature,   
     * GPU Load,  
     * Current Time.   
-- Full Clock view by pressing the Clock button (Top Left button)  
-  ** Press the FPS button (Top Right button) to go back to StreamDeckMonitor
-- Fully close and exit by pressing the Middle button 
+- Full Digital Clock 
+  - Press the Clock button (Top Left button) to view
+  - Press the FPS button (Top Right button) to go back to StreamDeckMonitor
+- Fully close and exit by pressing the Middle button (Middle button, Bottom row if using Stream Deck Mini)
 - Customizable using the 'Configurator' application
 - Lightweight code
 #
@@ -61,20 +63,29 @@
     * Add custom Animation .mp4's to the following folder.. '\Customize\Animations'  
     ** The frames taken from the .mp4 video start from the very first frame ! **
     
-  ![](https://i.imgur.com/I1JXel5.png)  
+  Stream Deck Standard (15 buttons) Options ...![](https://i.imgur.com/nXdv7jZ.png)  
+
+  Stream Deck Mini (6 buttons) Options ...![](https://i.imgur.com/qhEFNs1.png)
 
 - Using the Configurator Application we can set...
-    * Font type, color and size of both title headers and data values,
+    * Font type, Font color, Font Size and Height Position for:
+      - Title header Text,
+      - Value Headers Text,
+      - Data Value Text,
+      - Clock Time,
+      - Clock Animated Colon,
+      - Clock Date
     * Set Background color of the images,
     * Option to use either static images or animations for the surrounding images,
     * Change the animations source or static image source,
-    * Set animation framerate (max 100 fps),
+    * Set animation framerate (max 60 fps),
     * Set animation total frame amount (max 600 frames),
-    * Display brightness.
-    * Clock font options for both Time and Date
-    * View full clock or compact view
+    * Set the Display brightness.
+    * View full digital clock or compact digital clock
     * Show or hide the Date
-- Full Save/Load Profile support. 
+    * Choose which Stream Deck Device to show options for (This will show once on the first start, double click the 'Device' label in the top right to change devices)
+    * Full Save/Load Profile support
+    * Load default settings option
 
 #
 ---

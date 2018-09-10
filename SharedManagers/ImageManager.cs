@@ -1,21 +1,26 @@
-﻿using System;
+﻿using Accord.Video.FFMPEG;
+using OpenMacroBoard.SDK;
 using StreamDeckSharp;
+using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Drawing.Text;
-using Accord.Video.FFMPEG;
-using System.IO;
 using System.Drawing.Imaging;
+using System.Drawing.Text;
+using System.IO;
 
 namespace SharedManagers
 {
     class ImageManager
     {
         //define StreamDeck
-        public static IStreamDeck deck = StreamDeck.FromHID();
+        public static IMacroBoard deck = StreamDeck.OpenDevice();
 
         //define StreamDeck icon dimensions
-        public static int dimens = deck.IconSize;
+        public static int dimensWidth = 72;
+        public static int dimensHeight = 72;
+
+        //static header text - x Axis
+        public static float xAxis = 35;
 
         //flag for stopping animations before closing for a clean exit 
         public static bool exitflag = false;
@@ -26,28 +31,22 @@ namespace SharedManagers
             //create working dir
             Directory.CreateDirectory(SharedSettings.generatedDir);
 
-            //header text locations
-            Single xAxis = 35;
-            Single yAxis = 35;
-            Single xAxis2 = 35;
-            Single yAxis2 = 18;
-
             //start the image header creation
-            CreateImage("Cpu:", "header1", SettingsManagerSDM.ImageLocCpu, SettingsManagerSDM.headerFontSize1, xAxis, yAxis);
-            CreateImage("Gpu:", "header1", SettingsManagerSDM.ImageLocGpu, SettingsManagerSDM.headerFontSize1, xAxis, yAxis);
-            CreateImage("F/sec", "header2", SettingsManagerSDM.ImageLocFps, SettingsManagerSDM.headerFontSize2, xAxis2, yAxis2);
-            CreateImage("Temp", "header2", SettingsManagerSDM.ImageLocTemp, SettingsManagerSDM.headerFontSize2, xAxis2, yAxis2);
-            CreateImage("Load", "header2", SettingsManagerSDM.ImageLocLoad, SettingsManagerSDM.headerFontSize2, xAxis2, yAxis2);
-            CreateImage("Time", "header2", SettingsManagerSDM.ImageLocTime, SettingsManagerSDM.headerFontSize2, xAxis2, yAxis2);
-            CreateImage(":", "time", SettingsManagerSDM.ImageLocColon, SettingsManagerSDM.timeFontSize, xAxis, yAxis);
-            CreateImage("", "header1", SettingsManagerSDM.ImageLocBlank, SettingsManagerSDM.headerFontSize1, xAxis, yAxis);
+            CreateImage("Time", "header2", SettingsSDMonitor.ImageLocTime, SettingsSDMonitor.headerFontSize2, xAxis, int.Parse(SettingsSDMonitor.headerFont2Position));
+            CreateImage("F/sec", "header2", SettingsSDMonitor.ImageLocFps, SettingsSDMonitor.headerFontSize2, xAxis, int.Parse(SettingsSDMonitor.headerFont2Position));
+            CreateImage("Cpu:", "header1", SettingsSDMonitor.ImageLocCpu, SettingsSDMonitor.headerFontSize1, xAxis, int.Parse(SettingsSDMonitor.headerFont1Position));
+            CreateImage("Gpu:", "header1", SettingsSDMonitor.ImageLocGpu, SettingsSDMonitor.headerFontSize1, xAxis, int.Parse(SettingsSDMonitor.headerFont1Position));
+            CreateImage("Temp", "header2", SettingsSDMonitor.ImageLocTemp, SettingsSDMonitor.headerFontSize2, xAxis, int.Parse(SettingsSDMonitor.headerFont2Position));
+            CreateImage("Load", "header2", SettingsSDMonitor.ImageLocLoad, SettingsSDMonitor.headerFontSize2, xAxis, int.Parse(SettingsSDMonitor.headerFont2Position));
+            CreateImage(":", "colon", SettingsSDMonitor.ImageLocColon, SettingsSDMonitor.colonFontSize, xAxis, SettingsSDMonitor.colonPosition);
+            CreateImage("", "header1", SettingsSDMonitor.ImageLocBlank, SettingsSDMonitor.headerFontSize1, xAxis, 35);
 
-            void CreateImage(string text, string type, string filename, int textSize, Single x, Single y)
+            void CreateImage(string text, string type, string filename, int textSize, float x, float y)
             {
                 Font font;
                 Brush myBrushText;
                 PointF textLocation = new PointF(x, y);
-                Bitmap bitmap = new Bitmap(dimens, dimens);
+                Bitmap bitmap = new Bitmap(dimensWidth, dimensHeight);
                 using (Graphics graphics = Graphics.FromImage(bitmap))
                 {
                     //Some nice defaults for better quality (StreamDeckSharp.Examples.Drawing)
@@ -58,28 +57,37 @@ namespace SharedManagers
                     graphics.TextRenderingHint = TextRenderingHint.AntiAliasGridFit;
 
                     //background fill color
-                    Brush myBrushFill = SettingsManagerSDM.BackgroundBrush;
-                    graphics.FillRectangle(myBrushFill, 0, 0, dimens, dimens);
+                    Brush myBrushFill = SettingsSDMonitor.BackgroundBrush;
+                    graphics.FillRectangle(myBrushFill, 0, 0, dimensHeight, dimensHeight);
 
                     if (type == "header1")
                     {
-                        font = new Font(SettingsManagerSDM.myFontHeader1, textSize);
-                        myBrushText = SettingsManagerSDM.HeaderBrush1;
+                        font = new Font(SettingsSDMonitor.myFontHeader1, textSize);
+                        myBrushText = SettingsSDMonitor.HeaderBrush1;
                     }
+
                     if (type == "header2")
                     {
-                        font = new Font(SettingsManagerSDM.myFontHeader2, textSize);
-                        myBrushText = SettingsManagerSDM.HeaderBrush2;
+                        font = new Font(SettingsSDMonitor.myFontHeader2, textSize);
+                        myBrushText = SettingsSDMonitor.HeaderBrush2;
                     }
+
                     if (type == "time")
                     {
-                        font = new Font(SettingsManagerSDM.timeFont, textSize);
-                        myBrushText = SettingsManagerSDM.TimeBrush;
+                        font = new Font(SettingsSDMonitor.timeFont, textSize);
+                        myBrushText = SettingsSDMonitor.TimeBrush;
                     }
+
+                    if (type == "colon")
+                    {
+                        font = new Font(SettingsSDMonitor.colonFont, textSize);
+                        myBrushText = SettingsSDMonitor.ColonBrush;
+                    }
+
                     else
                     {
-                        font = new Font(SettingsManagerSDM.myFontHeader1, textSize);
-                        myBrushText = SettingsManagerSDM.HeaderBrush1;
+                        font = new Font(SettingsSDMonitor.myFontHeader1, textSize);
+                        myBrushText = SettingsSDMonitor.HeaderBrush1;
                     }
 
                     using (font)
@@ -103,15 +111,15 @@ namespace SharedManagers
             {
                 //create instance of video reader and open video file
                 VideoFileReader vidReader = new VideoFileReader();
-                string vidFile = SharedSettings.animationImgDir + SettingsManagerSDM.animName + ".mp4";
+                string vidFile = SharedSettings.animationImgDir + SettingsSDMonitor.animName + ".mp4";
                 vidReader.Open(vidFile);
 
                 int frameCount = Convert.ToInt32(vidReader.FrameCount);
                 int adjustedCount;
 
-                if (frameCount >= SettingsManagerSDM.framesToProcess)
+                if (frameCount >= SettingsSDMonitor.framesToProcess)
                 {
-                    adjustedCount = SettingsManagerSDM.framesToProcess;
+                    adjustedCount = SettingsSDMonitor.framesToProcess;
                 }
                 else
                 {
@@ -123,7 +131,7 @@ namespace SharedManagers
                     using (var vidStream = new MemoryStream())
                     {
                         //resize and save frames to MemoryStream
-                        Bitmap videoFrame = new Bitmap(vidReader.ReadVideoFrame(), new Size(dimens, dimens));
+                        Bitmap videoFrame = new Bitmap(vidReader.ReadVideoFrame(), new Size(dimensHeight, dimensHeight));
                         videoFrame.Save(vidStream, ImageFormat.Png);
 
                         //dispose the video frame
@@ -131,7 +139,7 @@ namespace SharedManagers
 
                         //display animation from stream
                         vidStream.Seek(0, SeekOrigin.Begin);
-                        var animStream = StreamDeckKeyBitmap.FromStream(vidStream);
+                        var animStream = KeyBitmap.Create.FromStream(vidStream);
                         ShowAnim(animStream);
                         vidStream.Close();
                     }
@@ -140,16 +148,16 @@ namespace SharedManagers
                 vidReader.Close();
 
                 //display animation
-                void ShowAnim(StreamDeckKeyBitmap animStream)
+                void ShowAnim(KeyBitmap animStream)
                 {
-                    foreach (var button in SettingsManagerSDM.BgButtonList())
+                    foreach (var button in SettingsSDMonitor.BgButtonList())
                     {
                         if (exitflag) break;
                         deck.SetKeyBitmap(button, animStream);
                     }
 
                     //frametime delay
-                    int frametime = SettingsManagerSDM.FrametimeValue();
+                    int frametime = SettingsSDMonitor.FrametimeValue();
                     System.Threading.Thread.Sleep(frametime);
                 }
             }
@@ -158,69 +166,99 @@ namespace SharedManagers
         //set the static headers
         public static void SetStaticHeaders()
         {
-            SetStaticImg("cpu", SettingsManagerSDM.KeyLocCpuHeader);
-            SetStaticImg("gpu", SettingsManagerSDM.KeyLocGpuHeader);
+            if (SettingsSDMonitor.CheckForLayout() == "Mini")
+            {
+                if (SettingsSDMonitor.isFpsCounter == "False")
+                {
+                    SetStaticImg("gpu", SettingsSDMonitor.KeyLocGpuHeaderMini);
+                }
+
+                SetStaticImg("cpu", SettingsSDMonitor.KeyLocCpuHeaderMini);
+
+            }
+
+            else
+            {
+                SetStaticImg("cpu", SettingsSDMonitor.KeyLocCpuHeader);
+                SetStaticImg("gpu", SettingsSDMonitor.KeyLocGpuHeader);
+            }
         }
 
         //process static images and display
         public static void SetStaticImg(string headerType, int headerLocation)
         {
             string bitmapLocation;
-            if (headerType == SettingsManagerSDM.imageName)
+            if (headerType == SettingsSDMonitor.imageName)
             {
                 bitmapLocation = SharedSettings.staticImgDir + headerType + ".png";
             }
+
             else
             {
                 bitmapLocation = SharedSettings.generatedDir + headerType + ".png";
             }
-            var staticBitmap = StreamDeckKeyBitmap.FromFile(bitmapLocation);
+            var staticBitmap = KeyBitmap.Create.FromFile(bitmapLocation);
             deck.SetKeyBitmap(headerLocation, staticBitmap);
         }
 
         //process data images and display
         public static void ProcessValueImg(string dataValue, string type, int location)
         {
-            Brush myBrush = SettingsManagerSDM.ValuesBrush;
-            PointF dataLocation = new PointF(36f, 50f);
-            Font font = new Font(SettingsManagerSDM.myFontValues, SettingsManagerSDM.valueFontSize);
+            Brush myBrush = SettingsSDMonitor.ValuesBrush;
+            PointF dataLocation = new PointF(xAxis, 50);
+            Font font = new Font(SettingsSDMonitor.myFontValues, SettingsSDMonitor.valueFontSize);
 
             if (!dataValue.Equals(null))
             {
                 if (type.Equals("f"))
                 {
-                    ProcessImage(SettingsManagerSDM.ImageLocFps);
+                    dataLocation = new PointF(xAxis, int.Parse(SettingsSDMonitor.valuesFontPosition));
+                    ProcessImage(SettingsSDMonitor.ImageLocFps);
                 }
+
+                if (type.Equals("fmini"))
+                {
+                    dataLocation = new PointF(xAxis, int.Parse(SettingsSDMonitor.valuesFontPosition));
+                    ProcessImage(SettingsSDMonitor.ImageLocFps);
+                }
+
                 if (type.Equals("t"))
                 {
-                    ProcessImage(SettingsManagerSDM.ImageLocTemp);
+                    dataLocation = new PointF(xAxis, int.Parse(SettingsSDMonitor.valuesFontPosition));
+                    ProcessImage(SettingsSDMonitor.ImageLocTemp);
                 }
+
                 if (type.Equals("l"))
                 {
-                    ProcessImage(SettingsManagerSDM.ImageLocLoad);
+                    dataLocation = new PointF(xAxis, int.Parse(SettingsSDMonitor.valuesFontPosition));
+                    ProcessImage(SettingsSDMonitor.ImageLocLoad);
                 }
+
                 if (type.Equals("ti"))
                 {
-                    ProcessImage(SettingsManagerSDM.ImageLocTime);
+                    dataLocation = new PointF(xAxis, int.Parse(SettingsSDMonitor.valuesFontPosition));
+                    ProcessImage(SettingsSDMonitor.ImageLocTime);
                 }
+
                 if (type.Equals("bl"))
                 {
-                    dataLocation = new PointF(35f, 35f);
-                    myBrush = SettingsManagerSDM.TimeBrush;
-                    font = new Font(SettingsManagerSDM.myFontTime, SettingsManagerSDM.timeFontSize);
-                    ProcessImage(SettingsManagerSDM.ImageLocBlank);
+                    dataLocation = new PointF(xAxis, SettingsSDMonitor.timePosition);
+                    myBrush = SettingsSDMonitor.TimeBrush;
+                    font = new Font(SettingsSDMonitor.myFontTime, SettingsSDMonitor.timeFontSize);
+                    ProcessImage(SettingsSDMonitor.ImageLocBlank);
                 }
+
                 if (type.Equals("bl-sm"))
                 {
-                    dataLocation = new PointF(35f, 35f);
-                    myBrush = SettingsManagerSDM.DateBrush;
-                    font = new Font(SettingsManagerSDM.myFontDate, SettingsManagerSDM.dateFontSize);
-                    ProcessImage(SettingsManagerSDM.ImageLocBlank);
+                    dataLocation = new PointF(xAxis, SettingsSDMonitor.datePosition);
+                    myBrush = SettingsSDMonitor.DateBrush;
+                    font = new Font(SettingsSDMonitor.myFontDate, SettingsSDMonitor.dateFontSize);
+                    ProcessImage(SettingsSDMonitor.ImageLocBlank);
                 }
 
                 void ProcessImage(string imagefilepath)
                 {
-                    String typeImage = imagefilepath;
+                    string typeImage = imagefilepath;
                     Bitmap bitmap = (Bitmap)Image.FromFile(typeImage);
 
                     using (Graphics graphics = Graphics.FromImage(bitmap))
@@ -251,11 +289,37 @@ namespace SharedManagers
 
                         //display values using stream
                         valuesStream.Seek(0, SeekOrigin.Begin);
-                        var valStream = StreamDeckKeyBitmap.FromStream(valuesStream);
+                        var valStream = KeyBitmap.Create.FromStream(valuesStream);
                         deck.SetKeyBitmap(location, valStream);
                         valuesStream.Close();
                     }
                 }
+            }
+        }
+
+        public static void ClockStateMini(string hours, string minutes)
+        {
+            string showDate = SharedSettings.ShowDate();
+            DateTime today = DateTime.Today;
+
+            string dayString = today.ToString("ddd");
+            string dateString = today.ToString("dd");
+            string monthString = today.ToString("MMM");
+
+            var locationHours = 0;
+            var locationMinutes = 2;
+            ProcessValueImg(hours, "bl", locationHours);
+            ProcessValueImg(minutes, "bl", locationMinutes);
+
+            if (showDate == "True")
+            {
+                var locationDayOfWeek = 3;
+                var locationDate = 4;
+                var locationMonth = 5;
+
+                ProcessValueImg(dayString, "bl-sm", locationDayOfWeek);
+                ProcessValueImg(dateString, "bl-sm", locationDate);
+                ProcessValueImg(monthString, "bl-sm", locationMonth);
             }
         }
 
@@ -273,18 +337,18 @@ namespace SharedManagers
             //compact clock view
             if (isCompact == "True")
             {
-                var locationHours = 8;
-                var locationMinutes = 6;
+                var locationHours = 6;
+                var locationMinutes = 8;
                 ProcessValueImg(hours, "bl", locationHours);
                 ProcessValueImg(minutes, "bl", locationMinutes);
             }
             //expanded clock view
             else
             {
-                var locationHours1 = 9;
-                var locationHours2 = 8;
-                var locationMinutes1 = 6;
-                var locationMinutes2 = 5;
+                var locationHours1 = 5;
+                var locationHours2 = 6;
+                var locationMinutes1 = 8;
+                var locationMinutes2 = 9;
 
                 string hours1 = hours[0].ToString();
                 string hours2 = hours[1].ToString();
@@ -299,9 +363,9 @@ namespace SharedManagers
 
             if (showDate == "True")
             {
-                var locationDayOfWeek = 13;
+                var locationDayOfWeek = 11;
                 var locationDate = 12;
-                var locationMonth = 11;
+                var locationMonth = 13;
 
                 ProcessValueImg(dayString, "bl-sm", locationDayOfWeek);
                 ProcessValueImg(dateString, "bl-sm", locationDate);
@@ -313,16 +377,22 @@ namespace SharedManagers
         {
             var locationColon = 7;
 
+            if (SettingsSDMonitor.CheckForLayout() == "Mini")
+            {
+                locationColon = 1;
+            }
+
             //start loop
             while (true)
             {
                 if (exitflag) break;
-                var loc = StreamDeckKeyBitmap.FromFile(SettingsManagerSDM.ImageLocColon);
+
+                var loc = KeyBitmap.Create.FromFile(SettingsSDMonitor.ImageLocColon);
                 deck.SetKeyBitmap(locationColon, loc);
 
                 //animate clock colon every second
                 System.Threading.Thread.Sleep(1000);
-                deck.ClearKey(7);
+                deck.ClearKey(locationColon);
                 System.Threading.Thread.Sleep(1000);
             }
         }
