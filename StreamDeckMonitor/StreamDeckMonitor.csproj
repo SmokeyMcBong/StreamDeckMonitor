@@ -101,6 +101,8 @@
     <Reference Include="OpenMacroBoard.SDK">
       <HintPath>libs\OpenMacroBoard.SDK.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="StreamDeckSharp">
       <HintPath>libs\StreamDeckSharp.dll</HintPath>
     </Reference>
@@ -113,6 +115,7 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\Resources.Designer.cs">

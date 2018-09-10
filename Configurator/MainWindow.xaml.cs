@@ -36,7 +36,7 @@ namespace Configurator
 
         private void PrepValueDisplay(string currentProfile)
         {
-            SettingsManagerConfig.LoadValues(currentProfile);
+            SettingsConfigurator.LoadValues(currentProfile);
             DisplayValues(currentProfile);
         }
 
@@ -47,12 +47,12 @@ namespace Configurator
             if (deckDevice == "1")
             {
                 DeviceName.Content = "Device:  Stream Deck";
-                StaticImages.ItemsSource = SettingsManagerConfig.imageList;
-                StaticImages.SelectedValue = SettingsManagerConfig.imageName;
-                Animations.ItemsSource = SettingsManagerConfig.animList;
-                Animations.SelectedValue = SettingsManagerConfig.animName;
-                FrameTotal.Text = SettingsManagerConfig.framesToProcess.ToString();
-                AnimFramerate.Text = SettingsManagerConfig.animFramerate.ToString();
+                StaticImages.ItemsSource = SettingsConfigurator.imageList;
+                StaticImages.SelectedValue = SettingsConfigurator.imageName;
+                Animations.ItemsSource = SettingsConfigurator.animList;
+                Animations.SelectedValue = SettingsConfigurator.animName;
+                FrameTotal.Text = SettingsConfigurator.framesToProcess.ToString();
+                AnimFramerate.Text = SettingsConfigurator.animFramerate.ToString();
 
                 //display is compact view is enabled
                 if (SharedSettings.IsCompactView() == "True")
@@ -78,67 +78,85 @@ namespace Configurator
             if (deckDevice == "2")
             {
                 DeviceName.Content = "Device:  Stream Deck - Mini";
-                EnableStatic.IsEnabled = false;
-                EnableAnim.IsEnabled = false;
-                StaticImages.IsEnabled = false;
+                EnableStatic.Visibility = Visibility.Collapsed;
+                EnableAnim.Visibility = Visibility.Collapsed;
+                StaticImages.Visibility = Visibility.Collapsed;
                 StaticImages.ItemsSource = null;
-                Animations.IsEnabled = false;
+                Animations.Visibility = Visibility.Collapsed;
                 Animations.ItemsSource = null;
-                AnimFramerate.IsEnabled = false;
+                AnimFramerate.Visibility = Visibility.Collapsed;
                 AnimFramerate.Text = null;
-                FrameTotal.IsEnabled = false;
+                FrameTotal.Visibility = Visibility.Collapsed;
                 FrameTotal.Text = null;
-                ButtonFRUp.IsEnabled = false;
-                ButtonFRDown.IsEnabled = false;
-                ButtonFAUp.IsEnabled = false;
-                ButtonFADown.IsEnabled = false;
+                ButtonFRUp.Visibility = Visibility.Collapsed;
+                ButtonFRDown.Visibility = Visibility.Collapsed;
+                ButtonFAUp.Visibility = Visibility.Collapsed;
+                ButtonFADown.Visibility = Visibility.Collapsed;
                 IsCompact.IsChecked = true;
                 IsCompact.IsEnabled = false;
+                Seperator.Visibility = Visibility.Collapsed;
+                LabelFramerate1.Visibility = Visibility.Collapsed;
+                LabelFrameAmount1.Visibility = Visibility.Collapsed;
+                LabelFramerate2.Visibility = Visibility.Collapsed;
+                LabelFrameAmount2.Visibility = Visibility.Collapsed;
+                IsMiniFps.Visibility = Visibility.Visible;
+                LabelMiniFps.Visibility = Visibility.Visible;
+
+                if (SharedSettings.IsFpsCounter() == "True")
+                {
+                    IsMiniFps.IsChecked = true;
+                }
+                else
+                {
+                    IsMiniFps.IsChecked = false;
+                }
+
+                OptionsLabel.Content = " Stream Deck Mini Settings";
             }
 
             //display current settings according to Settings.ini values
-            HeaderFontSize1.Text = SettingsManagerConfig.headerFontSize1.ToString();
-            HeaderFontSize2.Text = SettingsManagerConfig.headerFontSize2.ToString();
-            ValuesFontSize.Text = SettingsManagerConfig.valueFontSize.ToString();
-            HeaderFontType1.ItemsSource = SettingsManagerConfig.fontList;
-            HeaderFontType1.SelectedValue = SettingsManagerConfig.headerFont1;
-            HeaderFontType2.ItemsSource = SettingsManagerConfig.fontList;
-            HeaderFontType2.SelectedValue = SettingsManagerConfig.headerFont2;
-            HeaderFontColor1.ItemsSource = SettingsManagerConfig.colorList;
-            HeaderFontColor1.SelectedValue = SettingsManagerConfig.headerFontColor1;
-            HeaderFontColor2.ItemsSource = SettingsManagerConfig.colorList;
-            HeaderFontColor2.SelectedValue = SettingsManagerConfig.headerFontColor2;
-            ValuesFontType.ItemsSource = SettingsManagerConfig.fontList;
-            ValuesFontType.SelectedValue = SettingsManagerConfig.valueFont;
-            ValuesFontColor.ItemsSource = SettingsManagerConfig.colorList;
-            ValuesFontColor.SelectedValue = SettingsManagerConfig.valuesFontColor;
-            Header1Position.Text = SettingsManagerConfig.headerFont1Position.ToString();
-            Header2Position.Text = SettingsManagerConfig.headerFont2Position.ToString();
-            ValuePosition.Text = SettingsManagerConfig.valuesFontPosition.ToString();
-            BackgroundFillColor.ItemsSource = SettingsManagerConfig.colorList;
-            BackgroundFillColor.SelectedValue = SettingsManagerConfig.backgroundFillColor;
-            BrightnessSlider.Value = SettingsManagerConfig.displayBrightness;
-            Profiles.ItemsSource = SettingsManagerConfig.profileList;
+            HeaderFontSize1.Text = SettingsConfigurator.headerFontSize1.ToString();
+            HeaderFontSize2.Text = SettingsConfigurator.headerFontSize2.ToString();
+            ValuesFontSize.Text = SettingsConfigurator.valueFontSize.ToString();
+            HeaderFontType1.ItemsSource = SettingsConfigurator.fontList;
+            HeaderFontType1.SelectedValue = SettingsConfigurator.headerFont1;
+            HeaderFontType2.ItemsSource = SettingsConfigurator.fontList;
+            HeaderFontType2.SelectedValue = SettingsConfigurator.headerFont2;
+            HeaderFontColor1.ItemsSource = SettingsConfigurator.colorList;
+            HeaderFontColor1.SelectedValue = SettingsConfigurator.headerFontColor1;
+            HeaderFontColor2.ItemsSource = SettingsConfigurator.colorList;
+            HeaderFontColor2.SelectedValue = SettingsConfigurator.headerFontColor2;
+            ValuesFontType.ItemsSource = SettingsConfigurator.fontList;
+            ValuesFontType.SelectedValue = SettingsConfigurator.valueFont;
+            ValuesFontColor.ItemsSource = SettingsConfigurator.colorList;
+            ValuesFontColor.SelectedValue = SettingsConfigurator.valuesFontColor;
+            Header1Position.Text = SettingsConfigurator.headerFont1Position.ToString();
+            Header2Position.Text = SettingsConfigurator.headerFont2Position.ToString();
+            ValuePosition.Text = SettingsConfigurator.valuesFontPosition.ToString();
+            BackgroundFillColor.ItemsSource = SettingsConfigurator.colorList;
+            BackgroundFillColor.SelectedValue = SettingsConfigurator.backgroundFillColor;
+            BrightnessSlider.Value = SettingsConfigurator.displayBrightness;
+            Profiles.ItemsSource = SettingsConfigurator.profileList;
             Profiles.SelectedValue = currentProfile;
             //clock settings
-            TimeFontType.ItemsSource = SettingsManagerConfig.fontList;
-            TimeFontType.SelectedValue = SettingsManagerConfig.timeFont;
-            ColonFontType.ItemsSource = SettingsManagerConfig.fontList;
-            ColonFontType.SelectedValue = SettingsManagerConfig.colonFont;
-            DateFontType.ItemsSource = SettingsManagerConfig.fontList;
-            DateFontType.SelectedValue = SettingsManagerConfig.dateFont;
-            TimeFontSize.Text = SettingsManagerConfig.timeFontSize.ToString();
-            ColonFontSize.Text = SettingsManagerConfig.colonFontSize.ToString();
-            DateFontSize.Text = SettingsManagerConfig.dateFontSize.ToString();
-            TimeFontColor.ItemsSource = SettingsManagerConfig.colorList;
-            TimeFontColor.SelectedValue = SettingsManagerConfig.timeFontColor;
-            ColonFontColor.ItemsSource = SettingsManagerConfig.colorList;
-            ColonFontColor.SelectedValue = SettingsManagerConfig.colonFontColor;
-            DateFontColor.ItemsSource = SettingsManagerConfig.colorList;
-            DateFontColor.SelectedValue = SettingsManagerConfig.dateFontColor;
-            TimePosition.Text = SettingsManagerConfig.timePosition.ToString();
-            ColonPosition.Text = SettingsManagerConfig.colonPosition.ToString();
-            DatePosition.Text = SettingsManagerConfig.datePosition.ToString();
+            TimeFontType.ItemsSource = SettingsConfigurator.fontList;
+            TimeFontType.SelectedValue = SettingsConfigurator.timeFont;
+            ColonFontType.ItemsSource = SettingsConfigurator.fontList;
+            ColonFontType.SelectedValue = SettingsConfigurator.colonFont;
+            DateFontType.ItemsSource = SettingsConfigurator.fontList;
+            DateFontType.SelectedValue = SettingsConfigurator.dateFont;
+            TimeFontSize.Text = SettingsConfigurator.timeFontSize.ToString();
+            ColonFontSize.Text = SettingsConfigurator.colonFontSize.ToString();
+            DateFontSize.Text = SettingsConfigurator.dateFontSize.ToString();
+            TimeFontColor.ItemsSource = SettingsConfigurator.colorList;
+            TimeFontColor.SelectedValue = SettingsConfigurator.timeFontColor;
+            ColonFontColor.ItemsSource = SettingsConfigurator.colorList;
+            ColonFontColor.SelectedValue = SettingsConfigurator.colonFontColor;
+            DateFontColor.ItemsSource = SettingsConfigurator.colorList;
+            DateFontColor.SelectedValue = SettingsConfigurator.dateFontColor;
+            TimePosition.Text = SettingsConfigurator.timePosition.ToString();
+            ColonPosition.Text = SettingsConfigurator.colonPosition.ToString();
+            DatePosition.Text = SettingsConfigurator.datePosition.ToString();
 
             if (SharedSettings.IsDateShown() == "True")
             {
@@ -437,17 +455,17 @@ namespace Configurator
             {
                 if (type == "FR")
                 {
-                    if (int.Parse(formattedValue) > SettingsManagerConfig.frMax)
+                    if (int.Parse(formattedValue) > SettingsConfigurator.frMax)
                     {
-                        formattedValue = SettingsManagerConfig.frMax.ToString();
+                        formattedValue = SettingsConfigurator.frMax.ToString();
                     }
                 }
 
                 if (type == "FA")
                 {
-                    if (int.Parse(formattedValue) > SettingsManagerConfig.faMax)
+                    if (int.Parse(formattedValue) > SettingsConfigurator.faMax)
                     {
-                        formattedValue = SettingsManagerConfig.faMax.ToString();
+                        formattedValue = SettingsConfigurator.faMax.ToString();
                     }
                 }
             }
@@ -633,15 +651,15 @@ namespace Configurator
             //set max numerical numbers allowed in each textbox
             if (type == "FS")
             {
-                maxValue = SettingsManagerConfig.fsMax;
+                maxValue = SettingsConfigurator.fsMax;
             }
             if (type == "FR")
             {
-                maxValue = SettingsManagerConfig.frMax;
+                maxValue = SettingsConfigurator.frMax;
             }
             if (type == "FA")
             {
-                maxValue = SettingsManagerConfig.faMax;
+                maxValue = SettingsConfigurator.faMax;
             }
 
             //process values
@@ -733,37 +751,127 @@ namespace Configurator
             //disable button while saving values
             ButtonSave.IsEnabled = false;
 
-            //grab all values to save to config file
-            string formattedValue = new String(BrightnessPercent.Content.ToString().Where(Char.IsDigit).ToArray());
-            string displayBrightness = "displayBrightness" + " " + formattedValue;
-            string headerFontSize1 = "headerFontSize_1" + " " + HeaderFontSize1.Text;
-            string headerFontSize2 = "headerFontSize_2" + " " + HeaderFontSize2.Text;
-            string valuesFontSize = "valuesFontSize" + " " + ValuesFontSize.Text;
-            string animationFramerate = "animationFramerate" + " " + AnimFramerate.Text;
-            string framesToProcess = "framesToProcess" + " " + FrameTotal.Text;
-            string animationEnabled;
+            //set lists depending on device
+            List<string> configValueList;
 
-            if (EnableAnim.IsChecked == true)
+            if (IsMiniFps.Visibility == Visibility.Visible)
             {
-                animationEnabled = "animationEnabled" + " " + "True";
+                //grab all values to save to config file
+                string formattedValue = new string(BrightnessPercent.Content.ToString().Where(char.IsDigit).ToArray());
+                string displayBrightness = "displayBrightness" + " " + formattedValue;
+                string headerFontSize1 = "headerFontSize_1" + " " + HeaderFontSize1.Text;
+                string headerFontSize2 = "headerFontSize_2" + " " + HeaderFontSize2.Text;
+                string valuesFontSize = "valuesFontSize" + " " + ValuesFontSize.Text;
+                string headerFontType1 = "headerFontType_1" + " " + HeaderFontType1.SelectedValue.ToString();
+                string headerFontType2 = "headerFontType_2" + " " + HeaderFontType2.SelectedValue.ToString();
+                string valuesFontType = "valuesFontType" + " " + ValuesFontType.SelectedValue.ToString();
+                string headerfontColor1 = "headerfontColor_1" + " " + HeaderFontColor1.SelectedValue.ToString();
+                string headerfontColor2 = "headerfontColor_2" + " " + HeaderFontColor2.SelectedValue.ToString();
+                string valuesFontColor = "valuesFontColor" + " " + ValuesFontColor.SelectedValue.ToString();
+                string backgroundColor = "backgroundColor" + " " + BackgroundFillColor.SelectedValue.ToString();
+                string valuesFontPosition = "valuesFontPosition" + " " + ValuePosition.Text;
+                string headerfont1Position = "headerFontPosition_1" + " " + Header1Position.Text;
+                string headerfont2Position = "headerFontPosition_2" + " " + Header2Position.Text;
+                //mini settings
+                string isFpsShown;
+
+                if (IsMiniFps.IsChecked == true)
+                {
+                    isFpsShown = "showFpsCounter" + " " + "True";
+                }
+                else
+                {
+                    isFpsShown = "showFpsCounter" + " " + "False";
+                }
+
+                //store all mini values to pass to DoSaveInBackground()
+                List<string> configMiniValueList = new List<string>
+                {
+                    isFpsShown
+                };
+
+                //send lists to be processed in background threads
+                ThreadManager.DoSaveInBackground(configMiniValueList, "miniconfig", this);
+
+                //store all values to pass to DoSaveInBackground()
+                configValueList = new List<string>
+                {
+                    displayBrightness,
+                    headerFontSize1,
+                    headerFontSize2,
+                    valuesFontSize,
+                    headerFontType1,
+                    headerFontType2,
+                    valuesFontType,
+                    headerfontColor1,
+                    headerfontColor2,
+                    valuesFontColor,
+                    valuesFontPosition,
+                    headerfont1Position,
+                    headerfont2Position,
+                    backgroundColor,
+                };
             }
+
             else
             {
-                animationEnabled = "animationEnabled" + " " + "False";
+                //grab all values to save to config file
+                string formattedValue = new string(BrightnessPercent.Content.ToString().Where(char.IsDigit).ToArray());
+                string displayBrightness = "displayBrightness" + " " + formattedValue;
+                string headerFontSize1 = "headerFontSize_1" + " " + HeaderFontSize1.Text;
+                string headerFontSize2 = "headerFontSize_2" + " " + HeaderFontSize2.Text;
+                string valuesFontSize = "valuesFontSize" + " " + ValuesFontSize.Text;
+                string headerFontType1 = "headerFontType_1" + " " + HeaderFontType1.SelectedValue.ToString();
+                string headerFontType2 = "headerFontType_2" + " " + HeaderFontType2.SelectedValue.ToString();
+                string valuesFontType = "valuesFontType" + " " + ValuesFontType.SelectedValue.ToString();
+                string headerfontColor1 = "headerfontColor_1" + " " + HeaderFontColor1.SelectedValue.ToString();
+                string headerfontColor2 = "headerfontColor_2" + " " + HeaderFontColor2.SelectedValue.ToString();
+                string valuesFontColor = "valuesFontColor" + " " + ValuesFontColor.SelectedValue.ToString();
+                string backgroundColor = "backgroundColor" + " " + BackgroundFillColor.SelectedValue.ToString();
+                string valuesFontPosition = "valuesFontPosition" + " " + ValuePosition.Text;
+                string headerfont1Position = "headerFontPosition_1" + " " + Header1Position.Text;
+                string headerfont2Position = "headerFontPosition_2" + " " + Header2Position.Text;
+                string animationFramerate = "animationFramerate" + " " + AnimFramerate.Text;
+                string framesToProcess = "framesToProcess" + " " + FrameTotal.Text;
+                string animationEnabled;
+
+                if (EnableAnim.IsChecked == true)
+                {
+                    animationEnabled = "animationEnabled" + " " + "True";
+                }
+                else
+                {
+                    animationEnabled = "animationEnabled" + " " + "False";
+                }
+
+                string imageName = "imageName" + " " + StaticImages.SelectedValue.ToString();
+                string animName = "animName" + " " + Animations.SelectedValue.ToString();
+
+                //store all values to pass to DoSaveInBackground()
+                configValueList = new List<string>
+                {
+                    displayBrightness,
+                    headerFontSize1,
+                    headerFontSize2,
+                    valuesFontSize,
+                    animationFramerate,
+                    framesToProcess,
+                    animationEnabled,
+                    imageName,
+                    animName,
+                    headerFontType1,
+                    headerFontType2,
+                    valuesFontType,
+                    headerfontColor1,
+                    headerfontColor2,
+                    valuesFontColor,
+                    valuesFontPosition,
+                    headerfont1Position,
+                    headerfont2Position,
+                    backgroundColor,
+                };
             }
 
-            string imageName = "imageName" + " " + StaticImages.SelectedValue.ToString();
-            string animName = "animName" + " " + Animations.SelectedValue.ToString();
-            string headerFontType1 = "headerFontType_1" + " " + HeaderFontType1.SelectedValue.ToString();
-            string headerFontType2 = "headerFontType_2" + " " + HeaderFontType2.SelectedValue.ToString();
-            string valuesFontType = "valuesFontType" + " " + ValuesFontType.SelectedValue.ToString();
-            string headerfontColor1 = "headerfontColor_1" + " " + HeaderFontColor1.SelectedValue.ToString();
-            string headerfontColor2 = "headerfontColor_2" + " " + HeaderFontColor2.SelectedValue.ToString();
-            string valuesFontColor = "valuesFontColor" + " " + ValuesFontColor.SelectedValue.ToString();
-            string backgroundColor = "backgroundColor" + " " + BackgroundFillColor.SelectedValue.ToString();
-            string valuesFontPosition = "valuesFontPosition" + " " + ValuePosition.Text;
-            string headerfont1Position = "headerFontPosition_1" + " " + Header1Position.Text;
-            string headerfont2Position = "headerFontPosition_2" + " " + Header2Position.Text;
             //clock settings
             string timeFont = "timeFontType" + " " + TimeFontType.SelectedValue.ToString();
             string colonFont = "colonFontType" + " " + ColonFontType.SelectedValue.ToString();
@@ -797,30 +905,6 @@ namespace Configurator
             {
                 isDateShown = "showDate" + " " + "False";
             }
-
-            //store all values to pass to DoSaveInBackground()
-            List<string> configValueList = new List<string>
-            {
-                displayBrightness,
-                headerFontSize1,
-                headerFontSize2,
-                valuesFontSize,
-                animationFramerate,
-                framesToProcess,
-                animationEnabled,
-                imageName,
-                animName,
-                headerFontType1,
-                headerFontType2,
-                valuesFontType,
-                headerfontColor1,
-                headerfontColor2,
-                valuesFontColor,
-                valuesFontPosition,
-                headerfont1Position,
-                headerfont2Position,
-                backgroundColor,
-             };
 
             //store all clock values to pass to DoSaveInBackground()
             List<string> clockValueList = new List<string>

@@ -11,17 +11,20 @@ namespace StreamDeckMonitor
 {
     class SDMonitor
     {
+        static bool isMiniDeck = false;
+        static bool isABRunning = false;
+        static HardwareMonitor msiAB = new HardwareMonitor();
+        static Computer ohmComputer = new Computer() { CPUEnabled = true, GPUEnabled = true };
+
         static void Main(string[] args)
         {
-            var isMiniDeck = false;
-
             //make sure only one instance is running
             SharedSettings.CheckForTwins();
 
             //check for device layout and adjust for Mini or Standard StreamDeck
-            if (SettingsManagerSDM.CheckForLayout() != null)
+            if (SettingsSDMonitor.CheckForLayout() != null)
             {
-                if (SettingsManagerSDM.CheckForLayout() == "Mini")
+                if (SettingsSDMonitor.CheckForLayout() == "Mini")
                 {
                     isMiniDeck = true;
                 }
@@ -29,7 +32,7 @@ namespace StreamDeckMonitor
 
             //clean display and set brightness
             ImageManager.deck.ClearKeys();
-            var displayBrightness = Convert.ToByte(SettingsManagerSDM.displayBrightness);
+            var displayBrightness = Convert.ToByte(SettingsSDMonitor.displayBrightness);
             ImageManager.deck.SetBrightness(displayBrightness);
 
             //create and process necessary header images 
@@ -56,18 +59,35 @@ namespace StreamDeckMonitor
             //MonitorStateMini
             void StartMonitorStateMini()
             {
+                var showFps = false;
+                if (SettingsSDMonitor.isFpsCounter == "True")
+                {
+                    showFps = true;
+                }
+
                 try
                 {
+                    //check if MSIAfterburner process is running
+                    if (SettingsSDMonitor.CheckForAB() == true)
+                    {
+                        msiAB.Connect();
+                        isABRunning = true;
+                    }
+
+                    else
+                    {
+                        msiAB = null;
+                    }
+
                     //define Librehardwaremonitor sensors and connect (CPU temp data requires 'highestAvailable' requestedExecutionLevel !!)
-                    Computer computer = new Computer() { CPUEnabled = true, GPUEnabled = true };
-                    computer.Open();
+                    ohmComputer.Open();
 
                     //set static header images 
                     ImageManager.SetStaticHeaders();
 
-                    StartMonitor();
+                    StartMonitorMini();
 
-                    void StartMonitor()
+                    void StartMonitorMini()
                     {
                         int counterDefault = 1;
 
@@ -83,8 +103,30 @@ namespace StreamDeckMonitor
                                 //add key press handler, if pressed send exit command 
                                 ImageManager.deck.KeyStateChanged += DeckKeyPressed;
 
+                                if (showFps == true)
+                                {
+                                    //connect to msi afterburner and reload values
+                                    if (isABRunning == true)
+                                    {
+                                        var framerateEntry = msiAB.GetEntry(HardwareMonitor.GPU_GLOBAL_INDEX, MONITORING_SOURCE_ID.FRAMERATE);
+                                        msiAB.ReloadEntry(framerateEntry);
+
+                                        //get values for framerate and pass to process
+                                        int framerateInt = (int)Math.Round(framerateEntry.Data);
+                                        string dataValue = framerateInt.ToString();
+                                        string type = "fmini";
+                                        ImageManager.ProcessValueImg(dataValue, type, SettingsSDMonitor.KeyLocFpsMini);
+                                    }
+                                    else
+                                    {
+                                        string dataValue = "0";
+                                        string type = "fmini";
+                                        ImageManager.ProcessValueImg(dataValue, type, SettingsSDMonitor.KeyLocFpsMini);
+                                    }
+                                }
+
                                 //search hardware
-                                foreach (OpenHardwareMonitor.Hardware.IHardware hardware in computer.Hardware)
+                                foreach (IHardware hardware in ohmComputer.Hardware)
                                 {
                                     hardware.Update();
 
@@ -98,7 +140,7 @@ namespace StreamDeckMonitor
                                             {
                                                 string dataValue = sensor.Value.ToString() + "c";
                                                 string type = "t";
-                                                ImageManager.ProcessValueImg(dataValue, type, SettingsManagerSDM.KeyLocGpuTempMini);
+                                                ImageManager.ProcessValueImg(dataValue, type, SettingsSDMonitor.KeyLocGpuTempMini);
                                             }
 
                                             //search for load sensor
@@ -119,7 +161,7 @@ namespace StreamDeckMonitor
                                                         int gpuLoadInt = (int)Math.Round(sensor.Value.Value);
                                                         string dataValue = gpuLoadInt.ToString() + "%";
                                                         string type = "l";
-                                                        ImageManager.ProcessValueImg(dataValue, type, SettingsManagerSDM.KeyLocGpuLoadMini);
+                                                        ImageManager.ProcessValueImg(dataValue, type, SettingsSDMonitor.KeyLocGpuLoadMini);
                                                     }
                                                 }
                                             }
@@ -167,7 +209,7 @@ namespace StreamDeckMonitor
                                                         {
                                                             string dataValue = resultPackage.ToString() + "c";
                                                             string type = "t";
-                                                            ImageManager.ProcessValueImg(dataValue, type, SettingsManagerSDM.KeyLocCpuTemp);
+                                                            ImageManager.ProcessValueImg(dataValue, type, SettingsSDMonitor.KeyLocCpuTempMini);
                                                         }
                                                     }
                                                 }
@@ -191,7 +233,7 @@ namespace StreamDeckMonitor
                                                         int cpuLoadInt = (int)Math.Round(sensor.Value.Value);
                                                         string dataValue = cpuLoadInt.ToString() + "%";
                                                         string type = "l";
-                                                        ImageManager.ProcessValueImg(dataValue, type, SettingsManagerSDM.KeyLocCpuLoad);
+                                                        ImageManager.ProcessValueImg(dataValue, type, SettingsSDMonitor.KeyLocCpuLoadMini);
                                                     }
                                                 }
                                             }
@@ -211,44 +253,6 @@ namespace StreamDeckMonitor
                                 ExitApp();
                             }
                         }
-
-                        //check for button input
-                        void DeckKeyPressed(object sender, OpenMacroBoard.SDK.KeyEventArgs e)
-                        {
-                            try
-                            {
-                                if (e.Key == 0)
-                                {
-                                    if (e.IsDown == true)
-                                    {
-                                        //write State to config file then start ClockState
-                                        SharedSettings.config.Write("seletedState", "2", "Current_State");
-                                        //restart to show new state
-                                        RestartApp();
-                                    }
-                                }
-
-                                if (e.Key == 4)
-                                {
-                                    if (e.IsDown == true)
-                                    {
-                                        //stop animation and clear display for clean exit
-                                        ImageManager.exitflag = true;
-                                        ImageManager.deck.ClearKeys();
-                                        System.Threading.Thread.Sleep(1000);
-                                        ImageManager.deck.ShowLogo();
-
-                                        //close StreamDeckMonitor
-                                        ExitApp();
-                                    }
-                                }
-                            }
-
-                            catch (Exception)
-                            {
-                                ExitApp();
-                            }
-                        }
                     }
                 }
 
@@ -259,6 +263,7 @@ namespace StreamDeckMonitor
                         string deviceNotFound = " 'Stream Deck' Device not found/connected ! ";
                         MessageBox.Show(deviceNotFound);
                     }
+
                     ExitApp();
                 }
             }
@@ -268,25 +273,19 @@ namespace StreamDeckMonitor
             {
                 try
                 {
-                    //MSI Afterburner shared memory
-                    HardwareMonitor mahm;
-
                     //check if MSIAfterburner process is running
-                    bool isABRunning = false;
-                    if (SettingsManagerSDM.CheckForAB() == true)
+                    if (SettingsSDMonitor.CheckForAB() == true)
                     {
-                        mahm = new HardwareMonitor();
-                        mahm.Connect();
+                        msiAB.Connect();
                         isABRunning = true;
                     }
                     else
                     {
-                        mahm = null;
+                        msiAB = null;
                     }
 
                     //define Librehardwaremonitor sensors and connect (CPU temp data requires 'highestAvailable' requestedExecutionLevel !!)
-                    Computer computer = new Computer() { CPUEnabled = true, GPUEnabled = true };
-                    computer.Open();
+                    ohmComputer.Open();
 
                     //set static header images 
                     ImageManager.SetStaticHeaders();
@@ -295,9 +294,9 @@ namespace StreamDeckMonitor
                     string currentProfile = SharedSettings.config.Read("selectedProfile", "Current_Profile");
                     if (SharedSettings.IsAnimationEnabled(currentProfile) != "True")
                     {
-                        foreach (var button in SettingsManagerSDM.BgButtonList())
+                        foreach (var button in SettingsSDMonitor.BgButtonList())
                         {
-                            ImageManager.SetStaticImg(SettingsManagerSDM.imageName, button);
+                            ImageManager.SetStaticImg(SettingsSDMonitor.imageName, button);
                         }
 
                         //start standard loop without the image animations 
@@ -328,20 +327,21 @@ namespace StreamDeckMonitor
                                 //connect to msi afterburner and reload values
                                 if (isABRunning == true)
                                 {
-                                    var framerateEntry = mahm.GetEntry(HardwareMonitor.GPU_GLOBAL_INDEX, MONITORING_SOURCE_ID.FRAMERATE);
-                                    mahm.ReloadEntry(framerateEntry);
+                                    var framerateEntry = msiAB.GetEntry(HardwareMonitor.GPU_GLOBAL_INDEX, MONITORING_SOURCE_ID.FRAMERATE);
+                                    msiAB.ReloadEntry(framerateEntry);
 
                                     //get values for framerate and pass to process
                                     int framerateInt = (int)Math.Round(framerateEntry.Data);
                                     string dataValue = framerateInt.ToString();
                                     string type = "f";
-                                    ImageManager.ProcessValueImg(dataValue, type, SettingsManagerSDM.KeyLocFps);
+                                    ImageManager.ProcessValueImg(dataValue, type, SettingsSDMonitor.KeyLocFps);
                                 }
+
                                 else
                                 {
                                     string dataValue = "0";
                                     string type = "f";
-                                    ImageManager.ProcessValueImg(dataValue, type, SettingsManagerSDM.KeyLocFps);
+                                    ImageManager.ProcessValueImg(dataValue, type, SettingsSDMonitor.KeyLocFps);
                                 }
 
                                 //get and set time 
@@ -351,10 +351,10 @@ namespace StreamDeckMonitor
                                 {
                                     timeOutput = timeOutput.Remove(0, 1);
                                 }
-                                ImageManager.ProcessValueImg(timeOutput, "ti", SettingsManagerSDM.KeyLocTimeHeader);
+                                ImageManager.ProcessValueImg(timeOutput, "ti", SettingsSDMonitor.KeyLocTimeHeader);
 
                                 //search hardware
-                                foreach (OpenHardwareMonitor.Hardware.IHardware hardware in computer.Hardware)
+                                foreach (IHardware hardware in ohmComputer.Hardware)
                                 {
                                     hardware.Update();
 
@@ -368,7 +368,7 @@ namespace StreamDeckMonitor
                                             {
                                                 string dataValue = sensor.Value.ToString() + "c";
                                                 string type = "t";
-                                                ImageManager.ProcessValueImg(dataValue, type, SettingsManagerSDM.KeyLocGpuTemp);
+                                                ImageManager.ProcessValueImg(dataValue, type, SettingsSDMonitor.KeyLocGpuTemp);
                                             }
 
                                             //search for load sensor
@@ -389,7 +389,7 @@ namespace StreamDeckMonitor
                                                         int gpuLoadInt = (int)Math.Round(sensor.Value.Value);
                                                         string dataValue = gpuLoadInt.ToString() + "%";
                                                         string type = "l";
-                                                        ImageManager.ProcessValueImg(dataValue, type, SettingsManagerSDM.KeyLocGpuLoad);
+                                                        ImageManager.ProcessValueImg(dataValue, type, SettingsSDMonitor.KeyLocGpuLoad);
                                                     }
                                                 }
                                             }
@@ -437,7 +437,7 @@ namespace StreamDeckMonitor
                                                         {
                                                             string dataValue = resultPackage.ToString() + "c";
                                                             string type = "t";
-                                                            ImageManager.ProcessValueImg(dataValue, type, SettingsManagerSDM.KeyLocCpuTemp);
+                                                            ImageManager.ProcessValueImg(dataValue, type, SettingsSDMonitor.KeyLocCpuTemp);
                                                         }
                                                     }
                                                 }
@@ -461,7 +461,7 @@ namespace StreamDeckMonitor
                                                         int cpuLoadInt = (int)Math.Round(sensor.Value.Value);
                                                         string dataValue = cpuLoadInt.ToString() + "%";
                                                         string type = "l";
-                                                        ImageManager.ProcessValueImg(dataValue, type, SettingsManagerSDM.KeyLocCpuLoad);
+                                                        ImageManager.ProcessValueImg(dataValue, type, SettingsSDMonitor.KeyLocCpuLoad);
                                                     }
                                                 }
                                             }
@@ -481,51 +481,6 @@ namespace StreamDeckMonitor
                                 ExitApp();
                             }
                         }
-
-                        //check for button input
-                        void DeckKeyPressed(object sender, OpenMacroBoard.SDK.KeyEventArgs e)
-                        {
-                            try
-                            {
-                                if (e.Key == 0)
-                                {
-                                    if (e.IsDown == true)
-                                    {
-                                        //write State to config file then start ClockState
-                                        SharedSettings.config.Write("seletedState", "2", "Current_State");
-                                        //restart to show new state
-                                        RestartApp();
-                                    }
-                                }
-
-                                if (e.Key == 7)
-                                {
-                                    if (e.IsDown == true)
-                                    {
-                                        //close all monitoring connections
-                                        if (isABRunning == true)
-                                        {
-                                            mahm.Disconnect();
-                                        }
-                                        computer.Close();
-
-                                        //stop animation and clear display for clean exit
-                                        ImageManager.exitflag = true;
-                                        ImageManager.deck.ClearKeys();
-                                        System.Threading.Thread.Sleep(1000);
-                                        ImageManager.deck.ShowLogo();
-
-                                        //close StreamDeckMonitor
-                                        ExitApp();
-                                    }
-                                }
-                            }
-
-                            catch (Exception)
-                            {
-                                ExitApp();
-                            }
-                        }
                     }
                 }
 
@@ -536,6 +491,7 @@ namespace StreamDeckMonitor
                         string deviceNotFound = " 'Stream Deck' Device not found/connected ! ";
                         MessageBox.Show(deviceNotFound);
                     }
+
                     ExitApp();
                 }
             }
@@ -599,53 +555,77 @@ namespace StreamDeckMonitor
                         ExitApp();
                     }
                 }
+            }
+        }
 
-                //check for button input
-                void DeckKeyPressed(object sender, OpenMacroBoard.SDK.KeyEventArgs e)
+        //key pressed
+        public static void DeckKeyPressed(object sender, OpenMacroBoard.SDK.KeyEventArgs e)
+        {
+            var clockButton = 0;
+            var monitorButton = 4;
+            var exitButton = 7;
+
+            if (isMiniDeck == true)
+            {
+                monitorButton = 2;
+                exitButton = 4;
+            }
+
+            try
+            {
+                if (e.Key == clockButton)
                 {
-                    var monitorButton = 4;
-                    var exitButton = 7;
-
-                    if (isMiniDeck == true)
+                    if (e.IsDown == true)
                     {
-                        monitorButton = 2;
-                        exitButton = 4;
-                    }
-
-                    try
-                    {
-                        if (e.Key == monitorButton)
-                        {
-                            if (e.IsDown == true)
-                            {
-                                //write State to config file then start MonitorState
-                                SharedSettings.config.Write("seletedState", "1", "Current_State");
-                                //restart to show new state
-                                RestartApp();
-                            }
-                        }
-
-                        if (e.Key == exitButton)
-                        {
-                            if (e.IsDown == true)
-                            {
-                                //clear display for clean exit
-                                ImageManager.exitflag = true;
-                                ImageManager.deck.ClearKeys();
-                                System.Threading.Thread.Sleep(1000);
-                                ImageManager.deck.ShowLogo();
-
-                                //close StreamDeckMonitor
-                                ExitApp();
-                            }
-                        }
-                    }
-
-                    catch (Exception)
-                    {
-                        ExitApp();
+                        //write State to config file then start MonitorState
+                        SharedSettings.config.Write("seletedState", "2", "Current_State");
+                        //restart to show new state
+                        RestartApp();
                     }
                 }
+
+                if (e.Key == monitorButton)
+                {
+                    if (e.IsDown == true)
+                    {
+                        //write State to config file then start MonitorState
+                        SharedSettings.config.Write("seletedState", "1", "Current_State");
+                        //restart to show new state
+                        RestartApp();
+                    }
+                }
+
+                if (e.Key == exitButton)
+                {
+                    if (e.IsDown == true)
+                    {
+                        if (isMiniDeck)
+                        {
+                            ImageManager.exitflag = true;
+                            ImageManager.deck.ShowLogo();
+
+                            //close StreamDeckMonitor
+                            ExitApp();
+                        }
+
+                        else
+                        {
+                            //clear display for clean exit
+                            ImageManager.exitflag = true;
+                            ImageManager.deck.ClearKeys();
+                            System.Threading.Thread.Sleep(1000);
+                            ImageManager.deck.ShowLogo();
+
+                            //close StreamDeckMonitor
+                            ExitApp();
+                        }
+                    }
+                }
+            }
+
+            catch (Exception)
+            {
+                ExitApp();
             }
         }
 

@@ -63,7 +63,9 @@
     * Add custom Animation .mp4's to the following folder.. '\Customize\Animations'  
     ** The frames taken from the .mp4 video start from the very first frame ! **
     
-  ![](https://i.imgur.com/nXdv7jZ.png)  
+  Stream Deck Standard (15 buttons) Options ...![](https://i.imgur.com/nXdv7jZ.png)  
+
+  Stream Deck Mini (6 buttons) Options ...![](https://i.imgur.com/qhEFNs1.png)
 
 - Using the Configurator Application we can set...
     * Font type, Font color, Font Size and Height Position for:

@@ -32,18 +32,14 @@ namespace SharedManagers
             Directory.CreateDirectory(SharedSettings.generatedDir);
 
             //start the image header creation
-            if (SettingsManagerSDM.CheckForLayout() == "Standard")
-            {
-                CreateImage("Time", "header2", SettingsManagerSDM.ImageLocTime, SettingsManagerSDM.headerFontSize2, xAxis, int.Parse(SettingsManagerSDM.headerFont2Position));
-                CreateImage("F/sec", "header2", SettingsManagerSDM.ImageLocFps, SettingsManagerSDM.headerFontSize2, xAxis, int.Parse(SettingsManagerSDM.headerFont2Position));
-            }
-
-            CreateImage("Cpu:", "header1", SettingsManagerSDM.ImageLocCpu, SettingsManagerSDM.headerFontSize1, xAxis, int.Parse(SettingsManagerSDM.headerFont1Position));
-            CreateImage("Gpu:", "header1", SettingsManagerSDM.ImageLocGpu, SettingsManagerSDM.headerFontSize1, xAxis, int.Parse(SettingsManagerSDM.headerFont1Position));
-            CreateImage("Temp", "header2", SettingsManagerSDM.ImageLocTemp, SettingsManagerSDM.headerFontSize2, xAxis, int.Parse(SettingsManagerSDM.headerFont2Position));
-            CreateImage("Load", "header2", SettingsManagerSDM.ImageLocLoad, SettingsManagerSDM.headerFontSize2, xAxis, int.Parse(SettingsManagerSDM.headerFont2Position));
-            CreateImage(":", "colon", SettingsManagerSDM.ImageLocColon, SettingsManagerSDM.colonFontSize, xAxis, SettingsManagerSDM.colonPosition);
-            CreateImage("", "header1", SettingsManagerSDM.ImageLocBlank, SettingsManagerSDM.headerFontSize1, xAxis, 35);
+            CreateImage("Time", "header2", SettingsSDMonitor.ImageLocTime, SettingsSDMonitor.headerFontSize2, xAxis, int.Parse(SettingsSDMonitor.headerFont2Position));
+            CreateImage("F/sec", "header2", SettingsSDMonitor.ImageLocFps, SettingsSDMonitor.headerFontSize2, xAxis, int.Parse(SettingsSDMonitor.headerFont2Position));
+            CreateImage("Cpu:", "header1", SettingsSDMonitor.ImageLocCpu, SettingsSDMonitor.headerFontSize1, xAxis, int.Parse(SettingsSDMonitor.headerFont1Position));
+            CreateImage("Gpu:", "header1", SettingsSDMonitor.ImageLocGpu, SettingsSDMonitor.headerFontSize1, xAxis, int.Parse(SettingsSDMonitor.headerFont1Position));
+            CreateImage("Temp", "header2", SettingsSDMonitor.ImageLocTemp, SettingsSDMonitor.headerFontSize2, xAxis, int.Parse(SettingsSDMonitor.headerFont2Position));
+            CreateImage("Load", "header2", SettingsSDMonitor.ImageLocLoad, SettingsSDMonitor.headerFontSize2, xAxis, int.Parse(SettingsSDMonitor.headerFont2Position));
+            CreateImage(":", "colon", SettingsSDMonitor.ImageLocColon, SettingsSDMonitor.colonFontSize, xAxis, SettingsSDMonitor.colonPosition);
+            CreateImage("", "header1", SettingsSDMonitor.ImageLocBlank, SettingsSDMonitor.headerFontSize1, xAxis, 35);
 
             void CreateImage(string text, string type, string filename, int textSize, float x, float y)
             {
@@ -61,33 +57,37 @@ namespace SharedManagers
                     graphics.TextRenderingHint = TextRenderingHint.AntiAliasGridFit;
 
                     //background fill color
-                    Brush myBrushFill = SettingsManagerSDM.BackgroundBrush;
+                    Brush myBrushFill = SettingsSDMonitor.BackgroundBrush;
                     graphics.FillRectangle(myBrushFill, 0, 0, dimensHeight, dimensHeight);
 
                     if (type == "header1")
                     {
-                        font = new Font(SettingsManagerSDM.myFontHeader1, textSize);
-                        myBrushText = SettingsManagerSDM.HeaderBrush1;
+                        font = new Font(SettingsSDMonitor.myFontHeader1, textSize);
+                        myBrushText = SettingsSDMonitor.HeaderBrush1;
                     }
+
                     if (type == "header2")
                     {
-                        font = new Font(SettingsManagerSDM.myFontHeader2, textSize);
-                        myBrushText = SettingsManagerSDM.HeaderBrush2;
+                        font = new Font(SettingsSDMonitor.myFontHeader2, textSize);
+                        myBrushText = SettingsSDMonitor.HeaderBrush2;
                     }
+
                     if (type == "time")
                     {
-                        font = new Font(SettingsManagerSDM.timeFont, textSize);
-                        myBrushText = SettingsManagerSDM.TimeBrush;
+                        font = new Font(SettingsSDMonitor.timeFont, textSize);
+                        myBrushText = SettingsSDMonitor.TimeBrush;
                     }
+
                     if (type == "colon")
                     {
-                        font = new Font(SettingsManagerSDM.colonFont, textSize);
-                        myBrushText = SettingsManagerSDM.ColonBrush;
+                        font = new Font(SettingsSDMonitor.colonFont, textSize);
+                        myBrushText = SettingsSDMonitor.ColonBrush;
                     }
+
                     else
                     {
-                        font = new Font(SettingsManagerSDM.myFontHeader1, textSize);
-                        myBrushText = SettingsManagerSDM.HeaderBrush1;
+                        font = new Font(SettingsSDMonitor.myFontHeader1, textSize);
+                        myBrushText = SettingsSDMonitor.HeaderBrush1;
                     }
 
                     using (font)
@@ -111,15 +111,15 @@ namespace SharedManagers
             {
                 //create instance of video reader and open video file
                 VideoFileReader vidReader = new VideoFileReader();
-                string vidFile = SharedSettings.animationImgDir + SettingsManagerSDM.animName + ".mp4";
+                string vidFile = SharedSettings.animationImgDir + SettingsSDMonitor.animName + ".mp4";
                 vidReader.Open(vidFile);
 
                 int frameCount = Convert.ToInt32(vidReader.FrameCount);
                 int adjustedCount;
 
-                if (frameCount >= SettingsManagerSDM.framesToProcess)
+                if (frameCount >= SettingsSDMonitor.framesToProcess)
                 {
-                    adjustedCount = SettingsManagerSDM.framesToProcess;
+                    adjustedCount = SettingsSDMonitor.framesToProcess;
                 }
                 else
                 {
@@ -150,14 +150,14 @@ namespace SharedManagers
                 //display animation
                 void ShowAnim(KeyBitmap animStream)
                 {
-                    foreach (var button in SettingsManagerSDM.BgButtonList())
+                    foreach (var button in SettingsSDMonitor.BgButtonList())
                     {
                         if (exitflag) break;
                         deck.SetKeyBitmap(button, animStream);
                     }
 
                     //frametime delay
-                    int frametime = SettingsManagerSDM.FrametimeValue();
+                    int frametime = SettingsSDMonitor.FrametimeValue();
                     System.Threading.Thread.Sleep(frametime);
                 }
             }
@@ -166,15 +166,21 @@ namespace SharedManagers
         //set the static headers
         public static void SetStaticHeaders()
         {
-            if (SettingsManagerSDM.CheckForLayout() == "Mini")
+            if (SettingsSDMonitor.CheckForLayout() == "Mini")
             {
-                SetStaticImg("cpu", SettingsManagerSDM.KeyLocCpuHeaderMini);
-                SetStaticImg("gpu", SettingsManagerSDM.KeyLocGpuHeaderMini);
+                if (SettingsSDMonitor.isFpsCounter == "False")
+                {
+                    SetStaticImg("gpu", SettingsSDMonitor.KeyLocGpuHeaderMini);
+                }
+
+                SetStaticImg("cpu", SettingsSDMonitor.KeyLocCpuHeaderMini);
+
             }
+
             else
             {
-                SetStaticImg("cpu", SettingsManagerSDM.KeyLocCpuHeader);
-                SetStaticImg("gpu", SettingsManagerSDM.KeyLocGpuHeader);
+                SetStaticImg("cpu", SettingsSDMonitor.KeyLocCpuHeader);
+                SetStaticImg("gpu", SettingsSDMonitor.KeyLocGpuHeader);
             }
         }
 
@@ -182,10 +188,11 @@ namespace SharedManagers
         public static void SetStaticImg(string headerType, int headerLocation)
         {
             string bitmapLocation;
-            if (headerType == SettingsManagerSDM.imageName)
+            if (headerType == SettingsSDMonitor.imageName)
             {
                 bitmapLocation = SharedSettings.staticImgDir + headerType + ".png";
             }
+
             else
             {
                 bitmapLocation = SharedSettings.generatedDir + headerType + ".png";
@@ -197,50 +204,61 @@ namespace SharedManagers
         //process data images and display
         public static void ProcessValueImg(string dataValue, string type, int location)
         {
-            Brush myBrush = SettingsManagerSDM.ValuesBrush;
+            Brush myBrush = SettingsSDMonitor.ValuesBrush;
             PointF dataLocation = new PointF(xAxis, 50);
-            Font font = new Font(SettingsManagerSDM.myFontValues, SettingsManagerSDM.valueFontSize);
+            Font font = new Font(SettingsSDMonitor.myFontValues, SettingsSDMonitor.valueFontSize);
 
             if (!dataValue.Equals(null))
             {
                 if (type.Equals("f"))
                 {
-                    dataLocation = new PointF(xAxis, int.Parse(SettingsManagerSDM.valuesFontPosition));
-                    ProcessImage(SettingsManagerSDM.ImageLocFps);
+                    dataLocation = new PointF(xAxis, int.Parse(SettingsSDMonitor.valuesFontPosition));
+                    ProcessImage(SettingsSDMonitor.ImageLocFps);
                 }
+
+                if (type.Equals("fmini"))
+                {
+                    dataLocation = new PointF(xAxis, int.Parse(SettingsSDMonitor.valuesFontPosition));
+                    ProcessImage(SettingsSDMonitor.ImageLocFps);
+                }
+
                 if (type.Equals("t"))
                 {
-                    dataLocation = new PointF(xAxis, int.Parse(SettingsManagerSDM.valuesFontPosition));
-                    ProcessImage(SettingsManagerSDM.ImageLocTemp);
+                    dataLocation = new PointF(xAxis, int.Parse(SettingsSDMonitor.valuesFontPosition));
+                    ProcessImage(SettingsSDMonitor.ImageLocTemp);
                 }
+
                 if (type.Equals("l"))
                 {
-                    dataLocation = new PointF(xAxis, int.Parse(SettingsManagerSDM.valuesFontPosition));
-                    ProcessImage(SettingsManagerSDM.ImageLocLoad);
+                    dataLocation = new PointF(xAxis, int.Parse(SettingsSDMonitor.valuesFontPosition));
+                    ProcessImage(SettingsSDMonitor.ImageLocLoad);
                 }
+
                 if (type.Equals("ti"))
                 {
-                    dataLocation = new PointF(xAxis, int.Parse(SettingsManagerSDM.valuesFontPosition));
-                    ProcessImage(SettingsManagerSDM.ImageLocTime);
+                    dataLocation = new PointF(xAxis, int.Parse(SettingsSDMonitor.valuesFontPosition));
+                    ProcessImage(SettingsSDMonitor.ImageLocTime);
                 }
+
                 if (type.Equals("bl"))
                 {
-                    dataLocation = new PointF(xAxis, SettingsManagerSDM.timePosition);
-                    myBrush = SettingsManagerSDM.TimeBrush;
-                    font = new Font(SettingsManagerSDM.myFontTime, SettingsManagerSDM.timeFontSize);
-                    ProcessImage(SettingsManagerSDM.ImageLocBlank);
+                    dataLocation = new PointF(xAxis, SettingsSDMonitor.timePosition);
+                    myBrush = SettingsSDMonitor.TimeBrush;
+                    font = new Font(SettingsSDMonitor.myFontTime, SettingsSDMonitor.timeFontSize);
+                    ProcessImage(SettingsSDMonitor.ImageLocBlank);
                 }
+
                 if (type.Equals("bl-sm"))
                 {
-                    dataLocation = new PointF(xAxis, SettingsManagerSDM.datePosition);
-                    myBrush = SettingsManagerSDM.DateBrush;
-                    font = new Font(SettingsManagerSDM.myFontDate, SettingsManagerSDM.dateFontSize);
-                    ProcessImage(SettingsManagerSDM.ImageLocBlank);
+                    dataLocation = new PointF(xAxis, SettingsSDMonitor.datePosition);
+                    myBrush = SettingsSDMonitor.DateBrush;
+                    font = new Font(SettingsSDMonitor.myFontDate, SettingsSDMonitor.dateFontSize);
+                    ProcessImage(SettingsSDMonitor.ImageLocBlank);
                 }
 
                 void ProcessImage(string imagefilepath)
                 {
-                    String typeImage = imagefilepath;
+                    string typeImage = imagefilepath;
                     Bitmap bitmap = (Bitmap)Image.FromFile(typeImage);
 
                     using (Graphics graphics = Graphics.FromImage(bitmap))
@@ -359,7 +377,7 @@ namespace SharedManagers
         {
             var locationColon = 7;
 
-            if (SettingsManagerSDM.CheckForLayout() == "Mini")
+            if (SettingsSDMonitor.CheckForLayout() == "Mini")
             {
                 locationColon = 1;
             }
@@ -369,7 +387,7 @@ namespace SharedManagers
             {
                 if (exitflag) break;
 
-                var loc = KeyBitmap.Create.FromFile(SettingsManagerSDM.ImageLocColon);
+                var loc = KeyBitmap.Create.FromFile(SettingsSDMonitor.ImageLocColon);
                 deck.SetKeyBitmap(locationColon, loc);
 
                 //animate clock colon every second

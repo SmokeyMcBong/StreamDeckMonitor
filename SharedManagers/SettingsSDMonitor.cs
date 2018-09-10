@@ -2,345 +2,18 @@
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Text;
-using System.IO;
 using System.Linq;
-using System.Reflection;
 
 namespace SharedManagers
 {
-    class SharedSettings
-    {
-        //check for duplicate instances
-        public static void CheckForTwins()
-        {
-            if (Process.GetProcessesByName(Path.GetFileNameWithoutExtension(Assembly.GetEntryAssembly().Location)).Count() > 1)
-            {
-                Process.GetCurrentProcess().Kill();
-            }
-        }
-
-        //resource directory locations
-        public static string absoluteRoot = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
-        public static string fontDir = absoluteRoot + "/Customize/Fonts/";
-        public static string staticImgDir = absoluteRoot + "/Customize/Static Images/";
-        public static string animationImgDir = absoluteRoot + "/Customize/Animations/";
-        public static string frameDir = absoluteRoot + "/ext/_/frames/";
-        public static string generatedDir = absoluteRoot + "/ext/_/generated/";
-
-        //config file 
-        public static string configFile = absoluteRoot + "/ext/cfg/SharedConfig.cfg";
-        public static ConfigParser config = new ConfigParser(configFile);
-
-        //config file values
-        public static int DeckDevice()
-        {
-            return int.Parse(config.Read("selectedDevice", "StreamDeck_Device"));
-        }
-        public static int CurrentSate()
-        {
-            return int.Parse(config.Read("seletedState", "Current_State"));
-        }
-        public static string CompactView()
-        {
-            return config.Read("compactView", "Clock_Settings");
-        }
-        public static string ShowDate()
-        {
-            return config.Read("showDate", "Clock_Settings");
-        }
-        public static string HeaderFont1(string currentProfile)
-        {
-            return config.Read("headerFontType_1", currentProfile);
-        }
-        public static string HeaderFont2(string currentProfile)
-        {
-            return config.Read("headerFontType_2", currentProfile);
-        }
-        public static string ValueFont(string currentProfile)
-        {
-            return config.Read("valuesFontType", currentProfile);
-        }
-        public static string HeaderFontColor1(string currentProfile)
-        {
-            return config.Read("headerfontColor_1", currentProfile);
-        }
-        public static string HeaderFontColor2(string currentProfile)
-        {
-            return config.Read("headerfontColor_2", currentProfile);
-        }
-        public static string ValuesFontColor(string currentProfile)
-        {
-            return config.Read("valuesFontColor", currentProfile);
-        }
-        public static string HeaderFont1Position(string currentProfile)
-        {
-            return config.Read("headerFontPosition_1", currentProfile);
-        }
-        public static string HeaderFont2Position(string currentProfile)
-        {
-            return config.Read("headerFontPosition_2", currentProfile);
-        }
-        public static string ValuesFontPosition(string currentProfile)
-        {
-            return config.Read("valuesFontPosition", currentProfile);
-        }
-        public static string BackgroundFillColor(string currentProfile)
-        {
-            return config.Read("backgroundColor", currentProfile);
-        }
-        public static int HeaderFontSize1(string currentProfile)
-        {
-            return int.Parse(config.Read("headerFontSize_1", currentProfile));
-        }
-        public static int HeaderFontSize2(string currentProfile)
-        {
-            return int.Parse(config.Read("headerFontSize_2", currentProfile));
-        }
-        public static int ValueFontSize(string currentProfile)
-        {
-            return int.Parse(config.Read("valuesFontSize", currentProfile));
-        }
-        public static int DisplayBrightness(string currentProfile)
-        {
-            return int.Parse(config.Read("displayBrightness", currentProfile));
-        }
-        public static int FramesToProcess(string currentProfile)
-        {
-            return int.Parse(config.Read("framesToProcess", currentProfile));
-        }
-        public static int AnimFramerate(string currentProfile)
-        {
-            return int.Parse(config.Read("animationFramerate", currentProfile));
-        }
-        public static string ImageName(string currentProfile)
-        {
-            return config.Read("imageName", currentProfile);
-        }
-        public static string AnimName(string currentProfile)
-        {
-            return config.Read("animName", currentProfile);
-        }
-        public static string IsAnimationEnabled(string currentProfile)
-        {
-            return config.Read("animationEnabled", currentProfile);
-        }
-        //clock settings
-        public static string TimeFontType()
-        {
-            return config.Read("timeFontType", "Clock_Settings");
-        }
-        public static string ColonFontType()
-        {
-            return config.Read("colonFontType", "Clock_Settings");
-        }
-        public static string DateFontType()
-        {
-            return config.Read("dateFontType", "Clock_Settings");
-        }
-        public static int TimeFontSize()
-        {
-            return int.Parse(config.Read("timeFontSize", "Clock_Settings"));
-        }
-        public static int ColonFontSize()
-        {
-            return int.Parse(config.Read("colonFontSize", "Clock_Settings"));
-        }
-        public static int DateFontSize()
-        {
-            return int.Parse(config.Read("dateFontSize", "Clock_Settings"));
-        }
-        public static string TimeFontColor()
-        {
-            return config.Read("timeFontColor", "Clock_Settings");
-        }
-        public static string ColonFontColor()
-        {
-            return config.Read("colonFontColor", "Clock_Settings");
-        }
-        public static string DateFontColor()
-        {
-            return config.Read("dateFontColor", "Clock_Settings");
-        }
-        public static string ClockBackgroundColor()
-        {
-            return config.Read("clockBackgroundColor", "Clock_Settings");
-        }
-        public static string TimePosition()
-        {
-            return config.Read("timeFontPosition", "Clock_Settings");
-        }
-        public static string ColonPosition()
-        {
-            return config.Read("colonFontPosition", "Clock_Settings");
-        }
-        public static string DatePosition()
-        {
-            return config.Read("dateFontPosition", "Clock_Settings");
-        }
-        public static string IsCompactView()
-        {
-            return config.Read("compactView", "Clock_Settings");
-        }
-        public static string IsDateShown()
-        {
-            return config.Read("showDate", "Clock_Settings");
-        }
-    }
-
-    class SettingsManagerConfig
-    {
-        public static string headerFont1;
-        public static string headerFont2;
-        public static string valueFont;
-        public static string headerFontColor1;
-        public static string headerFontColor2;
-        public static string valuesFontColor;
-        public static string headerFont1Position;
-        public static string headerFont2Position;
-        public static string valuesFontPosition;
-        public static string backgroundFillColor;
-        public static int headerFontSize1;
-        public static int headerFontSize2;
-        public static int valueFontSize;
-        public static int animFramerate;
-        public static string imageName;
-        public static string animName;
-        private static string isAnimationEnabled;
-        public static int framesToProcess;
-        public static int displayBrightness;
-        //clock settings
-        public static string timeFont;
-        public static string colonFont;
-        public static string dateFont;
-        public static int timeFontSize;
-        public static int colonFontSize;
-        public static int dateFontSize;
-        public static string timeFontColor;
-        public static string colonFontColor;
-        public static string dateFontColor;
-        public static string clockBackgroundColor;
-        public static string isCompactView;
-        public static string isDateShown;
-        public static int timePosition;
-        public static int colonPosition;
-        public static int datePosition;
-
-        //set font size, framerate and frame amount max values
-        public static int fsMax = 99;
-        public static int frMax = 60;
-        public static int faMax = 600;
-
-        public static List<string> fontList;
-        public static List<string> colorList;
-        public static List<string> imageList;
-        public static List<string> animList;
-        public static List<string> profileList;
-
-        public static void LoadValues(string currentProfile)
-        {
-            headerFont1 = SharedSettings.HeaderFont1(currentProfile);
-            headerFont2 = SharedSettings.HeaderFont2(currentProfile);
-            valueFont = SharedSettings.ValueFont(currentProfile);
-            headerFontColor1 = SharedSettings.HeaderFontColor1(currentProfile);
-            headerFontColor2 = SharedSettings.HeaderFontColor2(currentProfile);
-            valuesFontColor = SharedSettings.ValuesFontColor(currentProfile);
-            headerFont1Position = SharedSettings.HeaderFont1Position(currentProfile);
-            headerFont2Position = SharedSettings.HeaderFont2Position(currentProfile);
-            valuesFontPosition = SharedSettings.ValuesFontPosition(currentProfile);
-            backgroundFillColor = SharedSettings.BackgroundFillColor(currentProfile);
-            headerFontSize1 = int.Parse(SharedSettings.HeaderFontSize1(currentProfile).ToString());
-            headerFontSize2 = int.Parse(SharedSettings.HeaderFontSize2(currentProfile).ToString());
-            valueFontSize = int.Parse(SharedSettings.ValueFontSize(currentProfile).ToString());
-            displayBrightness = int.Parse(SharedSettings.DisplayBrightness(currentProfile).ToString());
-            framesToProcess = int.Parse(SharedSettings.FramesToProcess(currentProfile).ToString());
-            animFramerate = int.Parse(SharedSettings.AnimFramerate(currentProfile).ToString());
-            imageName = SharedSettings.ImageName(currentProfile);
-            animName = SharedSettings.AnimName(currentProfile);
-            isAnimationEnabled = SharedSettings.IsAnimationEnabled(currentProfile);
-            //clock settings
-            timeFont = SharedSettings.TimeFontType();
-            colonFont = SharedSettings.ColonFontType();
-            dateFont = SharedSettings.DateFontType();
-            timeFontSize = int.Parse(SharedSettings.TimeFontSize().ToString());
-            colonFontSize = int.Parse(SharedSettings.ColonFontSize().ToString());
-            dateFontSize = int.Parse(SharedSettings.DateFontSize().ToString());
-            timeFontColor = SharedSettings.TimeFontColor();
-            colonFontColor = SharedSettings.ColonFontColor();
-            dateFontColor = SharedSettings.DateFontColor();
-            clockBackgroundColor = SharedSettings.ClockBackgroundColor();
-            isCompactView = SharedSettings.IsCompactView();
-            isDateShown = SharedSettings.IsDateShown();
-            timePosition = int.Parse(SharedSettings.TimePosition().ToString());
-            colonPosition = int.Parse(SharedSettings.ColonPosition().ToString());
-            datePosition = int.Parse(SharedSettings.DatePosition().ToString());
-
-            //create file list of fonts in fontDir
-            fontList = new List<string> { };
-            foreach (var font in Directory.GetFiles(SharedSettings.fontDir))
-            {
-                fontList.Add((Path.GetFileNameWithoutExtension(font)));
-            }
-
-            //create file list of images in staticImgDir
-            imageList = new List<string> { };
-            foreach (var img in Directory.GetFiles(SharedSettings.staticImgDir))
-            {
-                if (img.Contains(".png"))
-                {
-                    imageList.Add((Path.GetFileNameWithoutExtension(img)));
-                }
-            }
-
-            //create file list of videos in animationImgDir
-            animList = new List<string> { };
-            foreach (var vid in Directory.GetFiles(SharedSettings.animationImgDir))
-            {
-                if (vid.Contains(".mp4"))
-                {
-                    animList.Add((Path.GetFileNameWithoutExtension(vid)));
-                }
-            }
-
-            //create list of available StreamDeckMonitor colors
-            string[] colors = { "Beige", "Black", "Blue", "Brown", "Cyan", "Gold", "Green", "Grey",
-                "HoneyDew", "Khaki", "Lime", "Mint", "Olive", "Orange", "Pink", "Purple",
-                "Red", "Salmon", "Silver", "SkyBlue", "Teal", "White", "Yellow" };
-
-            colorList = new List<string> { };
-            foreach (var color in colors)
-            {
-                colorList.Add(color);
-            }
-
-            //create list of profiles
-            string[] profiles = { "Profile 1", "Profile 2", "Profile 3" };
-
-            profileList = new List<string> { };
-            foreach (var profile in profiles)
-            {
-                profileList.Add(profile);
-            }
-        }
-
-        public static void RestartSDM()
-        {
-            //if StreamDeckMonitor is running then refresh/restart the application to show new changes made
-            string processName = "StreamDeckMonitor";
-            if (Process.GetProcessesByName(processName).Length > 0)
-            {
-                Process.GetProcessesByName(processName).First().Kill();
-                Process.Start(processName);
-            }
-        }
-    }
-
-    class SettingsManagerSDM
+    class SettingsSDMonitor
     {
         //check for Layout key count
         private static readonly int deckKeyCount = ImageManager.deck.Keys.Count();
         public static string CheckForLayout()
         {
             string deckLayout = "";
+
             if (deckKeyCount == 6)
             {
                 deckLayout = "Mini";
@@ -350,6 +23,7 @@ namespace SharedManagers
             {
                 deckLayout = "Standard";
             }
+
             return deckLayout;
         }
 
@@ -358,10 +32,12 @@ namespace SharedManagers
         public static bool CheckForAB()
         {
             bool abRunning = false;
+
             if (IsProcessRunning(ab) == true)
             {
                 abRunning = true;
             }
+
             return abRunning;
         }
 
@@ -438,6 +114,7 @@ namespace SharedManagers
             {
                 return frametimeValue;
             }
+
             //if setting is above 60 or invalid then set to 30fps default
             else
             {
@@ -445,6 +122,9 @@ namespace SharedManagers
             }
             return frametimeValue;
         }
+
+        //mini settings
+        public static string isFpsCounter = SharedSettings.IsFpsCounter();
 
         //colored SolidBrushes
         private static readonly SolidBrush cyanBrush = new SolidBrush(Color.FromArgb(4, 232, 232));
@@ -481,6 +161,7 @@ namespace SharedManagers
                 return myBrush;
             }
         }
+
         public static SolidBrush HeaderBrush2
         {
             get
@@ -489,6 +170,7 @@ namespace SharedManagers
                 return myBrush;
             }
         }
+
         public static SolidBrush ValuesBrush
         {
             get
@@ -497,6 +179,7 @@ namespace SharedManagers
                 return myBrush;
             }
         }
+
         public static SolidBrush BackgroundBrush
         {
             get
@@ -505,6 +188,7 @@ namespace SharedManagers
                 return myBrush;
             }
         }
+
         //clock settings
         public static SolidBrush TimeBrush
         {
@@ -514,6 +198,7 @@ namespace SharedManagers
                 return myBrush;
             }
         }
+
         public static SolidBrush ColonBrush
         {
             get
@@ -522,6 +207,7 @@ namespace SharedManagers
                 return myBrush;
             }
         }
+
         public static SolidBrush DateBrush
         {
             get
@@ -538,90 +224,112 @@ namespace SharedManagers
             {
                 myBrush = cyanBrush;
             }
+
             if (color.Equals("Brown"))
             {
                 myBrush = brownBrush;
             }
+
             if (color.Equals("Orange"))
             {
                 myBrush = orangeBrush;
             }
+
             if (color.Equals("Pink"))
             {
                 myBrush = pinkBrush;
             }
+
             if (color.Equals("Yellow"))
             {
                 myBrush = yellowBrush;
             }
+
             if (color.Equals("Gold"))
             {
                 myBrush = goldBrush;
             }
+
             if (color.Equals("Green"))
             {
                 myBrush = greenBrush;
             }
+
             if (color.Equals("Lime"))
             {
                 myBrush = limeBrush;
             }
+
             if (color.Equals("Black"))
             {
                 myBrush = blackBrush;
             }
+
             if (color.Equals("White"))
             {
                 myBrush = whiteBrush;
             }
+
             if (color.Equals("Blue"))
             {
                 myBrush = blueBrush;
             }
+
             if (color.Equals("Purple"))
             {
                 myBrush = purpleBrush;
             }
+
             if (color.Equals("Red"))
             {
                 myBrush = redBrush;
             }
+
             if (color.Equals("Silver"))
             {
                 myBrush = silverBrush;
             }
+
             if (color.Equals("Grey"))
             {
                 myBrush = greyBrush;
             }
+
             if (color.Equals("Salmon"))
             {
                 myBrush = salmonBrush;
             }
+
             if (color.Equals("Khaki"))
             {
                 myBrush = khakiBrush;
             }
+
             if (color.Equals("Olive"))
             {
                 myBrush = oliveBrush;
             }
+
             if (color.Equals("Teal"))
             {
                 myBrush = tealBrush;
             }
+
             if (color.Equals("SkyBlue"))
             {
                 myBrush = skyBlueBrush;
             }
+
             if (color.Equals("Beige"))
             {
                 myBrush = beigeBrush;
             }
+
             if (color.Equals("Mint"))
             {
                 myBrush = mintBrush;
             }
+
             if (color.Equals("HoneyDew"))
             {
                 myBrush = honeyDewBrush;
@@ -649,27 +357,37 @@ namespace SharedManagers
                  3   4   5    
        */
 
-        //define Mini key locations
+        //define Mini key locations        
+        public static int KeyLocFpsMini
+        {
+            get { return 3; }
+        }
+
         public static int KeyLocCpuHeaderMini
         {
             get { return 0; }
         }
+
         public static int KeyLocGpuHeaderMini
         {
             get { return 3; }
         }
+
         public static int KeyLocCpuTempMini
         {
             get { return 1; }
         }
+
         public static int KeyLocGpuTempMini
         {
             get { return 4; }
         }
+
         public static int KeyLocCpuLoadMini
         {
             get { return 2; }
         }
+
         public static int KeyLocGpuLoadMini
         {
             get { return 5; }
@@ -680,58 +398,72 @@ namespace SharedManagers
         {
             get { return 4; }
         }
+
         public static int KeyLocCpuTemp
         {
             get { return 7; }
         }
+
         public static int KeyLocGpuTemp
         {
             get { return 12; }
         }
+
         public static int KeyLocCpuLoad
         {
             get { return 8; }
         }
+
         public static int KeyLocGpuLoad
         {
             get { return 13; }
         }
+
         public static int KeyLocCpuHeader
         {
             get { return 6; }
         }
+
         public static int KeyLocGpuHeader
         {
             get { return 11; }
         }
+
         public static int KeyLocTimeHeader
         {
             get { return 0; }
         }
+
         public static int KeyLocBgImg1
         {
             get { return 1; }
         }
+
         public static int KeyLocBgImg2
         {
             get { return 9; }
         }
+
         public static int KeyLocBgImg3
         {
             get { return 5; }
         }
+
         public static int KeyLocBgImg4
         {
             get { return 3; }
         }
+
         public static int KeyLocBgImg5
         {
             get { return 14; }
         }
+
         public static int KeyLocBgImg6
         {
             get { return 10; }
         }
+
         public static int KeyLocBgImg7
         {
             get { return 2; }
@@ -758,30 +490,37 @@ namespace SharedManagers
         {
             get { return (SharedSettings.generatedDir + "cpu.png"); }
         }
+
         public static string ImageLocGpu
         {
             get { return (SharedSettings.generatedDir + "gpu.png"); }
         }
+
         public static string ImageLocFps
         {
             get { return (SharedSettings.generatedDir + "fps.png"); }
         }
+
         public static string ImageLocTemp
         {
             get { return (SharedSettings.generatedDir + "temp.png"); }
         }
+
         public static string ImageLocLoad
         {
             get { return (SharedSettings.generatedDir + "load.png"); }
         }
+
         public static string ImageLocTime
         {
             get { return (SharedSettings.generatedDir + "time.png"); }
         }
+
         public static string ImageLocColon
         {
             get { return (SharedSettings.generatedDir + "colon.png"); }
         }
+
         public static string ImageLocBlank
         {
             get { return (SharedSettings.generatedDir + "blank.png"); }

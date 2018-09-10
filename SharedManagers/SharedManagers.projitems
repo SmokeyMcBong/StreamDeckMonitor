@@ -11,6 +11,8 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)ConfigParser.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ImageManager.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)SettingsManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SettingsConfigurator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SettingsShared.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SettingsSDMonitor.cs" />
   </ItemGroup>
 </Project>

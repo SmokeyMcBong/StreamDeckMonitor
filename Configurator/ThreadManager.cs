@@ -53,19 +53,20 @@ namespace Configurator
         //background worker for saving settings to config file
         public static void DoSaveInBackground(List<string> configValueList, string configType, MainWindow configurator)
         {
-            if (configType == "mainconfig")
+            if (configType == "mainconfig" || configType == "miniconfig")
             {
-                SaveMainSettings(configValueList, configurator);
+                SaveSettings(configValueList, configurator);
             }
+            
             else if (configType == "clockconfig")
             {
                 SaveClockSettings(configValueList, configurator);
             }
         }
 
-        private static void SaveMainSettings(List<string> configValueList, MainWindow configurator)
+        private static void SaveSettings(List<string> configValueList, MainWindow configurator)
         {
-            string currentProfile;
+            string settingHeading;
 
             if (configValueList != null)
             {
@@ -90,15 +91,21 @@ namespace Configurator
 
                             if (settingType == "selectedProfile")
                             {
-                                currentProfile = "Current_Profile";
+                                settingHeading = "Current_Profile";
                             }
+
+                            if (settingType == "showFpsCounter")
+                            {
+                                settingHeading = "Mini_Settings";
+                            }
+
                             else
                             {
-                                currentProfile = configurator.Profiles.Text;
+                                settingHeading = configurator.Profiles.Text;
                             }
 
                             //write the type and value to config file under the correct profile heading
-                            SharedSettings.config.Write(settingType, settingValue, currentProfile);
+                            SharedSettings.config.Write(settingType, settingValue, settingHeading);
                         }
                     }
                 };
@@ -137,7 +144,7 @@ namespace Configurator
                     }
 
                     configurator.ReloadExt();
-                    SettingsManagerConfig.RestartSDM();
+                    SettingsConfigurator.RestartSDM();
                 };
 
                 //start the background worker to reset both the label and button to default states
@@ -181,10 +188,13 @@ namespace Configurator
                     DefaultProfile2Config();
                     DefaultProfile3Config();
                     DefaultDeviceStateConfig();
+                    DeviceChoice deviceChoice = new DeviceChoice();
+                    deviceChoice.Show();
+                    configurator.Close();
                 }
 
                 configurator.ReloadExt();
-                SettingsManagerConfig.RestartSDM();
+                SettingsConfigurator.RestartSDM();
             };
 
             //start the background worker
