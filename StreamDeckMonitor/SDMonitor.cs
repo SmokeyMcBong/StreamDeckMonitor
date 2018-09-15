@@ -634,7 +634,7 @@ namespace StreamDeckMonitor
             Environment.Exit(Environment.ExitCode);
         }
 
-        static void RestartApp()
+        public static void RestartApp()
         {
             //start a new instance of the program then close current
             System.Diagnostics.Process.Start(Application.ExecutablePath);

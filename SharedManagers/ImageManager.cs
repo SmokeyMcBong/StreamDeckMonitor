@@ -43,8 +43,8 @@ namespace SharedManagers
 
             void CreateImage(string text, string type, string filename, int textSize, float x, float y)
             {
-                Font font;
-                Brush myBrushText;
+                Font font = new Font(SettingsSDMonitor.myFontHeader1, textSize);
+                Brush myBrushText = SettingsSDMonitor.HeaderBrush1;
                 PointF textLocation = new PointF(x, y);
                 Bitmap bitmap = new Bitmap(dimensWidth, dimensHeight);
                 using (Graphics graphics = Graphics.FromImage(bitmap))
@@ -82,12 +82,6 @@ namespace SharedManagers
                     {
                         font = new Font(SettingsSDMonitor.colonFont, textSize);
                         myBrushText = SettingsSDMonitor.ColonBrush;
-                    }
-
-                    else
-                    {
-                        font = new Font(SettingsSDMonitor.myFontHeader1, textSize);
-                        myBrushText = SettingsSDMonitor.HeaderBrush1;
                     }
 
                     using (font)

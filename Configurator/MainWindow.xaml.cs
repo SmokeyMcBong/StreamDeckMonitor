@@ -711,6 +711,8 @@ namespace Configurator
             Brush selectedColor = Brushes.DarkCyan;
             string statusText = "Loaded " + currentProfile;
             ThreadManager.DoStatusInBackground(selectedColor, statusText, "", this);
+
+            SettingsConfigurator.RestartSDM();
         }
 
         //brightness slider
@@ -756,7 +758,7 @@ namespace Configurator
 
             if (IsMiniFps.Visibility == Visibility.Visible)
             {
-                //grab all values to save to config file
+                //grab all values to save to config file                
                 string formattedValue = new string(BrightnessPercent.Content.ToString().Where(char.IsDigit).ToArray());
                 string displayBrightness = "displayBrightness" + " " + formattedValue;
                 string headerFontSize1 = "headerFontSize_1" + " " + HeaderFontSize1.Text;

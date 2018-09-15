@@ -57,7 +57,7 @@ namespace Configurator
             {
                 SaveSettings(configValueList, configurator);
             }
-            
+
             else if (configType == "clockconfig")
             {
                 SaveClockSettings(configValueList, configurator);
@@ -66,7 +66,7 @@ namespace Configurator
 
         private static void SaveSettings(List<string> configValueList, MainWindow configurator)
         {
-            string settingHeading;
+            string settingHeading = configurator.Profiles.Text;
 
             if (configValueList != null)
             {
@@ -97,11 +97,6 @@ namespace Configurator
                             if (settingType == "showFpsCounter")
                             {
                                 settingHeading = "Mini_Settings";
-                            }
-
-                            else
-                            {
-                                settingHeading = configurator.Profiles.Text;
                             }
 
                             //write the type and value to config file under the correct profile heading
@@ -222,7 +217,7 @@ namespace Configurator
 
         private static void DefaultProfile1Config()
         {
-            //profile 1 config
+            //Profile 1 config
             SharedSettings.config.Write("headerFontType_1", "Beyond The Mountains", "Profile 1");
             SharedSettings.config.Write("headerFontType_2", "Beyond The Mountains", "Profile 1");
             SharedSettings.config.Write("headerFontColor_1", "Gold", "Profile 1");
@@ -246,7 +241,7 @@ namespace Configurator
 
         private static void DefaultProfile2Config()
         {
-            //profile 2 config
+            //Profile 2 config
             SharedSettings.config.Write("headerFontType_1", "Beauty and Beast", "Profile 2");
             SharedSettings.config.Write("headerFontType_2", "Beyond The Mountains", "Profile 2");
             SharedSettings.config.Write("headerFontColor_1", "Teal", "Profile 2");
@@ -270,7 +265,7 @@ namespace Configurator
 
         private static void DefaultProfile3Config()
         {
-            //profile 3 config
+            //Profile 3 config
             SharedSettings.config.Write("headerFontType_1", "True Lies", "Profile 3");
             SharedSettings.config.Write("headerFontType_2", "True Lies", "Profile 3");
             SharedSettings.config.Write("headerFontColor_1", "Pink", "Profile 3");
