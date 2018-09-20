@@ -756,25 +756,26 @@ namespace Configurator
             //set lists depending on device
             List<string> configValueList;
 
+            //grab values used by both standard and mini configs
+            string formattedValue = new string(BrightnessPercent.Content.ToString().Where(char.IsDigit).ToArray());
+            string displayBrightness = "displayBrightness" + " " + formattedValue;
+            string headerFontSize1 = "headerFontSize_1" + " " + HeaderFontSize1.Text;
+            string headerFontSize2 = "headerFontSize_2" + " " + HeaderFontSize2.Text;
+            string valuesFontSize = "valuesFontSize" + " " + ValuesFontSize.Text;
+            string headerFontType1 = "headerFontType_1" + " " + HeaderFontType1.SelectedValue.ToString();
+            string headerFontType2 = "headerFontType_2" + " " + HeaderFontType2.SelectedValue.ToString();
+            string valuesFontType = "valuesFontType" + " " + ValuesFontType.SelectedValue.ToString();
+            string headerfontColor1 = "headerfontColor_1" + " " + HeaderFontColor1.SelectedValue.ToString();
+            string headerfontColor2 = "headerfontColor_2" + " " + HeaderFontColor2.SelectedValue.ToString();
+            string valuesFontColor = "valuesFontColor" + " " + ValuesFontColor.SelectedValue.ToString();
+            string backgroundColor = "backgroundColor" + " " + BackgroundFillColor.SelectedValue.ToString();
+            string valuesFontPosition = "valuesFontPosition" + " " + ValuePosition.Text;
+            string headerfont1Position = "headerFontPosition_1" + " " + Header1Position.Text;
+            string headerfont2Position = "headerFontPosition_2" + " " + Header2Position.Text;
+
+            //grab values used for mini config
             if (IsMiniFps.Visibility == Visibility.Visible)
             {
-                //grab all values to save to config file                
-                string formattedValue = new string(BrightnessPercent.Content.ToString().Where(char.IsDigit).ToArray());
-                string displayBrightness = "displayBrightness" + " " + formattedValue;
-                string headerFontSize1 = "headerFontSize_1" + " " + HeaderFontSize1.Text;
-                string headerFontSize2 = "headerFontSize_2" + " " + HeaderFontSize2.Text;
-                string valuesFontSize = "valuesFontSize" + " " + ValuesFontSize.Text;
-                string headerFontType1 = "headerFontType_1" + " " + HeaderFontType1.SelectedValue.ToString();
-                string headerFontType2 = "headerFontType_2" + " " + HeaderFontType2.SelectedValue.ToString();
-                string valuesFontType = "valuesFontType" + " " + ValuesFontType.SelectedValue.ToString();
-                string headerfontColor1 = "headerfontColor_1" + " " + HeaderFontColor1.SelectedValue.ToString();
-                string headerfontColor2 = "headerfontColor_2" + " " + HeaderFontColor2.SelectedValue.ToString();
-                string valuesFontColor = "valuesFontColor" + " " + ValuesFontColor.SelectedValue.ToString();
-                string backgroundColor = "backgroundColor" + " " + BackgroundFillColor.SelectedValue.ToString();
-                string valuesFontPosition = "valuesFontPosition" + " " + ValuePosition.Text;
-                string headerfont1Position = "headerFontPosition_1" + " " + Header1Position.Text;
-                string headerfont2Position = "headerFontPosition_2" + " " + Header2Position.Text;
-                //mini settings
                 string isFpsShown;
 
                 if (IsMiniFps.IsChecked == true)
@@ -792,7 +793,7 @@ namespace Configurator
                     isFpsShown
                 };
 
-                //send lists to be processed in background threads
+                //send list to be processed in background threads
                 ThreadManager.DoSaveInBackground(configMiniValueList, "miniconfig", this);
 
                 //store all values to pass to DoSaveInBackground()
@@ -817,22 +818,7 @@ namespace Configurator
 
             else
             {
-                //grab all values to save to config file
-                string formattedValue = new string(BrightnessPercent.Content.ToString().Where(char.IsDigit).ToArray());
-                string displayBrightness = "displayBrightness" + " " + formattedValue;
-                string headerFontSize1 = "headerFontSize_1" + " " + HeaderFontSize1.Text;
-                string headerFontSize2 = "headerFontSize_2" + " " + HeaderFontSize2.Text;
-                string valuesFontSize = "valuesFontSize" + " " + ValuesFontSize.Text;
-                string headerFontType1 = "headerFontType_1" + " " + HeaderFontType1.SelectedValue.ToString();
-                string headerFontType2 = "headerFontType_2" + " " + HeaderFontType2.SelectedValue.ToString();
-                string valuesFontType = "valuesFontType" + " " + ValuesFontType.SelectedValue.ToString();
-                string headerfontColor1 = "headerfontColor_1" + " " + HeaderFontColor1.SelectedValue.ToString();
-                string headerfontColor2 = "headerfontColor_2" + " " + HeaderFontColor2.SelectedValue.ToString();
-                string valuesFontColor = "valuesFontColor" + " " + ValuesFontColor.SelectedValue.ToString();
-                string backgroundColor = "backgroundColor" + " " + BackgroundFillColor.SelectedValue.ToString();
-                string valuesFontPosition = "valuesFontPosition" + " " + ValuePosition.Text;
-                string headerfont1Position = "headerFontPosition_1" + " " + Header1Position.Text;
-                string headerfont2Position = "headerFontPosition_2" + " " + Header2Position.Text;
+                //grab values used for standard config
                 string animationFramerate = "animationFramerate" + " " + AnimFramerate.Text;
                 string framesToProcess = "framesToProcess" + " " + FrameTotal.Text;
                 string animationEnabled;
@@ -935,6 +921,8 @@ namespace Configurator
             Brush selectedColor = Brushes.Green;
             string statusText = "Settings Saved !";
             ThreadManager.DoStatusInBackground(selectedColor, statusText, "Save", this);
+
+            SettingsConfigurator.RestartSDM();
         }
 
         //restore default settings to config file

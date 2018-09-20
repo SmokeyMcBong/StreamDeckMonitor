@@ -13,7 +13,7 @@ namespace StreamDeckMonitor
     {
         static bool isMiniDeck = false;
         static bool isABRunning = false;
-        static HardwareMonitor msiAB = new HardwareMonitor();
+        static HardwareMonitor msiAB = null;
         static Computer ohmComputer = new Computer() { CPUEnabled = true, GPUEnabled = true };
 
         static void Main(string[] args)
@@ -41,28 +41,24 @@ namespace StreamDeckMonitor
             //check for State setting and start State accodingly
             if (SharedSettings.CurrentSate() == 1)
             {
-                if (isMiniDeck == true)
-                {
-                    StartMonitorStateMini();
-                }
-                else
-                {
-                    StartMonitorState();
-                }
+                StartMonitorState();
             }
-
             if (SharedSettings.CurrentSate() == 2)
             {
                 StartClockState();
             }
 
-            //MonitorStateMini
-            void StartMonitorStateMini()
+            //MonitorState
+            void StartMonitorState()
             {
                 var showFps = false;
-                if (SettingsSDMonitor.isFpsCounter == "True")
+
+                if (isMiniDeck == true)
                 {
-                    showFps = true;
+                    if (SettingsSDMonitor.isFpsCounter == "True")
+                    {
+                        showFps = true;
+                    }
                 }
 
                 try
@@ -70,6 +66,7 @@ namespace StreamDeckMonitor
                     //check if MSIAfterburner process is running
                     if (SettingsSDMonitor.CheckForAB() == true)
                     {
+                        msiAB = new HardwareMonitor();
                         msiAB.Connect();
                         isABRunning = true;
                     }
@@ -85,10 +82,63 @@ namespace StreamDeckMonitor
                     //set static header images 
                     ImageManager.SetStaticHeaders();
 
-                    StartMonitorMini();
-
-                    void StartMonitorMini()
+                    if (isMiniDeck == false)
                     {
+                        showFps = true;
+
+                        //check if using animations or static images
+                        string currentProfile = SharedSettings.config.Read("selectedProfile", "Current_Profile");
+                        if (SharedSettings.IsAnimationEnabled(currentProfile) != "True")
+                        {
+                            foreach (var button in SettingsSDMonitor.BgButtonList())
+                            {
+                                ImageManager.SetStaticImg(SettingsSDMonitor.imageName, button);
+                            }
+
+                            //start standard loop without the image animations 
+                            StartMonitor();
+                        }
+                        else
+                        {
+                            //start both loops in parallel
+                            Parallel.Invoke(() => ImageManager.StartAnimation(), () => StartMonitor());
+                        }
+                    }
+
+                    else
+                    {
+                        StartMonitor();
+                    }
+
+                    void StartMonitor()
+                    {
+                        string typeFps;
+                        int KeyLocFps;
+                        int KeyLocGpuTemp;
+                        int KeyLocGpuLoad;
+                        int KeyLocCpuTemp;
+                        int KeyLocCpuLoad;
+
+                        if (isMiniDeck == true)
+                        {
+                            typeFps = "fmini";
+                            KeyLocFps = SettingsSDMonitor.KeyLocFpsMini;
+                            KeyLocGpuTemp = SettingsSDMonitor.KeyLocGpuTempMini;
+                            KeyLocGpuLoad = SettingsSDMonitor.KeyLocGpuLoadMini;
+                            KeyLocCpuTemp = SettingsSDMonitor.KeyLocCpuTempMini;
+                            KeyLocCpuLoad = SettingsSDMonitor.KeyLocCpuLoadMini;
+                        }
+
+                        else
+                        {
+                            typeFps = "f";
+                            KeyLocFps = SettingsSDMonitor.KeyLocFps;
+                            KeyLocGpuTemp = SettingsSDMonitor.KeyLocGpuTemp;
+                            KeyLocGpuLoad = SettingsSDMonitor.KeyLocGpuLoad;
+                            KeyLocCpuTemp = SettingsSDMonitor.KeyLocCpuTemp;
+                            KeyLocCpuLoad = SettingsSDMonitor.KeyLocCpuLoad;
+                        }
+
                         int counterDefault = 1;
 
                         //start loop
@@ -114,15 +164,29 @@ namespace StreamDeckMonitor
                                         //get values for framerate and pass to process
                                         int framerateInt = (int)Math.Round(framerateEntry.Data);
                                         string dataValue = framerateInt.ToString();
-                                        string type = "fmini";
-                                        ImageManager.ProcessValueImg(dataValue, type, SettingsSDMonitor.KeyLocFpsMini);
+                                        string type = typeFps;
+                                        ImageManager.ProcessValueImg(dataValue, type, KeyLocFps);
                                     }
+
                                     else
                                     {
                                         string dataValue = "0";
-                                        string type = "fmini";
-                                        ImageManager.ProcessValueImg(dataValue, type, SettingsSDMonitor.KeyLocFpsMini);
+                                        string type = typeFps;
+                                        ImageManager.ProcessValueImg(dataValue, type, KeyLocFps);
                                     }
+                                }
+
+                                if (isMiniDeck == false)
+                                {
+                                    //get and set time 
+                                    string timeOutput = DateTime.Now.ToString("hh:mm");
+
+                                    if (timeOutput.StartsWith("0"))
+                                    {
+                                        timeOutput = timeOutput.Remove(0, 1);
+                                    }
+
+                                    ImageManager.ProcessValueImg(timeOutput, "ti", SettingsSDMonitor.KeyLocTimeHeader);
                                 }
 
                                 //search hardware
@@ -140,7 +204,7 @@ namespace StreamDeckMonitor
                                             {
                                                 string dataValue = sensor.Value.ToString() + "c";
                                                 string type = "t";
-                                                ImageManager.ProcessValueImg(dataValue, type, SettingsSDMonitor.KeyLocGpuTempMini);
+                                                ImageManager.ProcessValueImg(dataValue, type, KeyLocGpuTemp);
                                             }
 
                                             //search for load sensor
@@ -161,7 +225,7 @@ namespace StreamDeckMonitor
                                                         int gpuLoadInt = (int)Math.Round(sensor.Value.Value);
                                                         string dataValue = gpuLoadInt.ToString() + "%";
                                                         string type = "l";
-                                                        ImageManager.ProcessValueImg(dataValue, type, SettingsSDMonitor.KeyLocGpuLoadMini);
+                                                        ImageManager.ProcessValueImg(dataValue, type, KeyLocGpuLoad);
                                                     }
                                                 }
                                             }
@@ -209,7 +273,7 @@ namespace StreamDeckMonitor
                                                         {
                                                             string dataValue = resultPackage.ToString() + "c";
                                                             string type = "t";
-                                                            ImageManager.ProcessValueImg(dataValue, type, SettingsSDMonitor.KeyLocCpuTempMini);
+                                                            ImageManager.ProcessValueImg(dataValue, type, KeyLocCpuTemp);
                                                         }
                                                     }
                                                 }
@@ -233,235 +297,7 @@ namespace StreamDeckMonitor
                                                         int cpuLoadInt = (int)Math.Round(sensor.Value.Value);
                                                         string dataValue = cpuLoadInt.ToString() + "%";
                                                         string type = "l";
-                                                        ImageManager.ProcessValueImg(dataValue, type, SettingsSDMonitor.KeyLocCpuLoadMini);
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-
-                                //wait 1 second before restarting loop
-                                System.Threading.Thread.Sleep(1000);
-
-                                //remove handler
-                                ImageManager.deck.KeyStateChanged -= DeckKeyPressed;
-                            }
-
-                            catch (Exception)
-                            {
-                                ExitApp();
-                            }
-                        }
-                    }
-                }
-
-                catch (Exception ex)
-                {
-                    if (ex.InnerException is StreamDeckSharp.Exceptions.StreamDeckNotFoundException)
-                    {
-                        string deviceNotFound = " 'Stream Deck' Device not found/connected ! ";
-                        MessageBox.Show(deviceNotFound);
-                    }
-
-                    ExitApp();
-                }
-            }
-
-            //MonitorState
-            void StartMonitorState()
-            {
-                try
-                {
-                    //check if MSIAfterburner process is running
-                    if (SettingsSDMonitor.CheckForAB() == true)
-                    {
-                        msiAB.Connect();
-                        isABRunning = true;
-                    }
-                    else
-                    {
-                        msiAB = null;
-                    }
-
-                    //define Librehardwaremonitor sensors and connect (CPU temp data requires 'highestAvailable' requestedExecutionLevel !!)
-                    ohmComputer.Open();
-
-                    //set static header images 
-                    ImageManager.SetStaticHeaders();
-
-                    //check if using animations or static images
-                    string currentProfile = SharedSettings.config.Read("selectedProfile", "Current_Profile");
-                    if (SharedSettings.IsAnimationEnabled(currentProfile) != "True")
-                    {
-                        foreach (var button in SettingsSDMonitor.BgButtonList())
-                        {
-                            ImageManager.SetStaticImg(SettingsSDMonitor.imageName, button);
-                        }
-
-                        //start standard loop without the image animations 
-                        StartMonitor();
-                    }
-                    else
-                    {
-                        //start both loops in parallel
-                        Parallel.Invoke(() => ImageManager.StartAnimation(), () => StartMonitor());
-                    }
-
-                    void StartMonitor()
-                    {
-                        int counterDefault = 1;
-
-                        //start loop
-                        while (true)
-                        {
-                            int countValue = counterDefault++;
-
-                            if (ImageManager.exitflag) break;
-
-                            try
-                            {
-                                //add key press handler, if pressed send exit command 
-                                ImageManager.deck.KeyStateChanged += DeckKeyPressed;
-
-                                //connect to msi afterburner and reload values
-                                if (isABRunning == true)
-                                {
-                                    var framerateEntry = msiAB.GetEntry(HardwareMonitor.GPU_GLOBAL_INDEX, MONITORING_SOURCE_ID.FRAMERATE);
-                                    msiAB.ReloadEntry(framerateEntry);
-
-                                    //get values for framerate and pass to process
-                                    int framerateInt = (int)Math.Round(framerateEntry.Data);
-                                    string dataValue = framerateInt.ToString();
-                                    string type = "f";
-                                    ImageManager.ProcessValueImg(dataValue, type, SettingsSDMonitor.KeyLocFps);
-                                }
-
-                                else
-                                {
-                                    string dataValue = "0";
-                                    string type = "f";
-                                    ImageManager.ProcessValueImg(dataValue, type, SettingsSDMonitor.KeyLocFps);
-                                }
-
-                                //get and set time 
-                                string timeOutput = DateTime.Now.ToString("hh:mm");
-
-                                if (timeOutput.StartsWith("0"))
-                                {
-                                    timeOutput = timeOutput.Remove(0, 1);
-                                }
-                                ImageManager.ProcessValueImg(timeOutput, "ti", SettingsSDMonitor.KeyLocTimeHeader);
-
-                                //search hardware
-                                foreach (IHardware hardware in ohmComputer.Hardware)
-                                {
-                                    hardware.Update();
-
-                                    //check for gpu sensor
-                                    if (hardware.HardwareType == HardwareType.GpuNvidia || hardware.HardwareType == HardwareType.GpuAti)
-                                    {
-                                        foreach (ISensor sensor in hardware.Sensors)
-                                        {
-                                            //search for temp sensor
-                                            if (sensor.SensorType == SensorType.Temperature)
-                                            {
-                                                string dataValue = sensor.Value.ToString() + "c";
-                                                string type = "t";
-                                                ImageManager.ProcessValueImg(dataValue, type, SettingsSDMonitor.KeyLocGpuTemp);
-                                            }
-
-                                            //search for load sensor
-                                            if (sensor.SensorType == SensorType.Load)
-                                            {
-                                                //add gpu load sensors to list
-                                                string getValues = sensor.Name + sensor.Value.ToString();
-                                                List<string> valueList = new List<string>
-                                            {
-                                                getValues
-                                            };
-                                                //get values for gpu and pass to process
-                                                foreach (string value in valueList)
-                                                {
-                                                    if (value.Contains("GPU Core"))
-                                                    {
-                                                        //get values for gpu and pass to process
-                                                        int gpuLoadInt = (int)Math.Round(sensor.Value.Value);
-                                                        string dataValue = gpuLoadInt.ToString() + "%";
-                                                        string type = "l";
-                                                        ImageManager.ProcessValueImg(dataValue, type, SettingsSDMonitor.KeyLocGpuLoad);
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-
-                                    //check for cpu sensor
-                                    if (hardware.HardwareType == HardwareType.CPU)
-                                    {
-                                        string cpuTempString;
-
-                                        if (hardware.Name.Contains("Ryzen"))
-                                        {
-                                            cpuTempString = "Core (Tdie)";
-                                        }
-
-                                        if (hardware.Name.Contains("Intel"))
-                                        {
-                                            cpuTempString = "CPU Package";
-                                        }
-
-                                        else
-                                        {
-                                            cpuTempString = "Core #0";
-                                        }
-
-                                        foreach (ISensor sensor in hardware.Sensors)
-                                        {
-                                            //search for temp sensor
-                                            if (sensor.SensorType == SensorType.Temperature)
-                                            {
-                                                //add cpu temp sensors to list
-                                                string getValues = sensor.Name + sensor.Value.ToString();
-                                                List<string> valueList = new List<string>
-                                            {
-                                                getValues
-                                            };
-                                                //get values for cpu and pass to process
-                                                foreach (string value in valueList)
-                                                {
-                                                    if (value.Contains(cpuTempString))
-                                                    {
-                                                        string resultPackage = value.Substring(Math.Max(0, value.Length - 2));
-                                                        if (!resultPackage.Contains("#"))
-                                                        {
-                                                            string dataValue = resultPackage.ToString() + "c";
-                                                            string type = "t";
-                                                            ImageManager.ProcessValueImg(dataValue, type, SettingsSDMonitor.KeyLocCpuTemp);
-                                                        }
-                                                    }
-                                                }
-                                            }
-
-                                            //search for load sensor
-                                            if (sensor.SensorType == SensorType.Load)
-                                            {
-                                                //add cpu load sensors to list
-                                                string getValues = sensor.Name + sensor.Value.ToString();
-                                                List<string> valueList = new List<string>
-                                            {
-                                                getValues
-                                            };
-                                                //get values for cpu and change Stream Deck image
-                                                foreach (string value in valueList)
-                                                {
-                                                    if (value.Contains("CPU Total"))
-                                                    {
-                                                        //get values for cpu and pass to process
-                                                        int cpuLoadInt = (int)Math.Round(sensor.Value.Value);
-                                                        string dataValue = cpuLoadInt.ToString() + "%";
-                                                        string type = "l";
-                                                        ImageManager.ProcessValueImg(dataValue, type, SettingsSDMonitor.KeyLocCpuLoad);
+                                                        ImageManager.ProcessValueImg(dataValue, type, KeyLocCpuLoad);
                                                     }
                                                 }
                                             }

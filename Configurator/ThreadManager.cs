@@ -55,16 +55,16 @@ namespace Configurator
         {
             if (configType == "mainconfig" || configType == "miniconfig")
             {
-                SaveSettings(configValueList, configurator);
+                SaveSettings(configValueList, configurator, "");
             }
 
             else if (configType == "clockconfig")
             {
-                SaveClockSettings(configValueList, configurator);
+                SaveSettings(configValueList, configurator, "clockconfig");
             }
         }
 
-        private static void SaveSettings(List<string> configValueList, MainWindow configurator)
+        private static void SaveSettings(List<string> configValueList, MainWindow configurator, string configType)
         {
             string settingHeading = configurator.Profiles.Text;
 
@@ -89,6 +89,11 @@ namespace Configurator
                             string settingType = splitString[0];
                             string settingValue = splitString[1];
 
+                            if (configType == "clockconfig")
+                            {
+                                settingHeading = "Clock_Settings";
+                            }
+
                             if (settingType == "selectedProfile")
                             {
                                 settingHeading = "Current_Profile";
@@ -103,43 +108,9 @@ namespace Configurator
                             SharedSettings.config.Write(settingType, settingValue, settingHeading);
                         }
                     }
-                };
 
-                //start the background worker to reset both the label and button to default states
-                backgroundSave.RunWorkerAsync();
-            }
-        }
-
-        private static void SaveClockSettings(List<string> configValueList, MainWindow configurator)
-        {
-            if (configValueList != null)
-            {
-                //create a background worker
-                var backgroundSave = new BackgroundWorker();
-                backgroundSave.DoWork += (s, ea) => Thread.Sleep(TimeSpan.FromSeconds(0));
-
-                //define work to be done
-                backgroundSave.RunWorkerCompleted += (s, ea) =>
-                {
-                    foreach (var configSetting in configValueList)
-                    {
-                        if (configSetting != "" || configSetting != null)
-                        {
-                            //split the raw string into both type and value
-                            string rawString = configSetting;
-                            string[] splitString = rawString.Split(new char[] { ' ' }, 2);
-
-                            splitString[1] = splitString[1].TrimStart();
-                            string settingType = splitString[0];
-                            string settingValue = splitString[1];
-
-                            //write the type and value to config file under the correct profile heading
-                            SharedSettings.config.Write(settingType, settingValue, "Clock_Settings");
-                        }
-                    }
-
+                    //reload saved values
                     configurator.ReloadExt();
-                    SettingsConfigurator.RestartSDM();
                 };
 
                 //start the background worker to reset both the label and button to default states
@@ -188,6 +159,7 @@ namespace Configurator
                     configurator.Close();
                 }
 
+                //reload saved values
                 configurator.ReloadExt();
                 SettingsConfigurator.RestartSDM();
             };

@@ -239,8 +239,8 @@
                 </TransformGroup>
             </Button.RenderTransform>
         </Button>
-        <TextBox x:Name="TimePosition" Height="22" Margin="1183,139,0,0" TextWrapping="Wrap" VerticalAlignment="Top" UndoLimit="0" MaxLines="1" MaxLength="2" IsUndoEnabled="False" TextAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" TextChanged="TimePositionInput" HorizontalAlignment="Left" Width="36" TabIndex="40"/>
-        <Button x:Name="ButtonTPUp" Click="ClickTPUp" HorizontalAlignment="Left" VerticalAlignment="Top" TabIndex="41" Width="11" Margin="1221,136,0,0" Height="17" Content="&gt;" VerticalContentAlignment="Top" Padding="1,-2,1,1" RenderTransformOrigin="0.5,0.5" BorderThickness="0,1,1,1">
+        <TextBox x:Name="TimePosition" Height="22" Margin="1183,139,0,0" TextWrapping="Wrap" VerticalAlignment="Top" UndoLimit="0" MaxLines="1" MaxLength="2" IsUndoEnabled="False" TextAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" TextChanged="TimePositionInput" HorizontalAlignment="Left" Width="38" TabIndex="40"/>
+        <Button x:Name="ButtonTPUp" Click="ClickTPUp" HorizontalAlignment="Left" VerticalAlignment="Top" TabIndex="41" Width="11" Margin="1222,136,0,0" Height="17" Content="&gt;" VerticalContentAlignment="Top" Padding="1,-2,1,1" RenderTransformOrigin="0.5,0.5" BorderThickness="0,1,1,1">
             <Button.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -250,7 +250,7 @@
                 </TransformGroup>
             </Button.RenderTransform>
         </Button>
-        <Button x:Name="ButtonTPDown" Click="ClickTPDown" Content="&lt;" HorizontalAlignment="Left" VerticalAlignment="Top" TabIndex="42" Width="11" Margin="1221,147,0,0" Height="17" VerticalContentAlignment="Top" Padding="0,-2,1,1" RenderTransformOrigin="0.5,0.5">
+        <Button x:Name="ButtonTPDown" Click="ClickTPDown" Content="&lt;" HorizontalAlignment="Left" VerticalAlignment="Top" TabIndex="42" Width="11" Margin="1222,147,0,0" Height="17" VerticalContentAlignment="Top" Padding="0,-2,1,1" RenderTransformOrigin="0.5,0.5">
             <Button.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -260,8 +260,8 @@
                 </TransformGroup>
             </Button.RenderTransform>
         </Button>
-        <TextBox x:Name="ColonPosition" Height="22" Margin="1183,166,0,0" TextWrapping="Wrap" VerticalAlignment="Top" UndoLimit="0" MaxLines="1" MaxLength="2" IsUndoEnabled="False" TextAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" TextChanged="ColonPositionInput" HorizontalAlignment="Left" Width="36" TabIndex="48"/>
-        <Button x:Name="ButtonCPUp" Click="ClickCPUp" HorizontalAlignment="Left" TabIndex="49" VerticalAlignment="Top" Width="11" Margin="1221,163,0,0" Height="17" Content="&gt;" VerticalContentAlignment="Top" Padding="1,-2,1,1" RenderTransformOrigin="0.5,0.5" BorderThickness="0,1,1,1">
+        <TextBox x:Name="ColonPosition" Height="22" Margin="1183,166,0,0" TextWrapping="Wrap" VerticalAlignment="Top" UndoLimit="0" MaxLines="1" MaxLength="2" IsUndoEnabled="False" TextAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" TextChanged="ColonPositionInput" HorizontalAlignment="Left" Width="38" TabIndex="48"/>
+        <Button x:Name="ButtonCPUp" Click="ClickCPUp" HorizontalAlignment="Left" TabIndex="49" VerticalAlignment="Top" Width="11" Margin="1222,163,0,0" Height="17" Content="&gt;" VerticalContentAlignment="Top" Padding="1,-2,1,1" RenderTransformOrigin="0.5,0.5" BorderThickness="0,1,1,1">
             <Button.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -271,7 +271,7 @@
                 </TransformGroup>
             </Button.RenderTransform>
         </Button>
-        <Button x:Name="ButtonCPDown" Click="ClickCPDown" Content="&lt;" HorizontalAlignment="Left" VerticalAlignment="Top" TabIndex="50" Width="11" Margin="1221,174,0,0" Height="17" VerticalContentAlignment="Top" Padding="0,-2,1,1" RenderTransformOrigin="0.5,0.5">
+        <Button x:Name="ButtonCPDown" Click="ClickCPDown" Content="&lt;" HorizontalAlignment="Left" VerticalAlignment="Top" TabIndex="50" Width="11" Margin="1222,174,0,0" Height="17" VerticalContentAlignment="Top" Padding="0,-2,1,1" RenderTransformOrigin="0.5,0.5">
             <Button.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -281,8 +281,8 @@
                 </TransformGroup>
             </Button.RenderTransform>
         </Button>
-        <TextBox x:Name="DatePosition" Height="22" Margin="1183,193,0,0" TextWrapping="Wrap" VerticalAlignment="Top" UndoLimit="0" MaxLines="1" MaxLength="2" IsUndoEnabled="False" TextAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" TextChanged="DatePositionInput" HorizontalAlignment="Left" Width="36" TabIndex="56"/>
-        <Button x:Name="ButtonDPUp" Click="ClickDPUp" HorizontalAlignment="Left" VerticalAlignment="Top" TabIndex="57" Width="11" Margin="1221,190,0,0" Height="17" Content="&gt;" VerticalContentAlignment="Top" Padding="1,-2,1,1" RenderTransformOrigin="0.5,0.5" BorderThickness="0,1,1,1">
+        <TextBox x:Name="DatePosition" Height="22" Margin="1183,193,0,0" TextWrapping="Wrap" VerticalAlignment="Top" UndoLimit="0" MaxLines="1" MaxLength="2" IsUndoEnabled="False" TextAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" TextChanged="DatePositionInput" HorizontalAlignment="Left" Width="38" TabIndex="56"/>
+        <Button x:Name="ButtonDPUp" Click="ClickDPUp" HorizontalAlignment="Left" VerticalAlignment="Top" TabIndex="57" Width="11" Margin="1222,190,0,0" Height="17" Content="&gt;" VerticalContentAlignment="Top" Padding="1,-2,1,1" RenderTransformOrigin="0.5,0.5" BorderThickness="0,1,1,1">
             <Button.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -292,7 +292,7 @@
                 </TransformGroup>
             </Button.RenderTransform>
         </Button>
-        <Button x:Name="ButtonDPDown" Click="ClickDPDown" Content="&lt;" HorizontalAlignment="Left" VerticalAlignment="Top" TabIndex="58" Width="11" Margin="1221,201,0,0" Height="17" VerticalContentAlignment="Top" Padding="0,-2,1,1" RenderTransformOrigin="0.5,0.5">
+        <Button x:Name="ButtonDPDown" Click="ClickDPDown" Content="&lt;" HorizontalAlignment="Left" VerticalAlignment="Top" TabIndex="58" Width="11" Margin="1222,201,0,0" Height="17" VerticalContentAlignment="Top" Padding="0,-2,1,1" RenderTransformOrigin="0.5,0.5">
             <Button.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -302,9 +302,9 @@
                 </TransformGroup>
             </Button.RenderTransform>
         </Button>
-        <Label Content="Position:" Margin="1181,109,0,0" VerticalAlignment="Top" Height="30" HorizontalAlignment="Left" Width="55" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
-        <TextBox x:Name="Header1Position" Height="22" Margin="458,138,0,0" TextWrapping="Wrap" VerticalAlignment="Top" UndoLimit="0" MaxLines="1" MaxLength="2" IsUndoEnabled="False" TextAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" TextChanged="Header1PositionInput" HorizontalAlignment="Left" Width="36" TabIndex="6"/>
-        <Button x:Name="ButtonH1PUp" Click="ClickH1PUp" HorizontalAlignment="Left" VerticalAlignment="Top" Width="11" Margin="496,135,0,0" Height="17" TabIndex="7" Content="&gt;" VerticalContentAlignment="Top" Padding="1,-2,1,1" RenderTransformOrigin="0.5,0.5" BorderThickness="0,1,1,1">
+        <Label Content="Position:" Margin="1175,109,0,0" VerticalAlignment="Top" Height="30" HorizontalAlignment="Left" Width="61" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+        <TextBox x:Name="Header1Position" Height="22" Margin="458,138,0,0" TextWrapping="Wrap" VerticalAlignment="Top" UndoLimit="0" MaxLines="1" MaxLength="2" IsUndoEnabled="False" TextAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" TextChanged="Header1PositionInput" HorizontalAlignment="Left" Width="38" TabIndex="6"/>
+        <Button x:Name="ButtonH1PUp" Click="ClickH1PUp" HorizontalAlignment="Left" VerticalAlignment="Top" Width="11" Margin="497,135,0,0" Height="17" TabIndex="7" Content="&gt;" VerticalContentAlignment="Top" Padding="1,-2,1,1" RenderTransformOrigin="0.5,0.5" BorderThickness="0,1,1,1">
             <Button.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -314,7 +314,7 @@
                 </TransformGroup>
             </Button.RenderTransform>
         </Button>
-        <Button x:Name="ButtonH1PDown" Click="ClickH1PDown" Content="&lt;" HorizontalAlignment="Left" VerticalAlignment="Top" TabIndex="8" Width="11" Margin="496,146,0,0" Height="17" VerticalContentAlignment="Top" Padding="0,-2,1,1" RenderTransformOrigin="0.5,0.5">
+        <Button x:Name="ButtonH1PDown" Click="ClickH1PDown" Content="&lt;" HorizontalAlignment="Left" VerticalAlignment="Top" TabIndex="8" Width="11" Margin="497,146,0,0" Height="17" VerticalContentAlignment="Top" Padding="0,-2,1,1" RenderTransformOrigin="0.5,0.5">
             <Button.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -324,8 +324,8 @@
                 </TransformGroup>
             </Button.RenderTransform>
         </Button>
-        <TextBox x:Name="Header2Position" Height="22" Margin="458,165,0,0" TextWrapping="Wrap" VerticalAlignment="Top" UndoLimit="0" MaxLines="1" MaxLength="2" IsUndoEnabled="False" TextAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" TextChanged="Header2PositionInput" HorizontalAlignment="Left" Width="36" TabIndex="14"/>
-        <Button x:Name="ButtonH2PUp" Click="ClickH2PUp" HorizontalAlignment="Left" VerticalAlignment="Top" Width="11" Margin="496,162,0,0" TabIndex="15" Height="17" Content="&gt;" VerticalContentAlignment="Top" Padding="1,-2,1,1" RenderTransformOrigin="0.5,0.5" BorderThickness="0,1,1,1">
+        <TextBox x:Name="Header2Position" Height="22" Margin="458,165,0,0" TextWrapping="Wrap" VerticalAlignment="Top" UndoLimit="0" MaxLines="1" MaxLength="2" IsUndoEnabled="False" TextAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" TextChanged="Header2PositionInput" HorizontalAlignment="Left" Width="38" TabIndex="14"/>
+        <Button x:Name="ButtonH2PUp" Click="ClickH2PUp" HorizontalAlignment="Left" VerticalAlignment="Top" Width="11" Margin="497,162,0,0" TabIndex="15" Height="17" Content="&gt;" VerticalContentAlignment="Top" Padding="1,-2,1,1" RenderTransformOrigin="0.5,0.5" BorderThickness="0,1,1,1">
             <Button.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -335,7 +335,7 @@
                 </TransformGroup>
             </Button.RenderTransform>
         </Button>
-        <Button x:Name="ButtonH2PDown" Click="ClickH2PDown" Content="&lt;" HorizontalAlignment="Left" VerticalAlignment="Top" Width="11" TabIndex="16" Margin="496,173,0,0" Height="17" VerticalContentAlignment="Top" Padding="0,-2,1,1" RenderTransformOrigin="0.5,0.5">
+        <Button x:Name="ButtonH2PDown" Click="ClickH2PDown" Content="&lt;" HorizontalAlignment="Left" VerticalAlignment="Top" Width="11" TabIndex="16" Margin="497,173,0,0" Height="17" VerticalContentAlignment="Top" Padding="0,-2,1,1" RenderTransformOrigin="0.5,0.5">
             <Button.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -345,8 +345,8 @@
                 </TransformGroup>
             </Button.RenderTransform>
         </Button>
-        <TextBox x:Name="ValuePosition" Height="22" Margin="458,192,0,0" TextWrapping="Wrap" VerticalAlignment="Top" UndoLimit="0" MaxLines="1" MaxLength="2" IsUndoEnabled="False" TextAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" TextChanged="ValuesPositionInput" HorizontalAlignment="Left" Width="36" TabIndex="22"/>
-        <Button x:Name="ButtonVPUp" Click="ClickVPUp" HorizontalAlignment="Left" VerticalAlignment="Top" Width="11" TabIndex="23" Margin="496,189,0,0" Height="17" Content="&gt;" VerticalContentAlignment="Top" Padding="1,-2,1,1" RenderTransformOrigin="0.5,0.5" BorderThickness="0,1,1,1">
+        <TextBox x:Name="ValuePosition" Height="22" Margin="458,192,0,0" TextWrapping="Wrap" VerticalAlignment="Top" UndoLimit="0" MaxLines="1" MaxLength="2" IsUndoEnabled="False" TextAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" TextChanged="ValuesPositionInput" HorizontalAlignment="Left" Width="38" TabIndex="22"/>
+        <Button x:Name="ButtonVPUp" Click="ClickVPUp" HorizontalAlignment="Left" VerticalAlignment="Top" Width="11" TabIndex="23" Margin="497,189,0,0" Height="17" Content="&gt;" VerticalContentAlignment="Top" Padding="1,-2,1,1" RenderTransformOrigin="0.5,0.5" BorderThickness="0,1,1,1">
             <Button.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -356,7 +356,7 @@
                 </TransformGroup>
             </Button.RenderTransform>
         </Button>
-        <Button x:Name="ButtonVPDown" Click="ClickVPDown" Content="&lt;" HorizontalAlignment="Left" VerticalAlignment="Top" TabIndex="24" Width="11" Margin="496,200,0,0" Height="17" VerticalContentAlignment="Top" Padding="0,-2,1,1" RenderTransformOrigin="0.5,0.5">
+        <Button x:Name="ButtonVPDown" Click="ClickVPDown" Content="&lt;" HorizontalAlignment="Left" VerticalAlignment="Top" TabIndex="24" Width="11" Margin="497,200,0,0" Height="17" VerticalContentAlignment="Top" Padding="0,-2,1,1" RenderTransformOrigin="0.5,0.5">
             <Button.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -366,7 +366,7 @@
                 </TransformGroup>
             </Button.RenderTransform>
         </Button>
-        <Label Content="Position:" Margin="457,108,0,0" VerticalAlignment="Top" Height="30" HorizontalAlignment="Left" Width="55" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+        <Label Content="Position:" Margin="452,108,0,0" VerticalAlignment="Top" Height="30" HorizontalAlignment="Left" Width="60" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
         <TextBox x:Name="Type" Height="14" Margin="481,146,0,0" VerticalAlignment="Top" UndoLimit="0" MaxLines="1" MaxLength="2" IsEnabled="False" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Text="Px" HorizontalAlignment="Left" Width="12" TabIndex="3" SelectionOpacity="0" BorderThickness="0,0,0,1" FontSize="10"/>
         <Button x:Name="ButtonRestoreConfig" Content="Load Defaults" VerticalAlignment="Top" Margin="747,28,0,0" Click="ClickRestoreConfig" Height="22" RenderTransformOrigin="1.452,0.455" Width="80" HorizontalAlignment="Left" TabIndex="19"/>
         <TextBox x:Name="Type_Copy" Height="14" Margin="481,173,0,0" VerticalAlignment="Top" UndoLimit="0" MaxLines="1" MaxLength="2" IsEnabled="False" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Text="Px" HorizontalAlignment="Left" Width="12" TabIndex="3" SelectionOpacity="0" BorderThickness="0,0,0,1" FontSize="10"/>
