@@ -82,7 +82,6 @@
     * Add custom Animation .mp4's to the following folder.. '\Customize\Animations'  
     ** The frames taken from the .mp4 video start from the very first frame ! **
 #
-#
 ######  Stream Deck Standard (15 buttons) Options ...![](https://i.imgur.com/ezUu0dN.png) ![](https://i.imgur.com/JVLqmBH.png) 
 #
 
