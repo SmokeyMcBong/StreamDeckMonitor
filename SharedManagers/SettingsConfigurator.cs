@@ -26,6 +26,7 @@ namespace SharedManagers
         private static string isAnimationEnabled;
         public static int framesToProcess;
         public static int displayBrightness;
+
         //clock settings
         public static string timeFont;
         public static string colonFont;
@@ -75,6 +76,7 @@ namespace SharedManagers
             imageName = SharedSettings.ImageName(currentProfile);
             animName = SharedSettings.AnimName(currentProfile);
             isAnimationEnabled = SharedSettings.IsAnimationEnabled(currentProfile);
+
             //clock settings
             timeFont = SharedSettings.TimeFontType();
             colonFont = SharedSettings.ColonFontType();

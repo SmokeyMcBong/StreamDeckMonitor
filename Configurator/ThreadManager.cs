@@ -14,7 +14,7 @@ namespace Configurator
         {
             //create a background worker
             var backgroundStatus = new BackgroundWorker();
-            backgroundStatus.DoWork += (s, ea) => Thread.Sleep(TimeSpan.FromSeconds(1));
+            backgroundStatus.DoWork += (s, ea) => Thread.Sleep(TimeSpan.FromSeconds(1.5));
 
             //define work to be done
             backgroundStatus.RunWorkerCompleted += (s, ea) =>
@@ -32,11 +32,13 @@ namespace Configurator
                     if (button == "Save")
                     {
                         configurator.ButtonSave.IsEnabled = true;
+                        configurator.ButtonSave.Effect = null;
                     }
 
                     if (button == "Restore")
                     {
-                        configurator.ButtonRestoreConfig.IsEnabled = true;
+                        configurator.ButtonLoadDefaults.IsEnabled = true;
+                        configurator.ButtonLoadDefaults.Effect = null;
                     }
                 }
             };
@@ -121,11 +123,11 @@ namespace Configurator
         public static void ResetAllProfiles(MainWindow configurator, string selectedProfiles)
         {
             //create a background worker
-            var backgroundSave = new BackgroundWorker();
-            backgroundSave.DoWork += (s, ea) => Thread.Sleep(TimeSpan.FromSeconds(0));
+            var backgroundReset = new BackgroundWorker();
+            backgroundReset.DoWork += (s, ea) => Thread.Sleep(TimeSpan.FromSeconds(0));
 
             //define work to be done
-            backgroundSave.RunWorkerCompleted += (s, ea) =>
+            backgroundReset.RunWorkerCompleted += (s, ea) =>
             {
                 if (selectedProfiles.Contains("Clock"))
                 {
@@ -165,7 +167,7 @@ namespace Configurator
             };
 
             //start the background worker
-            backgroundSave.RunWorkerAsync();
+            backgroundReset.RunWorkerAsync();
         }
 
         private static void DefaultClockConfig()

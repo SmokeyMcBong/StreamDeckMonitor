@@ -168,7 +168,6 @@ namespace SharedManagers
                 }
 
                 SetStaticImg("cpu", SettingsSDMonitor.KeyLocCpuHeaderMini);
-
             }
 
             else

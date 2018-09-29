@@ -88,6 +88,7 @@ namespace SharedManagers
         public static int framesToProcess = int.Parse(SharedSettings.FramesToProcess(currentProfile).ToString());
         public static string imageName = SharedSettings.ImageName(currentProfile);
         public static string animName = SharedSettings.AnimName(currentProfile);
+
         //clock settings
         public static string timeFont = SharedSettings.TimeFontType();
         public static string colonFont = SharedSettings.ColonFontType();
@@ -340,6 +341,7 @@ namespace SharedManagers
         public static FontFamily myFontHeader1 = LoadFontFamily(SharedSettings.fontDir + headerFont1 + ".ttf", out myFonts);
         public static FontFamily myFontHeader2 = LoadFontFamily(SharedSettings.fontDir + headerFont2 + ".ttf", out myFonts);
         public static FontFamily myFontValues = LoadFontFamily(SharedSettings.fontDir + valueFont + ".ttf", out myFonts);
+
         //clock settings
         public static FontFamily myFontTime = LoadFontFamily(SharedSettings.fontDir + timeFont + ".ttf", out myFonts);
         public static FontFamily myFontColon = LoadFontFamily(SharedSettings.fontDir + colonFont + ".ttf", out myFonts);

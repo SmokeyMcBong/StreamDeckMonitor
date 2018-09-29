@@ -16,31 +16,31 @@ namespace Configurator
 
             if (ResetClock.IsChecked == true)
             {
-                selectedProfiles = selectedProfiles + "Clock\n";
+                selectedProfiles = selectedProfiles + "  * Clock\n";
                 isSelectionMade = true;
             }
 
             if (ResetProfile1.IsChecked == true)
             {
-                selectedProfiles = selectedProfiles + "Profile 1\n";
+                selectedProfiles = selectedProfiles + "  * Profile 1\n";
                 isSelectionMade = true;
             }
 
             if (ResetProfile2.IsChecked == true)
             {
-                selectedProfiles = selectedProfiles + "Profile 2\n";
+                selectedProfiles = selectedProfiles + "  * Profile 2\n";
                 isSelectionMade = true;
             }
 
             if (ResetProfile3.IsChecked == true)
             {
-                selectedProfiles = selectedProfiles + "Profile 3\n";
+                selectedProfiles = selectedProfiles + "  * Profile 3\n";
                 isSelectionMade = true;
             }
 
             if (ResetAllConfig.IsChecked == true)
             {
-                selectedProfiles = selectedProfiles + "Reset All\n";
+                selectedProfiles = selectedProfiles + "  * All Profiles & Settings\n";
                 isSelectionMade = true;
             }
 
@@ -58,6 +58,7 @@ namespace Configurator
 
         private void Cancel_Click(object sender, RoutedEventArgs e)
         {
+            MainWindow.RestoreCancelExt();
             Close();
         }
 

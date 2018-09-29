@@ -3,18 +3,15 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Configurator"
         mc:Ignorable="d"
-        Title="Device Selector" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Height="290" Width="315">
+        Title="Device Selector" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Height="298.666" Width="328">
 
-    <Grid Background="White">
-        <Image VerticalAlignment="Top" Source="resources/SDMlogo.png" Margin="22,18,0,0" HorizontalAlignment="Left" Width="259" Height="48"/>
-        <Label Content=" Please choose the Stream Deck device you own .." HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,85,0,0" Width="302" VerticalContentAlignment="Center" Height="42"/>
+    <Grid Background="#FFE5E5E5">
+        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="241" VerticalAlignment="Top" Width="289" Margin="11,9,0,0"/>
+        <Image VerticalAlignment="Top" Source="resources/SDMlogo.png" Margin="12,10,0,0" HorizontalAlignment="Left" Width="287" Height="53" Stretch="Fill"/>
+        <Label Content="Please choose the Stream Deck device you own.." HorizontalAlignment="Left" VerticalAlignment="Top" Margin="12,85,0,0" Width="287" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Height="42"/>
         <RadioButton x:Name="EnableStandard" Content="Stream Deck" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="93,147,0,0" Width="100" TabIndex="11" Height="15"/>
         <RadioButton x:Name="EnableMini" Content="Stream Deck - Mini" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="93,167,0,0" Width="124" TabIndex="11" Height="15"/>
-        <Button x:Name="ButtonSave" Content="Save Device Choice" Click="ButtonSave_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Width="125" Margin="92,205,0,0" Height="22" TabIndex="20" >
-        </Button>
-
+        <Button x:Name="ButtonSave" Content="Save Device Choice" Click="ButtonSave_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Width="125" Margin="92,205,0,0" Height="22" TabIndex="20" />
     </Grid>
-
 </Window>

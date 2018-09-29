@@ -51,42 +51,47 @@
 - Run StreamDeckMonitor.exe to start the application
 - Run Configurator.exe to open the bundled customization application
  
-[ ** For the framerate counter option to work, the necessary [MSI Afterburner Application](http://www.guru3d.com/files-details/msi-afterburner-beta-download.html) must be running ]
+[ ** For the framerate counter option to show the current game's FPS, the necessary [MSI Afterburner Application](https://www.guru3d.com/files-details/msi-afterburner-beta-download.html) must be running ]
 #
 ---
 
 
 ##### Customization:
+- Using the Configurator Application we can set...
+    * Title Headers :: Font Type, Font Color, Font Size and Height Position,
+    * Value Headers :: Font Type, Font Color, Font Size and Height Position,
+    * Data Values :: Font Type, Font Color, Font Size and Height Position,
+    * Clock Time :: Font Type, Font Color, Font Size and Height Position,
+    * Clock Animated Colon :: Font Type, Font Color, Font Size and Height Position,
+    * Clock Date :: Font Type, Font Color, Font Size and Height Position
+    * Set Background Color of the Images,
+    * Option to use either Static Images or Animations for the Surrounding Images,
+    * Change the Animations Source or Static Image Source,
+    * Set Animation Framerate (max 60 fps),
+    * Set Animation Total Frame Amount (max 600 frames),
+    * Set the Display Brightness.
+    * View Full Digital Clock or Compact Digital Clock
+    * Show or Hide the Date
+    * Choose which Stream Deck Device to show options for (This will show once on the first start, double click the 'Selected Device' label in the top right to change devices)
+    * Full Save/Load Profile support
+    * Load Default Settings option
+#
 - To Add own Fonts, Static Images and Animations..
     * Add custom Font .ttf's to the following folder.. '\Customize\Fonts'
     * Add custom Static Image .png's (72x72) to the following folder.. '\Customize\Static Images'
     * Add custom Animation .mp4's to the following folder.. '\Customize\Animations'  
     ** The frames taken from the .mp4 video start from the very first frame ! **
-    
-  Stream Deck Standard (15 buttons) Options ...![](https://i.imgur.com/nXdv7jZ.png)  
+#
+#
+######  Stream Deck Standard (15 buttons) Options ...![](https://i.imgur.com/ezUu0dN.png) ![](https://i.imgur.com/JVLqmBH.png) 
+#
 
-  Stream Deck Mini (6 buttons) Options ...![](https://i.imgur.com/qhEFNs1.png)
+######  Stream Deck Mini (6 buttons) Options ...![](https://i.imgur.com/YCkBNDo.png) ![](https://i.imgur.com/JVLqmBH.png) 
+#
 
-- Using the Configurator Application we can set...
-    * Font type, Font color, Font Size and Height Position for:
-      - Title header Text,
-      - Value Headers Text,
-      - Data Value Text,
-      - Clock Time,
-      - Clock Animated Colon,
-      - Clock Date
-    * Set Background color of the images,
-    * Option to use either static images or animations for the surrounding images,
-    * Change the animations source or static image source,
-    * Set animation framerate (max 60 fps),
-    * Set animation total frame amount (max 600 frames),
-    * Set the Display brightness.
-    * View full digital clock or compact digital clock
-    * Show or hide the Date
-    * Choose which Stream Deck Device to show options for (This will show once on the first start, double click the 'Device' label in the top right to change devices)
-    * Full Save/Load Profile support
-    * Load default settings option
 
+#
+#
 #
 ---
 ###### This project is NOT related to *Elgato Systems GmbH* in any way
