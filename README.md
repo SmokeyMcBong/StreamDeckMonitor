@@ -82,9 +82,7 @@
     * Add custom Animation .mp4's to the following folder.. '\Customize\Animations'  
     ** The frames taken from the .mp4 video start from the very first frame ! **
 #
-#
 ######  StreamDeckMonitor Configurator Options ...![](https://i.imgur.com/ezUu0dN.png) ![](https://i.imgur.com/JVLqmBH.png) 
-#
 #
 ---
 ###### This project is NOT related to *Elgato Systems GmbH* in any way
