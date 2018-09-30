@@ -83,14 +83,7 @@
     ** The frames taken from the .mp4 video start from the very first frame ! **
 #
 #
-######  Stream Deck Standard (15 buttons) Options ...![](https://i.imgur.com/ezUu0dN.png) ![](https://i.imgur.com/JVLqmBH.png) 
-#
-
-######  Stream Deck Mini (6 buttons) Options ...![](https://i.imgur.com/YCkBNDo.png) ![](https://i.imgur.com/aQXFmbA.png) 
-#
-
-
-#
+######  StreamDeckMonitor Configurator Options ...![](https://i.imgur.com/ezUu0dN.png) ![](https://i.imgur.com/JVLqmBH.png) 
 #
 #
 ---
