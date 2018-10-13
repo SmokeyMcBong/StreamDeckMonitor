@@ -12,11 +12,16 @@
 
 ---
 
-###### This project uses...
+###### This project uses ...
 * StreamDeckSharp .NET interface (https://github.com/OpenStreamDeck/StreamDeckSharp)  
 * MSI Afterburner .NET Class Library (https://forums.guru3d.com/threads/msi-afterburner-net-class-library.339656) 
 * LibreHardwareMonitorLib interface (https://github.com/librehardwaremonitor)
 * Accord .NET Framework video frame capture libraries (https://github.com/accord-net/framework)
+
+###### and to make the post-build stuff a little easier ...
+* Choose32 (http://www.westmesatech.com/editv.html)
+* 7zip (https://www.7-zip.org/)
+
 ---
 
   ![](https://i.imgur.com/vl4t6N8.gif) ![](https://i.imgur.com/obFUxFh.gif) 
