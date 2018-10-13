@@ -7,7 +7,7 @@
 [![Latest Version](https://img.shields.io/github/release/SmokeyMcBong/StreamDeckMonitor.svg)](https://github.com/SmokeyMcBong/StreamDeckMonitor/releases) 
 
 ##### Table of Contents:
-[Project Dependencies](https://github.com/SmokeyMcBong/StreamDeckMonitor#this-project-uses-)  
+[Project Dependencies](https://github.com/SmokeyMcBong/StreamDeckMonitor#project-dependencies)  
 [Demo Videos](https://github.com/SmokeyMcBong/StreamDeckMonitor#demo-videos)  
 [About StreamDeckMonitor](https://github.com/SmokeyMcBong/StreamDeckMonitor#about-streamdeckmonitor)  
 [Installation](https://github.com/SmokeyMcBong/StreamDeckMonitor#installation)  
