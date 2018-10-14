@@ -11,11 +11,20 @@ SET FAILLOG=faillog.txt
 
 :: Copy the complete release from the VS Source (bin\x86\Release\) directory to the release dir
 XCOPY %SOURCE%* %DESTINATION% /s /q
+TIMEOUT 1 > NUL
 
+:: Check if copy was successful
+IF NOT EXIST %DESTINATION% (
+	SET RESULT=NOT Completed!
+	GOTO cleanexit		
+) ELSE (
+	GOTO mainmenu
+)
+
+:: Main choice menu
+:mainmenu
 :: Set the Version variable according to the AssemblyInfo value
 FOR /f delims^=^"^ tokens^=2 %%i IN ('findstr "AssemblyVersion" %1 %HOME%StreamDeckMonitor\Properties\AssemblyInfo.cs') DO SET VERSION=%%i
-
-:: Main Choice Menu 
 ECHO.
 ECHO.
 ECHO.
@@ -89,14 +98,11 @@ TIMEOUT 1 > NUL
 > NUL find "0 File(s)" %DIRCOMPAREFILE% && (
 
 	ECHO                      Zipping Release ...
-	TIMEOUT 1 > NUL
 	ECHO.
 		:: Zip the release package
 		"%BUILDTOOLS%7z.exe" a  -r %DESTINATION%StreamDeckMonitor_v%VERSION%.zip -w %DESTINATION%* -mem=AES256
 	ECHO.
-	ECHO.
-	
-	:: Check Integrity of the zipped release build
+	ECHO.	
 	ECHO                      -------------------------------------------------------------	
 	ECHO                      -------------------------------------------------------------
 	ECHO                                 Checking Integrity of new Zip file ...
@@ -104,29 +110,11 @@ TIMEOUT 1 > NUL
 	ECHO                      -------------------------------------------------------------
 	ECHO.
 	TIMEOUT 1 > NUL
-	"%BUILDTOOLS%7z.exe" t %DESTINATION%StreamDeckMonitor_v%VERSION%.zip	
-
-	:: Clean up the directory comparison file
-	ECHO.
-	ECHO.
-	ECHO                      Cleaning Up ...
-	ECHO.
-
-	IF EXIST %DIRCOMPAREFILE% (
-		DEL /s /q /f %DIRCOMPAREFILE% > NUL
-	) 
-
-	TIMEOUT 1 > NUL
-	ECHO                      -------------------------------------------------------------
-	ECHO                      -------------------------------------------------------------
-	ECHO                                           Operation Completed
-	ECHO                      -------------------------------------------------------------
-	ECHO                      -------------------------------------------------------------
-	ECHO.
-	ECHO.
-	ECHO.
-	PAUSE
-	EXIT
+		:: Check Integrity of the zipped release build
+		"%BUILDTOOLS%7z.exe" t %DESTINATION%StreamDeckMonitor_v%VERSION%.zip	
+	
+	SET RESULT=Completed
+	GOTO cleanexit
 
 ) || (
 
@@ -134,29 +122,34 @@ TIMEOUT 1 > NUL
 	ECHO                      Files NOT Validated! 
 	ECHO.
 
-	:: Copy the directory comparison file to faillog.text and delete original directory comparison file
+	:: Copy the directory comparison file to faillog.txt and delete original directory comparison file
 	> NUL COPY /b %DIRCOMPAREFILE% %FAILLOG%
 
 	ECHO                      Check 'faillog.txt' To see which files failed Validation
-	ECHO.
-	ECHO.
-	ECHO.
-	ECHO                      Cleaning Up ...
-	ECHO.
-
-	IF EXIST %DIRCOMPAREFILE% (
-		DEL /s /q /f %DIRCOMPAREFILE% > NUL
-	) 
-
-	TIMEOUT 1 > NUL  
-	ECHO                      -------------------------------------------------------------
-	ECHO                      -------------------------------------------------------------
-	ECHO                                       Operation NOT Completed!
-	ECHO                      -------------------------------------------------------------
-	ECHO                      -------------------------------------------------------------
-	ECHO.
-	ECHO.
-	ECHO.
-	PAUSE
-	EXIT  
+	
+	SET RESULT=NOT Completed!
+	GOTO cleanexit	
 )
+
+:: Show validation result, Clean up the directory comparison file and exit
+:cleanexit
+ECHO.
+ECHO.
+ECHO                      Cleaning Up ...
+ECHO.
+
+IF EXIST %DIRCOMPAREFILE% (
+	DEL /s /q /f %DIRCOMPAREFILE% > NUL
+) 
+
+TIMEOUT 1 > NUL
+ECHO                      -------------------------------------------------------------
+ECHO                      -------------------------------------------------------------
+ECHO                                         Operation %RESULT%
+ECHO                      -------------------------------------------------------------
+ECHO                      -------------------------------------------------------------
+ECHO.
+ECHO.
+ECHO.
+PAUSE
+EXIT
