@@ -17,7 +17,7 @@ TIMEOUT 1 > NUL
 IF NOT EXIST %DESTINATION% (
 	SET RESULT=NOT Completed!
 	GOTO cleanexit		
-) ELSE (
+) || (
 	GOTO mainmenu
 )
 
