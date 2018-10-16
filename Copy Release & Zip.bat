@@ -7,9 +7,9 @@ SET WAIT=ping 123.45.67.89 -n 1 -w 500
 SET BUILDTOOLS=%HOME%build tools\
 SET SOURCE=%HOME%StreamDeckMonitor\bin\x86\Release\
 SET DESTINATION=%HOME%Release\
-SET COPYRESULT=copyresult.txt
-SET DIRCOMPAREFILE=dirlist.txt
-SET FAILLOG=faillog.txt
+SET COPYRESULT=cr.txt
+SET DIRCOMPAREFILE=dl.txt
+SET FAILLOG=log.txt
 
 :: Copy newly built StreamDeckMonitor to Release folder
 ECHO.
@@ -18,7 +18,7 @@ ECHO.
 ECHO.
 ECHO                      -------------------------------------------------------------
 ECHO                      -------------------------------------------------------------
-ECHO                                  Copy StreamDeckMonitor Build Folders
+ECHO                                Copying StreamDeckMonitor Build Folders
 ECHO                      -------------------------------------------------------------
 ECHO                      -------------------------------------------------------------
 ECHO.
@@ -27,11 +27,11 @@ XCOPY %SOURCE%* %DESTINATION% /s /q /y > %COPYRESULT% 2>&1
 IF EXIST %DESTINATION%*.zip (
     DEL /s /q /f %DESTINATION%*.zip >NUL
 )
-%WAIT% >nul
+%WAIT% >NUL
 
 :: Check if copy was successful
 ECHO                      Verifying File Copy ...
-%WAIT% >nul
+%WAIT% >NUL
 >NUL find "0 File(s)" %COPYRESULT% && (
 	ECHO                      Copy NOT Successful! 	
 	ECHO.
@@ -42,7 +42,7 @@ ECHO                      Verifying File Copy ...
 	)
 	:copyerror
 	ENDLOCAL	
-	%WAIT% >nul
+	%WAIT% >NUL
 	SET RESULT=NOT Completed!
 	GOTO statusexit		
 ) || (
@@ -50,12 +50,12 @@ ECHO                      Verifying File Copy ...
 	ECHO.
 	SETLOCAL enableextensions enabledelayedexpansion
 	FOR /f "delims=" %%i IN (%COPYRESULT%) DO (
-		ECHO                      Status: " %%i "
+		ECHO                        Status: " %%i "
 		GOTO :copysuccess
 	)
 	:copysuccess
 	ENDLOCAL
-	%WAIT% >nul
+	%WAIT% >NUL
 	GOTO mainmenu
 )
 
@@ -111,14 +111,14 @@ ECHO.
 
 :: Check for previous zip and delete
 ECHO                      Getting Ready ...
-%WAIT% >nul
+%WAIT% >NUL
 IF EXIST %DESTINATION%*.zip (
     DEL /s /q /f %DESTINATION%*.zip >NUL
 ) 
 
 :: Check for previous directory comparison file and delete
 ECHO                      Gathering Information ...
-%WAIT% >nul
+%WAIT% >NUL
 IF EXIST %DIRCOMPAREFILE% (
     DEL /s /q /f %DIRCOMPAREFILE% >NUL
 ) 
@@ -128,7 +128,7 @@ XCOPY /L /y /d /s "%SOURCE%*" "%DESTINATION%" > %DIRCOMPAREFILE%
 
 :: Validate directory comparison file
 ECHO                      Validating Files ...
-%WAIT% >nul
+%WAIT% >NUL
 >NUL find "0 File(s)" %DIRCOMPAREFILE% && (
 	ECHO                      Zipping Release ...
 	ECHO.
@@ -138,11 +138,11 @@ ECHO                      Validating Files ...
 	ECHO.	
 	ECHO                      -------------------------------------------------------------	
 	ECHO                      -------------------------------------------------------------
-	ECHO                                 Checking Integrity of new Zip file ...
+	ECHO                                 Checking Integrity of new Zip file
 	ECHO                      -------------------------------------------------------------
 	ECHO                      -------------------------------------------------------------
 	ECHO.
-	%WAIT% >nul
+	%WAIT% >NUL
 	:: Check Integrity of the zipped release build
 	"%BUILDTOOLS%7z.exe" t %DESTINATION%StreamDeckMonitor_v%VERSION%.zip		
 	SET RESULT=Completed
@@ -150,9 +150,9 @@ ECHO                      Validating Files ...
 ) || (
 	ECHO                      Files NOT Validated! 
 	ECHO.
-	:: Copy the directory comparison file to faillog.txt and delete original directory comparison file
+	:: Copy the directory comparison file to log.txt and delete original directory comparison file
 	>NUL COPY /b %DIRCOMPAREFILE% %FAILLOG%
-	ECHO                      Check 'faillog.txt' To see which files failed Validation	
+	ECHO                        Check 'log.txt' To see which files failed Validation	
 	SET RESULT=NOT Completed!
 	GOTO statusexit	
 )
@@ -170,13 +170,12 @@ IF EXIST %COPYRESULT% (
 IF EXIST %DIRCOMPAREFILE% (
 	DEL /s /q /f %DIRCOMPAREFILE% >NUL
 )
-%WAIT% >nul
+%WAIT% >NUL
 ECHO                      -------------------------------------------------------------
 ECHO                      -------------------------------------------------------------
 ECHO                                         Operation %RESULT%
 ECHO                      -------------------------------------------------------------
 ECHO                      -------------------------------------------------------------
-ECHO.
 ECHO.
 ECHO.
 PAUSE
