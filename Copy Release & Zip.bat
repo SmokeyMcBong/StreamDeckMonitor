@@ -3,6 +3,7 @@ CLS
 
 :: Set variables
 SET HOME=%~dp0
+SET WAIT=ping 123.45.67.89 -n 1 -w 500 
 SET BUILDTOOLS=%HOME%build tools\
 SET SOURCE=%HOME%StreamDeckMonitor\bin\x86\Release\
 SET DESTINATION=%HOME%Release\
@@ -26,10 +27,11 @@ XCOPY %SOURCE%* %DESTINATION% /s /q /y > %COPYRESULT% 2>&1
 IF EXIST %DESTINATION%*.zip (
     DEL /s /q /f %DESTINATION%*.zip >NUL
 )
-TIMEOUT 1 >NUL
+%WAIT% >nul
 
 :: Check if copy was successful
-ECHO                      Verifying Copy ...
+ECHO                      Verifying File Copy ...
+%WAIT% >nul
 >NUL find "0 File(s)" %COPYRESULT% && (
 	ECHO                      Copy NOT Successful! 	
 	ECHO.
@@ -40,7 +42,7 @@ ECHO                      Verifying Copy ...
 	)
 	:copyerror
 	ENDLOCAL	
-	TIMEOUT 1 >NUL
+	%WAIT% >nul
 	SET RESULT=NOT Completed!
 	GOTO statusexit		
 ) || (
@@ -53,7 +55,7 @@ ECHO                      Verifying Copy ...
 	)
 	:copysuccess
 	ENDLOCAL
-	TIMEOUT 1 >NUL
+	%WAIT% >nul
 	GOTO mainmenu
 )
 
@@ -109,14 +111,14 @@ ECHO.
 
 :: Check for previous zip and delete
 ECHO                      Getting Ready ...
-TIMEOUT 1 >NUL
+%WAIT% >nul
 IF EXIST %DESTINATION%*.zip (
     DEL /s /q /f %DESTINATION%*.zip >NUL
 ) 
 
 :: Check for previous directory comparison file and delete
 ECHO                      Gathering Information ...
-TIMEOUT 1 >NUL
+%WAIT% >nul
 IF EXIST %DIRCOMPAREFILE% (
     DEL /s /q /f %DIRCOMPAREFILE% >NUL
 ) 
@@ -126,7 +128,7 @@ XCOPY /L /y /d /s "%SOURCE%*" "%DESTINATION%" > %DIRCOMPAREFILE%
 
 :: Validate directory comparison file
 ECHO                      Validating Files ...
-TIMEOUT 1 >NUL
+%WAIT% >nul
 >NUL find "0 File(s)" %DIRCOMPAREFILE% && (
 	ECHO                      Zipping Release ...
 	ECHO.
@@ -140,7 +142,7 @@ TIMEOUT 1 >NUL
 	ECHO                      -------------------------------------------------------------
 	ECHO                      -------------------------------------------------------------
 	ECHO.
-	TIMEOUT 1 >NUL
+	%WAIT% >nul
 	:: Check Integrity of the zipped release build
 	"%BUILDTOOLS%7z.exe" t %DESTINATION%StreamDeckMonitor_v%VERSION%.zip		
 	SET RESULT=Completed
@@ -168,7 +170,7 @@ IF EXIST %COPYRESULT% (
 IF EXIST %DIRCOMPAREFILE% (
 	DEL /s /q /f %DIRCOMPAREFILE% >NUL
 )
-TIMEOUT 1 >NUL
+%WAIT% >nul
 ECHO                      -------------------------------------------------------------
 ECHO                      -------------------------------------------------------------
 ECHO                                         Operation %RESULT%
