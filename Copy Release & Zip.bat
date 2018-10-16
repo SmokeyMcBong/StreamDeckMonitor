@@ -6,25 +6,60 @@ SET HOME=%~dp0
 SET BUILDTOOLS=%HOME%build tools\
 SET SOURCE=%HOME%StreamDeckMonitor\bin\x86\Release\
 SET DESTINATION=%HOME%Release\
+SET COPYRESULT=copyresult.txt
 SET DIRCOMPAREFILE=dirlist.txt
 SET FAILLOG=faillog.txt
 
-:: Copy the complete release from the VS Source (bin\x86\Release\) directory to the release dir
-XCOPY %SOURCE%* %DESTINATION% /s /q
-TIMEOUT 1 > NUL
+:: Copy newly built StreamDeckMonitor to Release folder
+ECHO.
+ECHO.
+ECHO.
+ECHO.
+ECHO                      -------------------------------------------------------------
+ECHO                      -------------------------------------------------------------
+ECHO                                  Copy StreamDeckMonitor Build Folders
+ECHO                      -------------------------------------------------------------
+ECHO                      -------------------------------------------------------------
+ECHO.
+ECHO                      Preparing and Copying Folders ...
+XCOPY %SOURCE%* %DESTINATION% /s /q /y > %COPYRESULT% 2>&1
+IF EXIST %DESTINATION%*.zip (
+    DEL /s /q /f %DESTINATION%*.zip >NUL
+)
+TIMEOUT 1 >NUL
 
 :: Check if copy was successful
-IF NOT EXIST %DESTINATION% (
+ECHO                      Verifying Copy ...
+>NUL find "0 File(s)" %COPYRESULT% && (
+	ECHO                      Copy NOT Successful! 	
+	ECHO.
+	SETLOCAL enableextensions enabledelayedexpansion
+	FOR /f "delims=" %%i IN (%COPYRESULT%) DO (
+		ECHO                        Error: " %%i "
+		GOTO :copyerror
+	)
+	:copyerror
+	ENDLOCAL	
+	TIMEOUT 1 >NUL
 	SET RESULT=NOT Completed!
-	GOTO cleanexit		
+	GOTO statusexit		
 ) || (
+	ECHO                      Copy Successful! 	
+	ECHO.
+	SETLOCAL enableextensions enabledelayedexpansion
+	FOR /f "delims=" %%i IN (%COPYRESULT%) DO (
+		ECHO                      Status: " %%i "
+		GOTO :copysuccess
+	)
+	:copysuccess
+	ENDLOCAL
+	TIMEOUT 1 >NUL
 	GOTO mainmenu
 )
 
-:: Main choice menu
+:: Zip choice menu
 :mainmenu
-:: Set the Version variable according to the AssemblyInfo value
-FOR /f delims^=^"^ tokens^=2 %%i IN ('findstr "AssemblyVersion" %1 %HOME%StreamDeckMonitor\Properties\AssemblyInfo.cs') DO SET VERSION=%%i
+CLS
 ECHO.
 ECHO.
 ECHO.
@@ -41,23 +76,24 @@ ECHO                            ------------------------------------------------
 ECHO.
 ECHO.
 ECHO.
+:: Set the Version variable according to the AssemblyInfo value
+FOR /f delims^=^"^ tokens^=2 %%i IN ('findstr "AssemblyVersion" %1 %HOME%StreamDeckMonitor\Properties\AssemblyInfo.cs') DO SET VERSION=%%i
 ECHO                            Package Release Build: StreamDeckMonitor_v%VERSION% ??
 ECHO.
-	"%BUILDTOOLS%Choose32.exe" -c ^Aq [ -d ^A -q -n -p "                                   (ENTER to continue, Q to quit)"
+"%BUILDTOOLS%Choose32.exe" -c ^Aq [ -d ^A -q -n -p "                                   (ENTER to continue, Q to quit)"
 ECHO.
 ECHO.
-
 IF %ERRORLEVEL% == 1 ( 
 	GOTO zip
 )
 IF %ERRORLEVEL% == 2 (
-	EXIT
-)
+	GOTO nostatusexit
+)	
 IF %ERRORLEVEL% == 255 (
-	EXIT 
+	GOTO nostatusexit
 )
 
-:: Main validation and zipping
+:: Validation and zipping
 :zip
 CLS
 ECHO.
@@ -73,34 +109,29 @@ ECHO.
 
 :: Check for previous zip and delete
 ECHO                      Getting Ready ...
-TIMEOUT 1 > NUL
-
+TIMEOUT 1 >NUL
 IF EXIST %DESTINATION%*.zip (
-    DEL /s /q /f %DESTINATION%*.zip > NUL
+    DEL /s /q /f %DESTINATION%*.zip >NUL
 ) 
 
 :: Check for previous directory comparison file and delete
 ECHO                      Gathering Information ...
-TIMEOUT 1 > NUL
-
+TIMEOUT 1 >NUL
 IF EXIST %DIRCOMPAREFILE% (
-    DEL /s /q /f %DIRCOMPAREFILE% > NUL
+    DEL /s /q /f %DIRCOMPAREFILE% >NUL
 ) 
 
 :: Create new directory comparison file
 XCOPY /L /y /d /s "%SOURCE%*" "%DESTINATION%" > %DIRCOMPAREFILE%
 
 :: Validate directory comparison file
-ECHO                      Validating All Files ...
-TIMEOUT 1 > NUL
-
-:: If Files validated
-> NUL find "0 File(s)" %DIRCOMPAREFILE% && (
-
+ECHO                      Validating Files ...
+TIMEOUT 1 >NUL
+>NUL find "0 File(s)" %DIRCOMPAREFILE% && (
 	ECHO                      Zipping Release ...
 	ECHO.
-		:: Zip the release package
-		"%BUILDTOOLS%7z.exe" a  -r %DESTINATION%StreamDeckMonitor_v%VERSION%.zip -w %DESTINATION%* -mem=AES256
+	:: Zip the release package
+	"%BUILDTOOLS%7z.exe" a  -r %DESTINATION%StreamDeckMonitor_v%VERSION%.zip -w %DESTINATION%* -mem=AES256
 	ECHO.
 	ECHO.	
 	ECHO                      -------------------------------------------------------------	
@@ -109,40 +140,35 @@ TIMEOUT 1 > NUL
 	ECHO                      -------------------------------------------------------------
 	ECHO                      -------------------------------------------------------------
 	ECHO.
-	TIMEOUT 1 > NUL
-		:: Check Integrity of the zipped release build
-		"%BUILDTOOLS%7z.exe" t %DESTINATION%StreamDeckMonitor_v%VERSION%.zip	
-	
+	TIMEOUT 1 >NUL
+	:: Check Integrity of the zipped release build
+	"%BUILDTOOLS%7z.exe" t %DESTINATION%StreamDeckMonitor_v%VERSION%.zip		
 	SET RESULT=Completed
-	GOTO cleanexit
-
+	GOTO statusexit
 ) || (
-
-	:: If Files are NOT validated
 	ECHO                      Files NOT Validated! 
 	ECHO.
-
 	:: Copy the directory comparison file to faillog.txt and delete original directory comparison file
-	> NUL COPY /b %DIRCOMPAREFILE% %FAILLOG%
-
-	ECHO                      Check 'faillog.txt' To see which files failed Validation
-	
+	>NUL COPY /b %DIRCOMPAREFILE% %FAILLOG%
+	ECHO                      Check 'faillog.txt' To see which files failed Validation	
 	SET RESULT=NOT Completed!
-	GOTO cleanexit	
+	GOTO statusexit	
 )
 
-:: Show validation result, Clean up the directory comparison file and exit
-:cleanexit
+:: Show status, Clean up the directory comparison file and exit
+:statusexit
+ECHO.
 ECHO.
 ECHO.
 ECHO                      Cleaning Up ...
 ECHO.
-
+IF EXIST %COPYRESULT% (
+    DEL /s /q /f %COPYRESULT% >NUL
+)
 IF EXIST %DIRCOMPAREFILE% (
-	DEL /s /q /f %DIRCOMPAREFILE% > NUL
-) 
-
-TIMEOUT 1 > NUL
+	DEL /s /q /f %DIRCOMPAREFILE% >NUL
+)
+TIMEOUT 1 >NUL
 ECHO                      -------------------------------------------------------------
 ECHO                      -------------------------------------------------------------
 ECHO                                         Operation %RESULT%
@@ -152,4 +178,14 @@ ECHO.
 ECHO.
 ECHO.
 PAUSE
+EXIT
+
+:: Quick cleanup and exit
+:nostatusexit
+IF EXIST %COPYRESULT% (
+	DEL /s /q /f %COPYRESULT% >NUL
+)
+IF EXIST %DIRCOMPAREFILE% (
+	DEL /s /q /f %DIRCOMPAREFILE% >NUL
+) 
 EXIT
