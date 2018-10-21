@@ -4,6 +4,7 @@ using OpenMacroBoard.SDK;
 using SharedManagers;
 using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -397,18 +398,43 @@ namespace StreamDeckMonitor
         //key pressed
         public static void DeckKeyPressed(object sender, OpenMacroBoard.SDK.KeyEventArgs e)
         {
+            var profilesButton = 2;
             var clockButton = 0;
             var monitorButton = 4;
             var exitButton = 7;
 
             if (isMiniDeck == true)
             {
+                profilesButton = 1;
                 monitorButton = 2;
                 exitButton = 4;
             }
 
             try
             {
+                if (e.Key == profilesButton)
+                {
+                    if (e.IsDown == true)
+                    {
+                        int currentprofileNumber = int.Parse(Regex.Match(SettingsSDMonitor.currentProfile, @"\d+").Value);
+                        int nextProfile;
+
+                        if (currentprofileNumber != 3)
+                        {
+                            nextProfile = currentprofileNumber + 1;
+                        }
+
+                        else
+                        {
+                            nextProfile = 1;
+                        }
+
+                        string nextProfileString = "Profile " + nextProfile.ToString();
+                        SharedSettings.config.Write("selectedProfile", nextProfileString, "Current_Profile");
+                        RestartApp();
+                    }
+                }
+
                 if (e.Key == clockButton)
                 {
                     if (e.IsDown == true)
