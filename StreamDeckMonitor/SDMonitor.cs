@@ -421,7 +421,7 @@ namespace StreamDeckMonitor
 
                         if (currentprofileNumber != 3)
                         {
-                            nextProfile = currentprofileNumber + 1;
+                            nextProfile = currentprofileNumber +1;
                         }
 
                         else
@@ -464,6 +464,7 @@ namespace StreamDeckMonitor
                         if (isMiniDeck)
                         {
                             ImageManager.exitflag = true;
+                            ohmComputer.Close();
                             ImageManager.deck.ShowLogo();
 
                             //close StreamDeckMonitor
@@ -474,6 +475,7 @@ namespace StreamDeckMonitor
                         {
                             //clear display for clean exit
                             ImageManager.exitflag = true;
+                            ohmComputer.Close();
                             ImageManager.deck.ClearKeys();
                             System.Threading.Thread.Sleep(1000);
                             ImageManager.deck.ShowLogo();
