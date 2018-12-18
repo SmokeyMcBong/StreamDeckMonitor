@@ -421,7 +421,7 @@ namespace StreamDeckMonitor
 
                         if (currentprofileNumber != 3)
                         {
-                            nextProfile = currentprofileNumber +1;
+                            nextProfile = currentprofileNumber + 1;
                         }
 
                         else

@@ -8,7 +8,7 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>Configurator</RootNamespace>
     <AssemblyName>Configurator</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
@@ -28,6 +28,7 @@
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -111,29 +112,36 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="RestoreConfigChoice.xaml.cs">
-      <DependentUpon>RestoreConfigChoice.xaml</DependentUpon>
+    <Compile Include="DialogHelp.xaml.cs">
+      <DependentUpon>DialogHelp.xaml</DependentUpon>
     </Compile>
     <Compile Include="ThreadManager.cs" />
-    <Compile Include="DeviceChoice.xaml.cs">
-      <DependentUpon>DeviceChoice.xaml</DependentUpon>
-    </Compile>
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
-    <Page Include="RestoreConfigChoice.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
+    <Compile Include="DialogDeviceChoice.xaml.cs">
+      <DependentUpon>DialogDeviceChoice.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DialogRestoreChoice.xaml.cs">
+      <DependentUpon>DialogRestoreChoice.xaml</DependentUpon>
+    </Compile>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="DeviceChoice.xaml">
+    <Page Include="DialogHelp.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="MainWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MainWindow.xaml">
+    <Page Include="DialogDeviceChoice.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DialogRestoreChoice.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -181,6 +189,36 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="resources\SDMlogo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="resources\Exit_64px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="resources\DeviceSettings_64px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="resources\Clock_64px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="resources\Monitor_64px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="resources\Save_64px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="resources\Restore_64px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="resources\Brightness_64px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="resources\Device 15 Button_64px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="resources\Device 6 Button_64px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="resources\Help_64px.png" />
   </ItemGroup>
   <Import Project="..\SharedManagers\SharedManagers.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

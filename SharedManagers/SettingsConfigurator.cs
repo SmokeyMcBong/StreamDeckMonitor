@@ -37,7 +37,6 @@ namespace SharedManagers
         public static string timeFontColor;
         public static string colonFontColor;
         public static string dateFontColor;
-        public static string clockBackgroundColor;
         public static string isCompactView;
         public static string isDateShown;
         public static int timePosition;
@@ -70,12 +69,12 @@ namespace SharedManagers
             headerFontSize1 = int.Parse(SharedSettings.HeaderFontSize1(currentProfile).ToString());
             headerFontSize2 = int.Parse(SharedSettings.HeaderFontSize2(currentProfile).ToString());
             valueFontSize = int.Parse(SharedSettings.ValueFontSize(currentProfile).ToString());
-            displayBrightness = int.Parse(SharedSettings.DisplayBrightness(currentProfile).ToString());
             framesToProcess = int.Parse(SharedSettings.FramesToProcess(currentProfile).ToString());
             animFramerate = int.Parse(SharedSettings.AnimFramerate(currentProfile).ToString());
             imageName = SharedSettings.ImageName(currentProfile);
             animName = SharedSettings.AnimName(currentProfile);
             isAnimationEnabled = SharedSettings.IsAnimationEnabled(currentProfile);
+            displayBrightness = int.Parse(SharedSettings.DisplayBrightness("Brightness_Settings").ToString());
 
             //clock settings
             timeFont = SharedSettings.TimeFontType();
@@ -87,7 +86,6 @@ namespace SharedManagers
             timeFontColor = SharedSettings.TimeFontColor();
             colonFontColor = SharedSettings.ColonFontColor();
             dateFontColor = SharedSettings.DateFontColor();
-            clockBackgroundColor = SharedSettings.ClockBackgroundColor();
             isCompactView = SharedSettings.IsCompactView();
             isDateShown = SharedSettings.IsDateShown();
             timePosition = int.Parse(SharedSettings.TimePosition().ToString());

@@ -4,60 +4,73 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="Configurator" Height="429" Width="1057" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Background="{DynamicResource {x:Static SystemColors.ActiveCaptionBrushKey}}" Icon="resources/SDM.ico" WindowStyle="SingleBorderWindow">
+        Title="Configurator" Height="567" Width="1089" WindowStyle="None" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Icon="resources/SDM.ico">
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="234*"/>
-            <ColumnDefinition Width="817*"/>
-        </Grid.ColumnDefinitions>
-        <TabControl HorizontalAlignment="Left" Height="382" VerticalAlignment="Top" Width="792" Margin="13,3,0,0" Grid.Column="1">
-            <!--Main Settings-->
-            <TabItem x:Name="TabMain" Visibility="Visible" Header="" Width="0.1" Height="0.1">
-                <Grid x:Name="GridMain" Background="#FFE5E5E5" Margin="-3,-2,-2,-5" Visibility="Visible">
+        <Grid HorizontalAlignment="Left" Height="579" VerticalAlignment="Top" Width="227" Background="#FF055F93">
+            <Image Height="85" VerticalAlignment="Top" Margin="73,21,69,0" Source="resources/SDM.ico" />
+            <Label Content="Configurator App [by @theFONZ]" VerticalAlignment="Top" Margin="10,126,0,0" IsEnabled="False" FontSize="11" Padding="5,0,5,2" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Width="207" Height="26" Foreground="#FFCDCDCD" FontWeight="Bold"/>
+            <Label Content="StreamDeckMonitor" VerticalAlignment="Top" Margin="10,96,0,0" IsEnabled="False" FontSize="18" Padding="5,0,5,2" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Width="207" Height="54" Foreground="White" FontWeight="Bold" FontFamily="Yu Gothic Medium"/>
+            <Image x:Name="ButtonClockImage" MouseEnter="ButtonClock_MouseEnter" MouseLeave="ButtonClock_MouseLeave" MouseLeftButtonUp="ButtonClock_MouseLeftButtonUp" Margin="10,274,169,257" Source="resources/Clock_64px.png" Stretch="Fill" Cursor="Hand"/>
+            <Image x:Name="ButtonMonitorImage" MouseEnter="ButtonMonitor_MouseEnter" MouseLeave="ButtonMonitor_MouseLeave" MouseLeftButtonUp="ButtonMonitor_MouseLeftButtonUp" Margin="10,210,169,321" Source="resources/Monitor_64px.png" Stretch="Fill" Cursor="Hand">
+                <Image.Effect>
+                    <DropShadowEffect/>
+                </Image.Effect>
+            </Image>
+            <Image x:Name="ButtonSaveImage" MouseEnter="ButtonSave_MouseEnter" MouseLeave="ButtonSave_MouseLeave" MouseLeftButtonUp="ButtonSave_MouseLeftButtonUp" Margin="10,408,169,123" Source="resources/Save_64px.png" Stretch="Fill" Cursor="Hand"/>
+            <Image x:Name="ButtonLoadDefaultsImage" MouseEnter="ButtonLoadDefaults_MouseEnter" MouseLeave="ButtonLoadDefaults_MouseLeave" MouseLeftButtonUp="ButtonLoadDefaults_MouseLeftButtonUp" Margin="10,467,169,64" Source="resources/Restore_64px.png" Stretch="Fill" Cursor="Hand"/>
+            <Label x:Name="ButtonMonitor" MouseEnter="ButtonMonitor_MouseEnter" MouseLeave="ButtonMonitor_MouseLeave" MouseLeftButtonUp="ButtonMonitor_MouseLeftButtonUp" Content="Monitoring Options" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="61,210,0,0" Height="48" Width="159" VerticalContentAlignment="Center" Foreground="White" FontSize="14" Cursor="Hand">
+                <Label.Effect>
+                    <DropShadowEffect/>
+                </Label.Effect>
+            </Label>
+            <Label x:Name="ButtonClock" MouseEnter="ButtonClock_MouseEnter" MouseLeave="ButtonClock_MouseLeave" MouseLeftButtonUp="ButtonClock_MouseLeftButtonUp" Content="Clock Options" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="61,274,0,0" Height="48" Width="159" VerticalContentAlignment="Center" Foreground="White" FontSize="14" Cursor="Hand"/>
+            <Label x:Name="ButtonSave" MouseEnter="ButtonSave_MouseEnter" MouseLeave="ButtonSave_MouseLeave" MouseLeftButtonUp="ButtonSave_MouseLeftButtonUp" Content="Save All Settings" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="61,408,0,0" Height="48" Width="159" VerticalContentAlignment="Center" Foreground="White" FontSize="14" Cursor="Hand"/>
+            <Label x:Name="ButtonLoadDefaults" MouseEnter="ButtonLoadDefaults_MouseEnter" MouseLeave="ButtonLoadDefaults_MouseLeave" MouseLeftButtonUp="ButtonLoadDefaults_MouseLeftButtonUp" Content="Restore Default Settings" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="61,467,0,0" Height="48" Width="159" VerticalContentAlignment="Center" Foreground="White" FontSize="14" Cursor="Hand"/>
+            <Label x:Name="ButtonBrightness" MouseEnter="ButtonBrightness_MouseEnter" MouseLeave="ButtonBrightness_MouseLeave" Content="Brightness Level:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="61,335,0,0" Height="40" Width="159" VerticalContentAlignment="Center" Foreground="White" FontSize="14"/>
+            <Image x:Name="ButtonBrightnessImage" MouseEnter="ButtonBrightness_MouseEnter" MouseLeave="ButtonBrightness_MouseLeave" Margin="10,340,169,191" Source="resources/Brightness_64px.png" Stretch="Fill"/>
+            <Slider x:Name="BrightnessSlider" MouseEnter="ButtonBrightness_MouseEnter" MouseLeave="ButtonBrightness_MouseLeave" Maximum="100" ValueChanged="Slider_ValueChanged" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="64,370,0,0" Width="139" Cursor="Hand"/>
+            <Label x:Name="BrightnessPercent" MouseEnter="ButtonBrightness_MouseEnter" MouseLeave="ButtonBrightness_MouseLeave" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="170,335,0,0" Height="40" Width="57" Foreground="White" VerticalContentAlignment="Center" FontSize="14"/>
+            <Separator Height="69" Margin="23,136,24,0" VerticalAlignment="Top"/>
+        </Grid>
+        <Grid HorizontalAlignment="Left" Height="52" VerticalAlignment="Top" Width="688" Margin="227,0,0,0" Background="#FF055F93" MouseLeftButtonDown="DragBar_MouseLeftButtonDown" Cursor="SizeAll">
+            <Label x:Name="StatusLabel" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="485,14,0,0" Width="200" Foreground="White" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" FontSize="14" Height="28" Cursor="SizeAll" FontWeight="Bold"/>
+        </Grid>
+        <Grid HorizontalAlignment="Left" Height="52" VerticalAlignment="Top" Width="174" Margin="915,0,0,0" Background="#FF055F93">
+            <Image x:Name="ButtonExit" MouseEnter="ButtonExit_MouseEnter" MouseLeave="ButtonExit_MouseLeave" MouseLeftButtonUp="ButtonExit_MouseLeftButtonUp" Source="resources/Exit_64px.png" Stretch="Fill" HorizontalAlignment="Left" Width="36" Cursor="Hand" ToolTip="Exit" Margin="128,10,0,6"/>
+            <Image x:Name="SelectDevice6Button" MouseEnter="SelectDevice_MouseEnter" MouseLeave="SelectDevice_MouseLeave" MouseLeftButtonUp="SelectDevice_MouseLeftButtonUp" Source="resources/device 6 button_64px.png" Stretch="Fill" HorizontalAlignment="Left" Width="36" Cursor="Hand" Visibility="Hidden" Margin="36,10,0,6"/>
+            <Image x:Name="SelectDevice15Button" MouseEnter="SelectDevice_MouseEnter" MouseLeave="SelectDevice_MouseLeave" MouseLeftButtonUp="SelectDevice_MouseLeftButtonUp" Source="resources/Device 15 Button_64px.png" Stretch="Fill" HorizontalAlignment="Left" Width="36" Cursor="Hand"  Visibility="Hidden" Margin="36,10,0,6"/>
+            <Image x:Name="ButtonHelp" MouseEnter="ButtonHelp_MouseEnter" MouseLeave="ButtonHelp_MouseLeave" MouseLeftButtonUp="ButtonHelp_MouseLeftButtonUp" Source="resources/Help_64px.png" Stretch="Fill" HorizontalAlignment="Left" Width="36" Cursor="Hand" ToolTip="Help / Guide" Margin="85,10,0,6"/>
+        </Grid>
+        <Grid HorizontalAlignment="Left" Height="527" VerticalAlignment="Top" Width="862" Margin="227,52,0,-1" Background="#FF022570"/>
+        <TabControl Height="526" VerticalAlignment="Top" Margin="227,52,0,0" Background="#FF022570" BorderThickness="0">
+            <!--Monitoring stuff here..-->
+            <TabItem x:Name="TabMonitor" Visibility="Hidden" IsSelected="True">
+                <Grid Background="#FF022570" HorizontalAlignment="Right" Width="870" Margin="0,0,-2,0">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="87*"/>
-                        <RowDefinition Height="274*"/>
+                        <RowDefinition Height="22*"/>
+                        <RowDefinition Height="63*"/>
                     </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="203*"/>
-                        <ColumnDefinition Width="59*"/>
-                    </Grid.ColumnDefinitions>
-                    <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="329" VerticalAlignment="Top" Width="544" Margin="7,40,0,0" Grid.RowSpan="2" CornerRadius="4"/>
-                    <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="376.5" VerticalAlignment="Top" Width="791" Grid.RowSpan="2" Grid.ColumnSpan="2" CornerRadius="2"/>
-                    <Border BorderBrush="Black" BorderThickness="1" Margin="556,40,0,0" Height="264" VerticalAlignment="Top" HorizontalAlignment="Left" Width="226" Grid.ColumnSpan="2" Grid.RowSpan="2" CornerRadius="4"/>
-                    <Label Content="Header 1" HorizontalAlignment="Left" Margin="8,47,0,0" VerticalAlignment="Top" Width="64" HorizontalContentAlignment="Center" Height="29" Grid.Row="1"/>
-                    <Label Content="Font Type:" Margin="82,9,0,0" VerticalAlignment="Top" Height="39" HorizontalAlignment="Left" Width="172" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Row="1"/>
-                    <Label Content="Font Size:" Margin="400,10,0,0" VerticalAlignment="Top" Height="39" HorizontalAlignment="Left" Width="69" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Grid.Row="1"/>
-                    <TextBox x:Name="AnimFramerate" Height="25" Margin="99,141,0,0" TextWrapping="Wrap" VerticalAlignment="Top" MaxLines="1" MaxLength="3" IsUndoEnabled="False" TextAlignment="Center" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" TextChanged="AnimFramerateInput" Width="35" HorizontalAlignment="Left" TabIndex="30" Grid.Column="1" Grid.Row="1"/>
-                    <Label x:Name="LabelFramerate1" Content=" Animation Framerate:&#xA;" Margin="563,133,0,0" VerticalAlignment="Top" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Center" Height="33" Width="146" HorizontalAlignment="Left" Grid.ColumnSpan="2" Grid.Row="1"/>
-                    <TextBox x:Name="HeaderFontSize2" Height="25" Margin="406,95,0,0" TextWrapping="Wrap" VerticalAlignment="Top" UndoLimit="0" MaxLines="1" MaxLength="2" IsUndoEnabled="False" TextAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" TextChanged="HeaderFontSize2Input" HorizontalAlignment="Left" Width="37" TabIndex="11" Grid.Row="1"/>
-                    <TextBox x:Name="ValuesFontSize" Height="25" Margin="406,140,0,0" TextWrapping="Wrap" VerticalAlignment="Top" UndoLimit="0" MaxLines="1" MaxLength="2" IsUndoEnabled="False" TextAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" TextChanged="ValuesFontSizeInput" HorizontalAlignment="Left" Width="37" TabIndex="19" Grid.Row="1"/>
-                    <TextBox x:Name="HeaderFontSize1" Height="25" Margin="406,48,0,0" TextWrapping="Wrap" VerticalAlignment="Top" UndoLimit="0" MaxLines="1" MaxLength="2" IsUndoEnabled="False" TextAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" TextChanged="HeaderFontSize1Input" HorizontalAlignment="Left" Width="36" TabIndex="3" Grid.Row="1"/>
-                    <ComboBox x:Name="HeaderFontType1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="172" Margin="82,48,0,0" TabIndex="1" Height="25" Grid.Row="1"/>
-                    <ComboBox x:Name="ValuesFontType" HorizontalAlignment="Left" VerticalAlignment="Top" Width="172" Margin="82,140,0,0" TabIndex="17" Height="25" Grid.Row="1"/>
-                    <ComboBox x:Name="HeaderFontColor1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="138" Margin="260,48,0,0" TabIndex="2" Height="25" Grid.Row="1"/>
-                    <ComboBox x:Name="ValuesFontColor" HorizontalAlignment="Left" VerticalAlignment="Top" Width="137" Margin="261,140,0,0" TabIndex="18" Height="25" Grid.Row="1"/>
-                    <ComboBox x:Name="BackgroundFillColor" HorizontalAlignment="Left" VerticalAlignment="Top" Width="137" Margin="269,210,0,0" TabIndex="25" Height="25" Grid.Row="1"/>
-                    <Label Content="Background Color:" Margin="155,207,0,0" VerticalAlignment="Top" VerticalContentAlignment="Center" Height="33" Width="114" HorizontalAlignment="Left" Grid.Row="1"/>
-                    <RadioButton x:Name="EnableStatic" Content="Enable Static Image" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="578,2,0,0" Width="142" TabIndex="26" Height="17" Grid.ColumnSpan="2" Grid.Row="1"/>
-                    <Label Content="Main Font Settings" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,43,0,0" Width="210" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="16" Height="42" FontStyle="Italic"/>
-                    <Separator HorizontalAlignment="Left" Height="24" Margin="50,67,0,0" VerticalAlignment="Top" Width="130"/>
-                    <Label x:Name="OptionsLabel" Content="Surrounding Image Settings" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="578,40,0,0" Width="181" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="14" Height="41" FontStyle="Italic" Grid.ColumnSpan="2"/>
-                    <Separator HorizontalAlignment="Left" Height="25" Margin="578,62,0,0" VerticalAlignment="Top" Width="181" Grid.ColumnSpan="2"/>
-                    <RadioButton x:Name="EnableAnim" Content="Enable Animation" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="578,77,0,0" Width="142" TabIndex="28" Height="17" Grid.ColumnSpan="2" Grid.Row="1"/>
-                    <ComboBox x:Name="StaticImages" HorizontalAlignment="Left" VerticalAlignment="Top" Width="152" Margin="598,24,0,0" TabIndex="27" Height="25" Grid.ColumnSpan="2" Grid.Row="1"/>
-                    <ComboBox x:Name="Animations" HorizontalAlignment="Left" VerticalAlignment="Top" Width="152" Margin="598,100,0,0" TabIndex="29" Height="25" Grid.ColumnSpan="2" Grid.Row="1"/>
-                    <Label x:Name="LabelFramerate2" Content="(60 FPS max)&#xA;" Margin="570,144,0,0" VerticalAlignment="Top" FontSize="11" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Center" Height="33" Width="139" HorizontalAlignment="Left" Grid.ColumnSpan="2" Grid.Row="1"/>
-                    <TextBox x:Name="FrameTotal" Height="25" Margin="99,176,0,0" TextWrapping="Wrap" VerticalAlignment="Top" MaxLines="1" MaxLength="3" IsUndoEnabled="False" TextAlignment="Center" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" TextChanged="FrameTotalInput" Width="34" HorizontalAlignment="Left" TabIndex="33" Grid.Column="1" Grid.Row="1"/>
-                    <Label x:Name="LabelFrameAmount1" Content="No. of Frames to animate:" Margin="564,169,0,0" VerticalAlignment="Top" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Center" Height="33" Width="150" HorizontalAlignment="Left" Grid.ColumnSpan="2" Grid.Row="1"/>
-                    <Label x:Name="LabelFrameAmount2" Content="(600 max)&#xA;" Margin="570,180,0,0" VerticalAlignment="Top" FontSize="11" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Center" Height="34" Width="140" HorizontalAlignment="Left" Grid.ColumnSpan="2" Grid.Row="1"/>
-                    <Separator x:Name="Seperator"  HorizontalAlignment="Left" Height="24" Margin="598,52,0,0" VerticalAlignment="Top" Width="152" Grid.ColumnSpan="2" Grid.Row="1"/>
-                    <Label Content="Font Color:" Margin="260,10,0,0" VerticalAlignment="Top" Height="39" HorizontalAlignment="Left" Width="138" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Row="1"/>
-                    <ComboBox x:Name="HeaderFontType2" HorizontalAlignment="Left" VerticalAlignment="Top" Width="172" Margin="82,95,0,0" TabIndex="9" Height="25" Grid.Row="1"/>
-                    <ComboBox x:Name="HeaderFontColor2" HorizontalAlignment="Left" VerticalAlignment="Top" Width="137" Margin="261,95,0,0" TabIndex="10" Height="25" Grid.Row="1"/>
-                    <Label Content="Header 2" HorizontalAlignment="Left" Margin="9,93,0,0" VerticalAlignment="Top" Width="63" HorizontalContentAlignment="Center" Height="30" Grid.Row="1"/>
-                    <Label Content="Values" HorizontalAlignment="Left" Margin="9,139,0,0" VerticalAlignment="Top" Width="63" HorizontalContentAlignment="Center" Height="30" Grid.Row="1"/>
-                    <Button x:Name="ButtonH1FSUp"  Click="ClickH1FSUp" HorizontalAlignment="Left" VerticalAlignment="Top" Width="12" Margin="447,42,0,0" Height="25" Content="&gt;"   VerticalContentAlignment="Center" TabIndex="4" Padding="1,-2,1,1" RenderTransformOrigin="0.5,0.5" BorderThickness="0,1,1,1" Grid.Row="1">
+                    <Image Margin="320,9,0,77" Source="resources/Monitor_64px.png" Stretch="Fill" HorizontalAlignment="Left" Width="48">
+                        <Image.Effect>
+                            <DropShadowEffect/>
+                        </Image.Effect>
+                    </Image>
+                    <Label Content="Monitoring Options" VerticalAlignment="Top" Margin="371,9,310,0" Height="48" VerticalContentAlignment="Center" Foreground="White" FontSize="20">
+                        <Label.Effect>
+                            <DropShadowEffect/>
+                        </Label.Effect>
+                    </Label>
+                    <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="179" VerticalAlignment="Top" Width="195" Margin="42,101,0,0" CornerRadius="10" Background="#FF055F93" Grid.RowSpan="2">
+                        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="114" VerticalAlignment="Top" Width="175" Margin="9,51,0,0" CornerRadius="5">
+                            <Border.Background>
+                                <SolidColorBrush Color="Black" Opacity="0.2"/>
+                            </Border.Background>
+                        </Border>
+                    </Border>
+                    <ComboBox x:Name="HeaderFontType1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="151" Margin="64,35,0,0" TabIndex="1" Height="25" Grid.Row="1" HorizontalContentAlignment="Center" ToolTip="Font Type"/>
+                    <ComboBox x:Name="HeaderFontColor1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="151" Margin="64,65,0,0" TabIndex="2" Height="25" Grid.Row="1" HorizontalContentAlignment="Center" ToolTip="Font Color"/>
+                    <TextBox x:Name="HeaderFontSize1" Height="25" Margin="64,95,0,0" TextWrapping="Wrap" VerticalAlignment="Top" UndoLimit="0" MaxLines="1" MaxLength="2" IsUndoEnabled="False" TextAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" TextChanged="HeaderFontSize1Input" HorizontalAlignment="Left" Width="36" TabIndex="3" Grid.Row="1" ToolTip="Font Size"/>
+                    <Button x:Name="ButtonH1FSUp"  Click="ClickH1FSUp" HorizontalAlignment="Left" VerticalAlignment="Top" Width="12" Margin="105,88,0,0" Height="26" Content="&gt;"   VerticalContentAlignment="Center" TabIndex="4" Padding="1,-2,1,1" RenderTransformOrigin="0.5,0.5" BorderThickness="0,1,1,1" Grid.Row="1">
                         <Button.RenderTransform>
                             <TransformGroup>
                                 <ScaleTransform ScaleY="0.928" ScaleX="1.078"/>
@@ -67,7 +80,7 @@
                             </TransformGroup>
                         </Button.RenderTransform>
                     </Button>
-                    <Button x:Name="ButtonH1FSDown" Content="&lt;" Click="ClickH1FSDown" Margin="447,54,154,209" TabIndex="5" VerticalContentAlignment="Center" Padding="0,-2,1,1" RenderTransformOrigin="0.5,0.5" Grid.Row="1">
+                    <Button x:Name="ButtonH1FSDown" Content="&lt;" Click="ClickH1FSDown" Margin="105,101,0,255" TabIndex="5" VerticalContentAlignment="Center" Padding="0,-2,1,1" RenderTransformOrigin="0.5,0.5" Grid.Row="1" HorizontalAlignment="Left" Width="12">
                         <Button.RenderTransform>
                             <TransformGroup>
                                 <ScaleTransform ScaleY="0.928" ScaleX="1.078"/>
@@ -77,7 +90,8 @@
                             </TransformGroup>
                         </Button.RenderTransform>
                     </Button>
-                    <Button x:Name="ButtonH2FSUp" Content="&gt;" Click="ClickH2FSUp" Margin="448,89,153,174" TabIndex="12" VerticalContentAlignment="Center" Padding="1,-2,1,1" RenderTransformOrigin="0.5,0.5" BorderThickness="0,1,1,1" Grid.Row="1">
+                    <TextBox x:Name="Header1Position" Height="25" Margin="150,95,0,0" TextWrapping="Wrap" VerticalAlignment="Top" UndoLimit="0" MaxLines="1" MaxLength="2" IsUndoEnabled="False" TextAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" TextChanged="Header1PositionInput" HorizontalAlignment="Left" Width="42" TabIndex="6" Grid.Row="1" ToolTip="Font Position"/>
+                    <Button x:Name="ButtonH1PUp" Click="ClickH1PUp" Margin="195,89,0,270" TabIndex="7" Content="&gt;" VerticalContentAlignment="Center" Padding="1,-2,1,1" RenderTransformOrigin="0.5,0.5" BorderThickness="0,1,1,1" Grid.Row="1" HorizontalAlignment="Left" Width="12">
                         <Button.RenderTransform>
                             <TransformGroup>
                                 <ScaleTransform ScaleY="0.928" ScaleX="1.078"/>
@@ -87,7 +101,7 @@
                             </TransformGroup>
                         </Button.RenderTransform>
                     </Button>
-                    <Button x:Name="ButtonH2FSDown"  Content="&lt;" Click="ClickH2FSDown" Margin="448,101,153,162" TabIndex="13" VerticalContentAlignment="Center" Padding="0,-2,1,1" RenderTransformOrigin="0.5,0.5" Grid.Row="1">
+                    <Button x:Name="ButtonH1PDown" Click="ClickH1PDown" Content="&lt;" Margin="195,102,0,257" VerticalContentAlignment="Center" Padding="0,-2,1,1" RenderTransformOrigin="0.5,0.5" Grid.Row="1" HorizontalAlignment="Left" Width="12" TabIndex="8">
                         <Button.RenderTransform>
                             <TransformGroup>
                                 <ScaleTransform ScaleY="0.928" ScaleX="1.078"/>
@@ -97,7 +111,27 @@
                             </TransformGroup>
                         </Button.RenderTransform>
                     </Button>
-                    <Button x:Name="ButtonVFSUp" Content="&gt;" Click="ClickVFSUp" VerticalAlignment="Top" TabIndex="20" Margin="448,134,153,0" Height="25" VerticalContentAlignment="Center" Padding="1,-2,1,1" RenderTransformOrigin="0.5,0.5" BorderThickness="0,1,1,1" Grid.Row="1">
+                    <TextBox Height="16" Margin="176,104,0,0" VerticalAlignment="Top" UndoLimit="0" MaxLines="1" MaxLength="2" IsEnabled="False" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Text="Px" HorizontalAlignment="Left" Width="14" TabIndex="3" SelectionOpacity="0" BorderThickness="0,0,0,1" FontSize="10" Grid.Row="1"/>
+                    <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="179" VerticalAlignment="Top" Width="195" Margin="242,101,0,0" CornerRadius="10" Background="#FF055F93" Grid.RowSpan="2">
+                        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Width="175" Margin="9,51,0,0" CornerRadius="5" Height="114" VerticalAlignment="Top">
+                            <Border.Background>
+                                <SolidColorBrush Color="Black" Opacity="0.2"/>
+                            </Border.Background>
+                            <Label Content="Standard Headers" Margin="0,-45,0,0" FontWeight="Bold" FontSize="14" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Height="30" VerticalAlignment="Top" Foreground="White"/>
+                        </Border>
+                    </Border>
+                    <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="179" VerticalAlignment="Top" Width="195" Margin="442,101,0,0" CornerRadius="10" Background="#FF055F93" Grid.RowSpan="2">
+                        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Width="175" Margin="9,51,0,0" CornerRadius="5" Height="114" VerticalAlignment="Top">
+                            <Border.Background>
+                                <SolidColorBrush Color="Black" Opacity="0.2"/>
+                            </Border.Background>
+                            <Label Content="Values" Margin="0,-46,0,0" FontWeight="Bold" FontSize="14" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Height="30" VerticalAlignment="Top" Foreground="White"/>
+                        </Border>
+                    </Border>
+                    <ComboBox x:Name="HeaderFontType2" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150" Margin="265,35,0,0" TabIndex="9" Height="25" Grid.Row="1" HorizontalContentAlignment="Center" ToolTip="Font Type"/>
+                    <ComboBox x:Name="HeaderFontColor2" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150" Margin="265,65,0,0" TabIndex="10" Height="25" Grid.Row="1" HorizontalContentAlignment="Center" ToolTip="Font Color"/>
+                    <TextBox x:Name="HeaderFontSize2" Height="25" Margin="265,95,0,0" TextWrapping="Wrap" VerticalAlignment="Top" UndoLimit="0" MaxLines="1" MaxLength="2" IsUndoEnabled="False" TextAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" TextChanged="HeaderFontSize2Input" HorizontalAlignment="Left" Width="37" TabIndex="11" Grid.Row="1" ToolTip="Font Size"/>
+                    <Button x:Name="ButtonH2FSUp" Content="&gt;" Click="ClickH2FSUp" Margin="306,90,0,269" TabIndex="12" VerticalContentAlignment="Center" Padding="1,-2,1,1" RenderTransformOrigin="0.5,0.5" BorderThickness="0,1,1,1" Grid.Row="1" HorizontalAlignment="Left" Width="12">
                         <Button.RenderTransform>
                             <TransformGroup>
                                 <ScaleTransform ScaleY="0.928" ScaleX="1.078"/>
@@ -107,7 +141,7 @@
                             </TransformGroup>
                         </Button.RenderTransform>
                     </Button>
-                    <Button x:Name="ButtonVFSDown" Content="&lt;" Click="ClickVFSDown" VerticalAlignment="Top" TabIndex="21" Margin="448,146,153,0" Height="25" VerticalContentAlignment="Center" Padding="0,-2,1,1" RenderTransformOrigin="0.5,0.5" Grid.Row="1">
+                    <Button x:Name="ButtonH2FSDown"  Content="&lt;" Click="ClickH2FSDown" Margin="306,103,0,256" TabIndex="13" VerticalContentAlignment="Center" Padding="0,-2,1,1" RenderTransformOrigin="0.5,0.5" Grid.Row="1" HorizontalAlignment="Left" Width="12">
                         <Button.RenderTransform>
                             <TransformGroup>
                                 <ScaleTransform ScaleY="0.928" ScaleX="1.078"/>
@@ -117,7 +151,8 @@
                             </TransformGroup>
                         </Button.RenderTransform>
                     </Button>
-                    <Button x:Name="ButtonFRUp" Content="&gt;" Click="ClickFRUp" VerticalAlignment="Top" TabIndex="31" Margin="139,135,27,0" Height="25" Padding="1,-2,1,1" RenderTransformOrigin="0.5,0.5" BorderThickness="0,1,1,1" Grid.Column="1" Grid.Row="1">
+                    <TextBox x:Name="Header2Position" Height="25" Margin="349,95,0,0" TextWrapping="Wrap" VerticalAlignment="Top" UndoLimit="0" MaxLines="1" MaxLength="2" IsUndoEnabled="False" TextAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" TextChanged="Header2PositionInput" HorizontalAlignment="Left" Width="43" TabIndex="14" Grid.Row="1" ToolTip="Font Position"/>
+                    <Button x:Name="ButtonH2PUp" Click="ClickH2PUp" Margin="396,90,0,269" TabIndex="15" Content="&gt;" VerticalContentAlignment="Center" Padding="1,-2,1,1" RenderTransformOrigin="0.5,0.5" BorderThickness="0,1,1,1" Grid.Row="1" HorizontalAlignment="Left" Width="12">
                         <Button.RenderTransform>
                             <TransformGroup>
                                 <ScaleTransform ScaleY="0.928" ScaleX="1.078"/>
@@ -127,7 +162,7 @@
                             </TransformGroup>
                         </Button.RenderTransform>
                     </Button>
-                    <Button x:Name="ButtonFRDown" Content="&lt;" Click="ClickFRDown" VerticalAlignment="Top" TabIndex="32" Margin="139,147,27,0" Height="25" Padding="0,-2,1,1" RenderTransformOrigin="0.5,0.5" Grid.Column="1" Grid.Row="1">
+                    <Button x:Name="ButtonH2PDown" Click="ClickH2PDown" Content="&lt;" Margin="396,103,0,256" VerticalContentAlignment="Center" Padding="0,-2,1,1" RenderTransformOrigin="0.5,0.5" Grid.Row="1" HorizontalAlignment="Left" Width="12" TabIndex="16">
                         <Button.RenderTransform>
                             <TransformGroup>
                                 <ScaleTransform ScaleY="0.928" ScaleX="1.078"/>
@@ -137,7 +172,11 @@
                             </TransformGroup>
                         </Button.RenderTransform>
                     </Button>
-                    <Button x:Name="ButtonFAUp" Content="&gt;" Click="ClickFAUp" VerticalAlignment="Top" TabIndex="34" Margin="139,169,27,0" Height="27" Padding="1,-2,1,1" RenderTransformOrigin="0.5,0.5" BorderThickness="0,1,1,1" Grid.Column="1" Grid.Row="1">
+                    <TextBox Height="16" Margin="376,104,0,0" VerticalAlignment="Top" UndoLimit="0" MaxLines="1" MaxLength="2" IsEnabled="False" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Text="Px" HorizontalAlignment="Left" Width="13" TabIndex="3" SelectionOpacity="0" BorderThickness="0,0,0,1" FontSize="10" Grid.Row="1"/>
+                    <ComboBox x:Name="ValuesFontType" HorizontalAlignment="Left" VerticalAlignment="Top" Width="151" Margin="464,35,0,0" TabIndex="17" Height="25" Grid.Row="1" HorizontalContentAlignment="Center" ToolTip="Font Type"/>
+                    <ComboBox x:Name="ValuesFontColor" HorizontalAlignment="Left" VerticalAlignment="Top" Width="151" Margin="464,65,0,0" TabIndex="18" Height="25" Grid.Row="1" HorizontalContentAlignment="Center" ToolTip="Font Color"/>
+                    <TextBox x:Name="ValuesFontSize" Height="25" Margin="464,95,0,0" TextWrapping="Wrap" VerticalAlignment="Top" UndoLimit="0" MaxLines="1" MaxLength="2" IsUndoEnabled="False" TextAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" TextChanged="ValuesFontSizeInput" HorizontalAlignment="Left" Width="37" TabIndex="19" Grid.Row="1" ToolTip="Font Size"/>
+                    <Button x:Name="ButtonVFSUp" Content="&gt;" Click="ClickVFSUp" VerticalAlignment="Bottom" TabIndex="20" Margin="505,0,0,269" Height="24" VerticalContentAlignment="Center" Padding="1,-2,1,1" RenderTransformOrigin="0.5,0.5" BorderThickness="0,1,1,1" Grid.Row="1" HorizontalAlignment="Left" Width="12">
                         <Button.RenderTransform>
                             <TransformGroup>
                                 <ScaleTransform ScaleY="0.928" ScaleX="1.078"/>
@@ -147,7 +186,7 @@
                             </TransformGroup>
                         </Button.RenderTransform>
                     </Button>
-                    <Button x:Name="ButtonFADown" Content="&lt;" Click="ClickFADown" VerticalAlignment="Top" TabIndex="35" Margin="139,181,27,0" Height="27" Padding="0,-2,1,1" RenderTransformOrigin="0.5,0.5" BorderThickness="1" Grid.Column="1" Grid.Row="1">
+                    <Button x:Name="ButtonVFSDown" Content="&lt;" Click="ClickVFSDown" VerticalAlignment="Top" TabIndex="21" Margin="505,102,0,0" Height="24" VerticalContentAlignment="Center" Padding="0,-2,1,1" RenderTransformOrigin="0.5,0.5" Grid.Row="1" HorizontalAlignment="Left" Width="12">
                         <Button.RenderTransform>
                             <TransformGroup>
                                 <ScaleTransform ScaleY="0.928" ScaleX="1.078"/>
@@ -157,8 +196,8 @@
                             </TransformGroup>
                         </Button.RenderTransform>
                     </Button>
-                    <TextBox x:Name="Header1Position" Height="25" Margin="474,48,0,0" TextWrapping="Wrap" VerticalAlignment="Top" UndoLimit="0" MaxLines="1" MaxLength="2" IsUndoEnabled="False" TextAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" TextChanged="Header1PositionInput" HorizontalAlignment="Left" Width="43" TabIndex="6" Grid.Row="1"/>
-                    <Button x:Name="ButtonH1PUp" Click="ClickH1PUp" Margin="522,42,79,221" TabIndex="7" Content="&gt;" VerticalContentAlignment="Center" Padding="1,-2,1,1" RenderTransformOrigin="0.5,0.5" BorderThickness="0,1,1,1" Grid.Row="1">
+                    <TextBox x:Name="ValuePosition" Height="25" Margin="549,95,0,0" TextWrapping="Wrap" VerticalAlignment="Top" UndoLimit="0" MaxLines="1" MaxLength="2" IsUndoEnabled="False" TextAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" TextChanged="ValuesPositionInput" HorizontalAlignment="Left" Width="43" TabIndex="22" Grid.Row="1" ToolTip="Font Position"/>
+                    <Button x:Name="ButtonVPUp" Click="ClickVPUp" VerticalAlignment="Top" TabIndex="23" Margin="597,88,0,0" Height="26" Content="&gt;" VerticalContentAlignment="Center" Padding="1,-2,1,1" RenderTransformOrigin="0.5,0.5" BorderThickness="0,1,1,1" Grid.Row="1" HorizontalAlignment="Left" Width="12">
                         <Button.RenderTransform>
                             <TransformGroup>
                                 <ScaleTransform ScaleY="0.928" ScaleX="1.078"/>
@@ -168,7 +207,7 @@
                             </TransformGroup>
                         </Button.RenderTransform>
                     </Button>
-                    <Button x:Name="ButtonH1PDown" Click="ClickH1PDown" Content="&lt;" Margin="522,54,79,209" VerticalContentAlignment="Center" Padding="0,-2,1,1" RenderTransformOrigin="0.5,0.5" Grid.Row="1">
+                    <Button x:Name="ButtonVPDown" Click="ClickVPDown" Content="&lt;" VerticalAlignment="Top" TabIndex="24" Margin="597,101,0,0" Height="26" VerticalContentAlignment="Center" Padding="0,-2,1,1" RenderTransformOrigin="0.5,0.5" Grid.Row="1" HorizontalAlignment="Left" Width="12">
                         <Button.RenderTransform>
                             <TransformGroup>
                                 <ScaleTransform ScaleY="0.928" ScaleX="1.078"/>
@@ -178,8 +217,32 @@
                             </TransformGroup>
                         </Button.RenderTransform>
                     </Button>
-                    <TextBox x:Name="Header2Position" Height="25" Margin="474,95,0,0" TextWrapping="Wrap" VerticalAlignment="Top" UndoLimit="0" MaxLines="1" MaxLength="2" IsUndoEnabled="False" TextAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" TextChanged="Header2PositionInput" HorizontalAlignment="Left" Width="43" TabIndex="14" Grid.Row="1"/>
-                    <Button x:Name="ButtonH2PUp" Click="ClickH2PUp" Margin="522,89,79,174" TabIndex="15" Content="&gt;" VerticalContentAlignment="Center" Padding="1,-2,1,1" RenderTransformOrigin="0.5,0.5" BorderThickness="0,1,1,1" Grid.Row="1">
+                    <TextBox Height="16" Margin="576,104,0,0" VerticalAlignment="Top" UndoLimit="0" MaxLines="1" MaxLength="2" IsEnabled="False" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Text="Px" HorizontalAlignment="Left" Width="13" TabIndex="3" SelectionOpacity="0" BorderThickness="0,0,0,1" FontSize="10" Grid.Row="1"/>
+                    <Label Content="Large Headers" Margin="42,110,0,0" FontWeight="Bold" FontSize="14" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Height="30" VerticalAlignment="Top" Foreground="White" HorizontalAlignment="Left" Width="195" Grid.RowSpan="2"/>
+                    <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="179" VerticalAlignment="Top" Width="195" Margin="642,101,0,0" CornerRadius="10" Background="#FF055F93" Grid.RowSpan="2">
+                        <Border BorderBrush="Black" BorderThickness="1" Margin="0,0,10,11" CornerRadius="5" Height="116" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="176">
+                            <Border.Background>
+                                <SolidColorBrush Color="Black" Opacity="0.2"/>
+                            </Border.Background>
+                        </Border>
+                    </Border>
+                    <Label Content="Background Color" Margin="642,108,0,0" FontWeight="Bold" FontSize="14" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Height="30" VerticalAlignment="Top" Foreground="White" Grid.RowSpan="2" HorizontalAlignment="Left" Width="195"/>
+                    <ComboBox x:Name="BackgroundFillColor" HorizontalAlignment="Left" VerticalAlignment="Top" Width="151" Margin="663,65,0,0" TabIndex="25" Height="25" Grid.Row="1" HorizontalContentAlignment="Center" ToolTip="Background Color"/>
+                    <Separator HorizontalAlignment="Left" Height="24" Margin="27,52,0,0" VerticalAlignment="Top" Width="818" Background="White" Foreground="Black"/>
+                    <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="175" VerticalAlignment="Top" Width="548" Margin="169,172,0,0" CornerRadius="10" Background="#FF055F93" Grid.Row="1">
+                        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Width="528" Margin="9,43,0,0" CornerRadius="5" Height="118" VerticalAlignment="Top">
+                            <Border.Background>
+                                <SolidColorBrush Color="Black" Opacity="0.2"/>
+                            </Border.Background>
+                            <Label x:Name="SurroundingImageLabel" Content="Surrounding Image Settings" Margin="0,-38,0,0" FontWeight="Bold" FontSize="14" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Height="30" VerticalAlignment="Top" Foreground="White"/>
+                        </Border>
+                    </Border>
+                    <RadioButton x:Name="EnableStatic" Content="Enable Static Image" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="230,239,0,0" Width="152" TabIndex="26" Height="17" Grid.Row="1" Foreground="White"/>
+                    <ComboBox x:Name="StaticImages" HorizontalAlignment="Left" VerticalAlignment="Top" Width="152" Margin="230,261,0,0" TabIndex="27" Height="25" Grid.Row="1" HorizontalContentAlignment="Center" ToolTip="Static Images"/>
+                    <RadioButton x:Name="EnableAnim" Content="Enable Animation" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="499,239,0,0" Width="152" TabIndex="28" Height="17" Grid.Row="1" Foreground="White"/>
+                    <ComboBox x:Name="Animations" HorizontalAlignment="Left" VerticalAlignment="Top" Width="152" Margin="499,261,0,0" TabIndex="29" Height="25" Grid.Row="1" HorizontalContentAlignment="Center" ToolTip="Animations"/>
+                    <TextBox x:Name="AnimFramerate" Height="25" Margin="499,293,0,0" TextWrapping="Wrap" VerticalAlignment="Top" MaxLines="1" MaxLength="3" IsUndoEnabled="False" TextAlignment="Center" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" TextChanged="AnimFramerateInput" Width="35" HorizontalAlignment="Left" TabIndex="30" Grid.Row="1" ToolTip="Animation Framerate (Max 60fps)"/>
+                    <Button x:Name="ButtonFRUp" Content="&gt;" Click="ClickFRUp" VerticalAlignment="Top" TabIndex="31" Margin="538,287,320,0" Height="25" Padding="1,-2,1,1" RenderTransformOrigin="0.5,0.5" BorderThickness="0,1,1,1" Grid.Row="1">
                         <Button.RenderTransform>
                             <TransformGroup>
                                 <ScaleTransform ScaleY="0.928" ScaleX="1.078"/>
@@ -189,7 +252,7 @@
                             </TransformGroup>
                         </Button.RenderTransform>
                     </Button>
-                    <Button x:Name="ButtonH2PDown" Click="ClickH2PDown" Content="&lt;" Margin="522,101,79,162" VerticalContentAlignment="Center" Padding="0,-2,1,1" RenderTransformOrigin="0.5,0.5" Grid.Row="1">
+                    <Button x:Name="ButtonFRDown" Content="&lt;" Click="ClickFRDown" VerticalAlignment="Top" TabIndex="32" Margin="538,299,320,0" Height="25" Padding="0,-2,1,1" RenderTransformOrigin="0.5,0.5" Grid.Row="1">
                         <Button.RenderTransform>
                             <TransformGroup>
                                 <ScaleTransform ScaleY="0.928" ScaleX="1.078"/>
@@ -199,8 +262,8 @@
                             </TransformGroup>
                         </Button.RenderTransform>
                     </Button>
-                    <TextBox x:Name="ValuePosition" Height="25" Margin="474,140,0,0" TextWrapping="Wrap" VerticalAlignment="Top" UndoLimit="0" MaxLines="1" MaxLength="2" IsUndoEnabled="False" TextAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" TextChanged="ValuesPositionInput" HorizontalAlignment="Left" Width="43" TabIndex="22" Grid.Row="1"/>
-                    <Button x:Name="ButtonVPUp" Click="ClickVPUp" VerticalAlignment="Top" TabIndex="23" Margin="522,134,79,0" Height="25" Content="&gt;" VerticalContentAlignment="Center" Padding="1,-2,1,1" RenderTransformOrigin="0.5,0.5" BorderThickness="0,1,1,1" Grid.Row="1">
+                    <TextBox x:Name="FrameTotal" Height="25" Margin="593,293,0,0" TextWrapping="Wrap" VerticalAlignment="Top" MaxLines="1" MaxLength="3" IsUndoEnabled="False" TextAlignment="Center" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" TextChanged="FrameTotalInput" Width="34" HorizontalAlignment="Left" TabIndex="33" Grid.Row="1" ToolTip="Total Frames to Animate (Max 600)"/>
+                    <Button x:Name="ButtonFAUp" Content="&gt;" Click="ClickFAUp" VerticalAlignment="Top" TabIndex="34" Margin="632,286,226,0" Height="27" Padding="1,-2,1,1" RenderTransformOrigin="0.5,0.5" BorderThickness="0,1,1,1" Grid.Row="1">
                         <Button.RenderTransform>
                             <TransformGroup>
                                 <ScaleTransform ScaleY="0.928" ScaleX="1.078"/>
@@ -210,7 +273,7 @@
                             </TransformGroup>
                         </Button.RenderTransform>
                     </Button>
-                    <Button x:Name="ButtonVPDown" Click="ClickVPDown" Content="&lt;" VerticalAlignment="Top" TabIndex="24" Margin="522,146,79,0" Height="25" VerticalContentAlignment="Center" Padding="0,-2,1,1" RenderTransformOrigin="0.5,0.5" Grid.Row="1">
+                    <Button x:Name="ButtonFADown" Content="&lt;" Click="ClickFADown" VerticalAlignment="Top" TabIndex="35" Margin="632,298,226,0" Height="27" Padding="0,-2,1,1" RenderTransformOrigin="0.5,0.5" BorderThickness="1" Grid.Row="1">
                         <Button.RenderTransform>
                             <TransformGroup>
                                 <ScaleTransform ScaleY="0.928" ScaleX="1.078"/>
@@ -220,31 +283,75 @@
                             </TransformGroup>
                         </Button.RenderTransform>
                     </Button>
-                    <Label Content="Position:" Margin="474,10,0,0" VerticalAlignment="Top" Height="39" HorizontalAlignment="Left" Width="66" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Grid.Row="1"/>
-                    <TextBox Height="16" Margin="501,57,0,0" VerticalAlignment="Top" UndoLimit="0" MaxLines="1" MaxLength="2" IsEnabled="False" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Text="Px" HorizontalAlignment="Left" Width="14" TabIndex="3" SelectionOpacity="0" BorderThickness="0,0,0,1" FontSize="10" Grid.Row="1"/>
-                    <TextBox Height="16" Margin="501,104,0,0" VerticalAlignment="Top" UndoLimit="0" MaxLines="1" MaxLength="2" IsEnabled="False" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Text="Px" HorizontalAlignment="Left" Width="13" TabIndex="3" SelectionOpacity="0" BorderThickness="0,0,0,1" FontSize="10" Grid.Row="1"/>
-                    <TextBox Height="16" Margin="501,149,0,0" VerticalAlignment="Top" UndoLimit="0" MaxLines="1" MaxLength="2" IsEnabled="False" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Text="Px" HorizontalAlignment="Left" Width="13" TabIndex="3" SelectionOpacity="0" BorderThickness="0,0,0,1" FontSize="10" Grid.Row="1"/>
-                    <CheckBox x:Name="IsMiniFps" Content="Show FPS Counter" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="608,76,0,0" TabIndex="59" Width="130" Height="19" Visibility="Collapsed" Grid.ColumnSpan="2" Grid.Row="1"/>
-                    <Label x:Name="LabelMiniFps" Content="(Replace GPU header with an FPS Counter)" Margin="564,88,0,0" VerticalAlignment="Top" FontSize="10" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Center" Height="45" Width="212" HorizontalAlignment="Left" Visibility="Collapsed" Grid.ColumnSpan="2" Grid.Row="1"/>
+                    <Separator x:Name="SurroundingImageSperator" HorizontalAlignment="Left" Height="100" Margin="393,226,0,0" VerticalAlignment="Top" Width="92" Grid.Row="1" RenderTransformOrigin="0.5,0.5">
+                        <Separator.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/>
+                                <SkewTransform/>
+                                <RotateTransform Angle="90"/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Separator.RenderTransform>
+                    </Separator>
+                    <CheckBox x:Name="IsMiniFps" Content="Show FPS Counter" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="382,267,0,0" TabIndex="59" Width="125" Height="19" Visibility="Collapsed" Grid.Row="1" Foreground="White" ToolTip="Replaces GPU header image with an FPS Counter "/>
+                    <ComboBox x:Name="Profiles" Margin="737,72,36,0" DropDownClosed="Profiles_DropDownClosed" TabIndex="0" Height="22" HorizontalContentAlignment="Center" VerticalAlignment="Top" ToolTip="Profile Selector"/>
                 </Grid>
             </TabItem>
-            <!--Clock Settings-->
-            <TabItem x:Name="TabClock" Visibility="Visible"  Header="" Width="0.1" Height="0.1">
-                <Grid x:Name="GridClock" Background="#FFE5E5E5" Margin="-3,-2,-2,-5">
-                    <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="376.5" VerticalAlignment="Top" Width="791" Grid.RowSpan="2" Grid.ColumnSpan="2" CornerRadius="2"/>
-                    <Border BorderBrush="Black" BorderThickness="1" Margin="556,0,0,75" Height="264" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="226" RenderTransformOrigin="0.5,0.5" CornerRadius="4"/>
-                    <Border BorderBrush="Black" BorderThickness="1" Margin="7,40,240,10" Height="329" CornerRadius="4"/>
-                    <Label Content="Clock Font Settings" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="341,43,0,0" Width="210" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="16" Height="36" FontStyle="Italic"/>
-                    <Separator HorizontalAlignment="Left" Height="22" Margin="381,67,0,0" VerticalAlignment="Top" Width="130"/>
-                    <Label Content="Time" HorizontalAlignment="Left" Margin="12,136,0,0" VerticalAlignment="Top" Width="59" HorizontalContentAlignment="Center" Height="26"/>
-                    <TextBox x:Name="ColonFontSize" Height="25" Margin="403,184,0,0" TextWrapping="Wrap" VerticalAlignment="Top" UndoLimit="0" MaxLines="1" MaxLength="2" IsUndoEnabled="False" TextAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" TextChanged="HeaderFontSizeClock2Input" HorizontalAlignment="Left" Width="36" TabIndex="45"/>
-                    <TextBox x:Name="TimeFontSize" Height="25" Margin="403,139,0,0" TextWrapping="Wrap" VerticalAlignment="Top" UndoLimit="0" MaxLines="1" MaxLength="2" IsUndoEnabled="False" TextAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" TextChanged="HeaderFontSizeClock1Input" HorizontalAlignment="Left" Width="36" TabIndex="39"/>
-                    <ComboBox x:Name="TimeFontType" HorizontalAlignment="Left" VerticalAlignment="Top" Width="172" Margin="70,139,0,0" TabIndex="37" Height="25"/>
-                    <ComboBox x:Name="TimeFontColor" HorizontalAlignment="Left" VerticalAlignment="Top" Width="138" Margin="254,139,0,0" TabIndex="38" Height="25"/>
-                    <ComboBox x:Name="ColonFontType" HorizontalAlignment="Left" VerticalAlignment="Top" Width="172" Margin="70,184,0,0" TabIndex="43" Height="25"/>
-                    <ComboBox x:Name="ColonFontColor" HorizontalAlignment="Left" VerticalAlignment="Top" Width="138" Margin="254,184,0,0" TabIndex="44" Height="25"/>
-                    <Label Content="Colon" HorizontalAlignment="Left" Margin="12,180,0,0" VerticalAlignment="Top" Width="59" HorizontalContentAlignment="Center" Height="26"/>
-                    <Button x:Name="ButtonTFSUp" Click="ClickTFSUp" HorizontalAlignment="Left" VerticalAlignment="Top" Width="14" Margin="443,134,0,0" TabIndex="38" Height="24" Content="&gt;" HorizontalContentAlignment="Center" Padding="1,-2,1,1" RenderTransformOrigin="0.5,0.5" BorderThickness="0,1,1,1">
+            <!--Clock stuff here..-->
+            <TabItem x:Name="TabClock" Visibility="Hidden" IsSelected="False">
+                <Grid Background="#FF022570" Margin="-10,0,-2,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="22*"/>
+                        <RowDefinition Height="63*"/>
+                    </Grid.RowDefinitions>
+                    <Image Margin="346,9,0,77" Source="resources/Clock_64px.png" Stretch="Fill" HorizontalAlignment="Left" Width="48">
+                        <Image.Effect>
+                            <DropShadowEffect/>
+                        </Image.Effect>
+                    </Image>
+                    <Label Content="Clock Options" VerticalAlignment="Top" Margin="397,9,331,0" Height="48" VerticalContentAlignment="Center" Foreground="White" FontSize="20">
+                        <Label.Effect>
+                            <DropShadowEffect/>
+                        </Label.Effect>
+                    </Label>
+                    <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="179" VerticalAlignment="Top" Width="195" Margin="135,101,0,0" CornerRadius="10" Background="#FF055F93" Grid.RowSpan="2">
+                        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="114" VerticalAlignment="Top" Width="175" Margin="9,51,0,0" CornerRadius="5">
+                            <Border.Background>
+                                <SolidColorBrush Color="Black" Opacity="0.2"/>
+                            </Border.Background>
+                        </Border>
+                    </Border>
+                    <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="179" VerticalAlignment="Top" Width="195" Margin="344,101,0,0" CornerRadius="10" Background="#FF055F93" Grid.RowSpan="2">
+                        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Width="175" Margin="9,51,0,0" CornerRadius="5" Height="114" VerticalAlignment="Top">
+                            <Border.Background>
+                                <SolidColorBrush Color="Black" Opacity="0.2"/>
+                            </Border.Background>
+                            <Label Content="Animated Colon" Margin="0,-45,0,0" FontWeight="Bold" FontSize="14" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Height="30" VerticalAlignment="Top" Foreground="White"/>
+                        </Border>
+                    </Border>
+                    <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="179" VerticalAlignment="Top" Width="195" Margin="553,101,0,0" CornerRadius="10" Background="#FF055F93" Grid.RowSpan="2">
+                        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Width="175" Margin="9,51,0,0" CornerRadius="5" Height="114" VerticalAlignment="Top">
+                            <Border.Background>
+                                <SolidColorBrush Color="Black" Opacity="0.2"/>
+                            </Border.Background>
+                            <Label Content="Date" Margin="0,-46,0,0" FontWeight="Bold" FontSize="14" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Height="30" VerticalAlignment="Top" Foreground="White"/>
+                        </Border>
+                    </Border>
+                    <Label Content="Time" Margin="135,110,0,0" FontWeight="Bold" FontSize="14" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Height="30" VerticalAlignment="Top" Foreground="White" HorizontalAlignment="Left" Width="195" Grid.RowSpan="2"/>
+                    <Separator HorizontalAlignment="Left" Height="24" Margin="27,52,0,0" VerticalAlignment="Top" Width="818" Background="White" Foreground="Black"/>
+                    <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="175" VerticalAlignment="Top" Width="548" Margin="169,172,0,0" CornerRadius="10" Background="#FF055F93" Grid.Row="1">
+                        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Width="528" Margin="9,43,0,0" CornerRadius="5" Height="118" VerticalAlignment="Top">
+                            <Border.Background>
+                                <SolidColorBrush Color="Black" Opacity="0.2"/>
+                            </Border.Background>
+                            <Label Content="Additional Clock Settings" Margin="0,-38,0,0" FontWeight="Bold" FontSize="14" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Height="30" VerticalAlignment="Top" Foreground="White"/>
+                        </Border>
+                    </Border>
+                    <CheckBox Content="Show FPS Counter" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="371,267,0,0" TabIndex="59" Width="130" Height="19" Visibility="Collapsed" Grid.Row="1" Foreground="White"/>
+                    <ComboBox x:Name="TimeFontType" HorizontalAlignment="Left" VerticalAlignment="Top" Width="151" Margin="157,35,0,0" TabIndex="36" Height="25" Grid.Row="1" HorizontalContentAlignment="Center" ToolTip="Font Type"/>
+                    <ComboBox x:Name="TimeFontColor" HorizontalAlignment="Left" VerticalAlignment="Top" Width="151" Margin="157,65,0,0" TabIndex="37" Height="25" Grid.Row="1" HorizontalContentAlignment="Center" ToolTip="Font Color"/>
+                    <TextBox x:Name="TimeFontSize" Height="25" Margin="157,95,0,0" TextWrapping="Wrap" VerticalAlignment="Top" UndoLimit="0" MaxLines="1" MaxLength="2" IsUndoEnabled="False" TextAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" TextChanged="HeaderFontSizeClock1Input" HorizontalAlignment="Left" Width="36" TabIndex="38" Grid.Row="1" ToolTip="Font Size"/>
+                    <Button x:Name="ButtonTFSUp" Click="ClickTFSUp" HorizontalAlignment="Left" VerticalAlignment="Top" Width="14" Margin="197,90,0,0" TabIndex="39" Height="24" Content="&gt;" HorizontalContentAlignment="Center" Padding="1,-2,1,1" RenderTransformOrigin="0.5,0.5" BorderThickness="0,1,1,1" Grid.Row="1">
                         <Button.RenderTransform>
                             <TransformGroup>
                                 <ScaleTransform/>
@@ -254,7 +361,7 @@
                             </TransformGroup>
                         </Button.RenderTransform>
                     </Button>
-                    <Button x:Name="ButtonTFSDown" Click="ClickTFSDown" Content="&lt;" HorizontalAlignment="Left" VerticalAlignment="Top" TabIndex="39" Width="12" Margin="444,146,0,0" Height="24" HorizontalContentAlignment="Center" Padding="0,-2,1,1" RenderTransformOrigin="0.5,0.5">
+                    <Button x:Name="ButtonTFSDown" Click="ClickTFSDown" Content="&lt;" HorizontalAlignment="Left" VerticalAlignment="Top" TabIndex="40" Width="12" Margin="198,102,0,0" Height="24" HorizontalContentAlignment="Center" Padding="0,-2,1,1" RenderTransformOrigin="0.5,0.5" Grid.Row="1">
                         <Button.RenderTransform>
                             <TransformGroup>
                                 <ScaleTransform/>
@@ -264,7 +371,8 @@
                             </TransformGroup>
                         </Button.RenderTransform>
                     </Button>
-                    <Button x:Name="ButtonCFSUp" Click="ClickCFSUp" HorizontalAlignment="Left" VerticalAlignment="Top" TabIndex="46" Width="14" Margin="443,179,0,0" Height="24" Content="&gt;" HorizontalContentAlignment="Center" Padding="1,-2,1,1" RenderTransformOrigin="0.5,0.5" BorderThickness="0,1,1,1">
+                    <TextBox x:Name="TimePosition" Height="25" Margin="242,95,0,0" TextWrapping="Wrap" VerticalAlignment="Top" UndoLimit="0" MaxLines="1" MaxLength="2" IsUndoEnabled="False" TextAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" TextChanged="TimePositionInput" HorizontalAlignment="Left" Width="43" TabIndex="41" Grid.Row="1" ToolTip="Font Position"/>
+                    <Button x:Name="ButtonTPUp" Click="ClickTPUp" HorizontalAlignment="Left" VerticalAlignment="Top" TabIndex="42" Width="14" Margin="289,90,0,0" Height="24" Content="&gt;" VerticalContentAlignment="Center" Padding="1,-2,1,1" RenderTransformOrigin="0.5,0.5" BorderThickness="0,1,1,1" Grid.Row="1">
                         <Button.RenderTransform>
                             <TransformGroup>
                                 <ScaleTransform/>
@@ -274,7 +382,7 @@
                             </TransformGroup>
                         </Button.RenderTransform>
                     </Button>
-                    <Button x:Name="ButtonCFSDown" Click="ClickCFSDown" Content="&lt;"  HorizontalAlignment="Left" TabIndex="47" VerticalAlignment="Top" Width="12" Margin="444,191,0,0" Height="24" HorizontalContentAlignment="Center" Padding="0,-2,1,1" RenderTransformOrigin="0.5,0.5">
+                    <Button x:Name="ButtonTPDown" Click="ClickTPDown" Content="&lt;" HorizontalAlignment="Left" VerticalAlignment="Top" TabIndex="43" Width="12" Margin="290,102,0,0" Height="24" VerticalContentAlignment="Center" Padding="0,-2,1,1" RenderTransformOrigin="0.5,0.5" Grid.Row="1">
                         <Button.RenderTransform>
                             <TransformGroup>
                                 <ScaleTransform/>
@@ -284,13 +392,11 @@
                             </TransformGroup>
                         </Button.RenderTransform>
                     </Button>
-                    <CheckBox x:Name="IsCompact" Content="Compact Clock" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="227,294,0,0" TabIndex="59" Width="108" Height="25"/>
-                    <CheckBox x:Name="IsDateShown" Content="Show Date" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="226,316,0,0" TabIndex="60" Width="108" Height="25"/>
-                    <TextBox x:Name="DateFontSize" Height="26" Margin="403,227,0,0" TextWrapping="Wrap" VerticalAlignment="Top" UndoLimit="0" MaxLines="1" MaxLength="2" IsUndoEnabled="False" TextAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" TextChanged="HeaderFontSizeClock2Input" HorizontalAlignment="Left" Width="36" TabIndex="53"/>
-                    <ComboBox x:Name="DateFontType" HorizontalAlignment="Left" VerticalAlignment="Top" Width="172" Margin="70,227,0,0" TabIndex="51" Height="26"/>
-                    <ComboBox x:Name="DateFontColor" HorizontalAlignment="Left" VerticalAlignment="Top" Width="138" Margin="254,227,0,0" TabIndex="52" Height="26"/>
-                    <Label Content="Date" HorizontalAlignment="Left" Margin="12,223,0,0" VerticalAlignment="Top" Width="59" HorizontalContentAlignment="Center" Height="26"/>
-                    <Button x:Name="ButtonDFSUp" Click="ClickDFSUp" HorizontalAlignment="Left" VerticalAlignment="Top" TabIndex="54" Width="14" Margin="443,222,0,0" Height="24" Content="&gt;" HorizontalContentAlignment="Center" Padding="1,-2,1,1" RenderTransformOrigin="0.5,0.5" BorderThickness="0,1,1,1">
+                    <TextBox x:Name="Type_Copy2" Height="14" Margin="268,106,0,0" VerticalAlignment="Top" UndoLimit="0" MaxLines="1" MaxLength="2" IsEnabled="False" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Text="Px" HorizontalAlignment="Left" Width="16" TabIndex="3" SelectionOpacity="0" BorderThickness="0,0,0,1" FontSize="10" Grid.Row="1"/>
+                    <ComboBox x:Name="ColonFontType" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150" Margin="367,35,0,0" TabIndex="44" Height="25" Grid.Row="1" HorizontalContentAlignment="Center" ToolTip="Font Type"/>
+                    <ComboBox x:Name="ColonFontColor" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150" Margin="367,65,0,0" TabIndex="45" Height="25" Grid.Row="1" HorizontalContentAlignment="Center" ToolTip="Font Color"/>
+                    <TextBox x:Name="ColonFontSize" Height="25" Margin="367,95,0,0" TextWrapping="Wrap" VerticalAlignment="Top" UndoLimit="0" MaxLines="1" MaxLength="2" IsUndoEnabled="False" TextAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" TextChanged="HeaderFontSizeClock2Input" HorizontalAlignment="Left" Width="36" TabIndex="46" Grid.Row="1" ToolTip="Font Size"/>
+                    <Button x:Name="ButtonCFSUp" Click="ClickCFSUp" HorizontalAlignment="Left" VerticalAlignment="Top" TabIndex="47" Width="14" Margin="407,90,0,0" Height="24" Content="&gt;" HorizontalContentAlignment="Center" Padding="1,-2,1,1" RenderTransformOrigin="0.5,0.5" BorderThickness="0,1,1,1" Grid.Row="1">
                         <Button.RenderTransform>
                             <TransformGroup>
                                 <ScaleTransform/>
@@ -300,7 +406,7 @@
                             </TransformGroup>
                         </Button.RenderTransform>
                     </Button>
-                    <Button x:Name="ButtonDFSDown" Click="ClickDFSDown" Content="&lt;"  HorizontalAlignment="Left" VerticalAlignment="Top" TabIndex="55" Width="12" Margin="444,235,0,0" Height="24" HorizontalContentAlignment="Center" Padding="0,-2,1,1" RenderTransformOrigin="0.5,0.5">
+                    <Button x:Name="ButtonCFSDown" Click="ClickCFSDown" Content="&lt;"  HorizontalAlignment="Left" TabIndex="48" VerticalAlignment="Top" Width="12" Margin="408,102,0,0" Height="24" HorizontalContentAlignment="Center" Padding="0,-2,1,1" RenderTransformOrigin="0.5,0.5" Grid.Row="1">
                         <Button.RenderTransform>
                             <TransformGroup>
                                 <ScaleTransform/>
@@ -310,8 +416,8 @@
                             </TransformGroup>
                         </Button.RenderTransform>
                     </Button>
-                    <TextBox x:Name="TimePosition" Height="25" Margin="475,139,0,0" TextWrapping="Wrap" VerticalAlignment="Top" UndoLimit="0" MaxLines="1" MaxLength="2" IsUndoEnabled="False" TextAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" TextChanged="TimePositionInput" HorizontalAlignment="Left" Width="43" TabIndex="40"/>
-                    <Button x:Name="ButtonTPUp" Click="ClickTPUp" HorizontalAlignment="Left" VerticalAlignment="Top" TabIndex="41" Width="14" Margin="522,134,0,0" Height="24" Content="&gt;" VerticalContentAlignment="Center" Padding="1,-2,1,1" RenderTransformOrigin="0.5,0.5" BorderThickness="0,1,1,1">
+                    <TextBox x:Name="ColonPosition" Height="25" Margin="451,95,0,0" TextWrapping="Wrap" VerticalAlignment="Top" UndoLimit="0" MaxLines="1" MaxLength="2" IsUndoEnabled="False" TextAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" TextChanged="ColonPositionInput" HorizontalAlignment="Left" Width="43" TabIndex="49" Grid.Row="1" ToolTip="Font Position"/>
+                    <Button x:Name="ButtonCPUp" Click="ClickCPUp" HorizontalAlignment="Left" TabIndex="50" VerticalAlignment="Top" Width="14" Margin="498,90,0,0" Height="24" Content="&gt;" VerticalContentAlignment="Center" Padding="1,-2,1,1" RenderTransformOrigin="0.5,0.5" BorderThickness="0,1,1,1" Grid.Row="1">
                         <Button.RenderTransform>
                             <TransformGroup>
                                 <ScaleTransform/>
@@ -321,7 +427,7 @@
                             </TransformGroup>
                         </Button.RenderTransform>
                     </Button>
-                    <Button x:Name="ButtonTPDown" Click="ClickTPDown" Content="&lt;" HorizontalAlignment="Left" VerticalAlignment="Top" TabIndex="42" Width="12" Margin="523,146,0,0" Height="24" VerticalContentAlignment="Center" Padding="0,-2,1,1" RenderTransformOrigin="0.5,0.5">
+                    <Button x:Name="ButtonCPDown" Click="ClickCPDown" Content="&lt;" HorizontalAlignment="Left" VerticalAlignment="Top" TabIndex="51" Width="12" Margin="499,102,0,0" Height="24" VerticalContentAlignment="Center" Padding="0,-2,1,1" RenderTransformOrigin="0.5,0.5" Grid.Row="1">
                         <Button.RenderTransform>
                             <TransformGroup>
                                 <ScaleTransform/>
@@ -331,8 +437,11 @@
                             </TransformGroup>
                         </Button.RenderTransform>
                     </Button>
-                    <TextBox x:Name="ColonPosition" Height="25" Margin="475,184,0,0" TextWrapping="Wrap" VerticalAlignment="Top" UndoLimit="0" MaxLines="1" MaxLength="2" IsUndoEnabled="False" TextAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" TextChanged="ColonPositionInput" HorizontalAlignment="Left" Width="43" TabIndex="48"/>
-                    <Button x:Name="ButtonCPUp" Click="ClickCPUp" HorizontalAlignment="Left" TabIndex="49" VerticalAlignment="Top" Width="14" Margin="522,179,0,0" Height="24" Content="&gt;" VerticalContentAlignment="Center" Padding="1,-2,1,1" RenderTransformOrigin="0.5,0.5" BorderThickness="0,1,1,1">
+                    <TextBox x:Name="Type_Copy3" Height="14" Margin="477,106,0,0" VerticalAlignment="Top" UndoLimit="0" MaxLines="1" MaxLength="2" IsEnabled="False" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Text="Px" HorizontalAlignment="Left" Width="16" TabIndex="3" SelectionOpacity="0" BorderThickness="0,0,0,1" FontSize="10" Grid.Row="1"/>
+                    <ComboBox x:Name="DateFontType" HorizontalAlignment="Left" VerticalAlignment="Top" Width="151" Margin="575,35,0,0" TabIndex="52" Height="26" Grid.Row="1" HorizontalContentAlignment="Center" ToolTip="Font Type"/>
+                    <ComboBox x:Name="DateFontColor" HorizontalAlignment="Left" VerticalAlignment="Top" Width="151" Margin="575,65,0,0" TabIndex="53" Height="26" Grid.Row="1" HorizontalContentAlignment="Center" ToolTip="Font Color"/>
+                    <TextBox x:Name="DateFontSize" Height="26" Margin="575,95,0,0" TextWrapping="Wrap" VerticalAlignment="Top" UndoLimit="0" MaxLines="1" MaxLength="2" IsUndoEnabled="False" TextAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" TextChanged="HeaderFontSizeClock2Input" HorizontalAlignment="Left" Width="36" TabIndex="54" Grid.Row="1" ToolTip="Font Size"/>
+                    <Button x:Name="ButtonDFSUp" Click="ClickDFSUp" HorizontalAlignment="Left" VerticalAlignment="Top" TabIndex="55" Width="14" Margin="615,90,0,0" Height="24" Content="&gt;" HorizontalContentAlignment="Center" Padding="1,-2,1,1" RenderTransformOrigin="0.5,0.5" BorderThickness="0,1,1,1" Grid.Row="1">
                         <Button.RenderTransform>
                             <TransformGroup>
                                 <ScaleTransform/>
@@ -342,7 +451,7 @@
                             </TransformGroup>
                         </Button.RenderTransform>
                     </Button>
-                    <Button x:Name="ButtonCPDown" Click="ClickCPDown" Content="&lt;" HorizontalAlignment="Left" VerticalAlignment="Top" TabIndex="50" Width="12" Margin="523,191,0,0" Height="24" VerticalContentAlignment="Center" Padding="0,-2,1,1" RenderTransformOrigin="0.5,0.5">
+                    <Button x:Name="ButtonDFSDown" Click="ClickDFSDown" Content="&lt;"  HorizontalAlignment="Left" VerticalAlignment="Top" TabIndex="56" Width="12" Margin="616,103,0,0" Height="24" HorizontalContentAlignment="Center" Padding="0,-2,1,1" RenderTransformOrigin="0.5,0.5" Grid.Row="1">
                         <Button.RenderTransform>
                             <TransformGroup>
                                 <ScaleTransform/>
@@ -352,8 +461,8 @@
                             </TransformGroup>
                         </Button.RenderTransform>
                     </Button>
-                    <TextBox x:Name="DatePosition" Height="26" Margin="475,227,0,0" TextWrapping="Wrap" VerticalAlignment="Top" UndoLimit="0" MaxLines="1" MaxLength="2" IsUndoEnabled="False" TextAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" TextChanged="DatePositionInput" HorizontalAlignment="Left" Width="43" TabIndex="56"/>
-                    <Button x:Name="ButtonDPUp" Click="ClickDPUp" HorizontalAlignment="Left" VerticalAlignment="Top" TabIndex="57" Width="14" Margin="522,222,0,0" Height="24" Content="&gt;" VerticalContentAlignment="Center" Padding="1,-2,1,1" RenderTransformOrigin="0.5,0.5" BorderThickness="0,1,1,1">
+                    <TextBox x:Name="DatePosition" Height="26" Margin="660,95,0,0" TextWrapping="Wrap" VerticalAlignment="Top" UndoLimit="0" MaxLines="1" MaxLength="2" IsUndoEnabled="False" TextAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" TextChanged="DatePositionInput" HorizontalAlignment="Left" Width="43" TabIndex="57" Grid.Row="1" ToolTip="Font Position"/>
+                    <Button x:Name="ButtonDPUp" Click="ClickDPUp" HorizontalAlignment="Left" VerticalAlignment="Top" TabIndex="58" Width="14" Margin="707,90,0,0" Height="24" Content="&gt;" VerticalContentAlignment="Center" Padding="1,-2,1,1" RenderTransformOrigin="0.5,0.5" BorderThickness="0,1,1,1" Grid.Row="1">
                         <Button.RenderTransform>
                             <TransformGroup>
                                 <ScaleTransform/>
@@ -363,7 +472,7 @@
                             </TransformGroup>
                         </Button.RenderTransform>
                     </Button>
-                    <Button x:Name="ButtonDPDown" Click="ClickDPDown" Content="&lt;" HorizontalAlignment="Left" VerticalAlignment="Top" TabIndex="58" Width="12" Margin="523,235,0,0" Height="24" VerticalContentAlignment="Center" Padding="0,-2,1,1" RenderTransformOrigin="0.5,0.5">
+                    <Button x:Name="ButtonDPDown" Click="ClickDPDown" Content="&lt;" HorizontalAlignment="Left" VerticalAlignment="Top" TabIndex="59" Width="12" Margin="708,103,0,0" Height="24" VerticalContentAlignment="Center" Padding="0,-2,1,1" RenderTransformOrigin="0.5,0.5" Grid.Row="1">
                         <Button.RenderTransform>
                             <TransformGroup>
                                 <ScaleTransform/>
@@ -373,50 +482,12 @@
                             </TransformGroup>
                         </Button.RenderTransform>
                     </Button>
-                    <TextBox x:Name="Type_Copy2" Height="14" Margin="501,150,0,0" VerticalAlignment="Top" UndoLimit="0" MaxLines="1" MaxLength="2" IsEnabled="False" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Text="Px" HorizontalAlignment="Left" Width="16" TabIndex="3" SelectionOpacity="0" BorderThickness="0,0,0,1" FontSize="10"/>
-                    <TextBox x:Name="Type_Copy3" Height="14" Margin="501,195,0,0" VerticalAlignment="Top" UndoLimit="0" MaxLines="1" MaxLength="2" IsEnabled="False" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Text="Px" HorizontalAlignment="Left" Width="16" TabIndex="3" SelectionOpacity="0" BorderThickness="0,0,0,1" FontSize="10"/>
-                    <TextBox x:Name="Type_Copy4" Height="14" Margin="501,239,0,0" VerticalAlignment="Top" UndoLimit="0" MaxLines="1" MaxLength="2" IsEnabled="False" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Text="Px" HorizontalAlignment="Left" Width="16" TabIndex="3" SelectionOpacity="0" BorderThickness="0,0,0,1" FontSize="10"/>
-                    <Label Content="To show the Clock press the Top-left button on" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="558,83,0,0" Width="223" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Height="68" FontSize="10"/>
-                    <Label Content="the Top-right button on the SteamDeck Device" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="557,171,0,0" Width="224" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Height="86" FontSize="10"/>
-                    <Label Content="To go back to the StreamDeckMonitor press" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="558,148,0,0" Width="223" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Height="99" FontSize="10"/>
-                    <Label Content="the SteamDeck device" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="558,101,0,0" Width="223" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Height="65" FontSize="10"/>
-                    <Label Content="Font Type:" Margin="70,100,0,0" VerticalAlignment="Top" Height="39" HorizontalAlignment="Left" Width="172" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-                    <Label Content="Font Size:" Margin="403,100,0,0" VerticalAlignment="Top" Height="39" HorizontalAlignment="Left" Width="61" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
-                    <Label Content="Font Color:" Margin="254,100,0,0" VerticalAlignment="Top" Height="39" HorizontalAlignment="Left" Width="138" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-                    <Label Content="Position:" Margin="474,100,0,0" VerticalAlignment="Top" Height="39" HorizontalAlignment="Left" Width="66" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
-                    <Separator HorizontalAlignment="Left" Height="18" Margin="583,156,0,0" VerticalAlignment="Top" Width="171"/>
+                    <TextBox x:Name="Type_Copy4" Height="14" Margin="686,107,0,0" VerticalAlignment="Top" UndoLimit="0" MaxLines="1" MaxLength="2" IsEnabled="False" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Text="Px" HorizontalAlignment="Left" Width="16" TabIndex="3" SelectionOpacity="0" BorderThickness="0,0,0,1" FontSize="10" Grid.Row="1"/>
+                    <CheckBox x:Name="IsCompact" Content="Compact Clock" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="387,255,0,0" TabIndex="60" Width="118" Height="25" Grid.Row="1" Foreground="White" ToolTip="Show Small Clock"/>
+                    <CheckBox x:Name="IsDateShown" Content="Show Date" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="387,280,0,0" TabIndex="61" Width="118" Height="25" Grid.Row="1" Foreground="White" ToolTip="Show Todays Date"/>
                 </Grid>
             </TabItem>
         </TabControl>
-        <Border BorderBrush="Black" BorderThickness="0" HorizontalAlignment="Left" Height="406" VerticalAlignment="Top" Width="236" Background="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}" Margin="0,-5,0,-1" Grid.ColumnSpan="2">
-            <Border.Effect>
-                <DropShadowEffect/>
-            </Border.Effect>
-            <Label x:Name="ButtonExit" Content="Exit" MouseEnter="ButtonExit_MouseEnter" MouseLeave="ButtonExit_MouseLeave" MouseLeftButtonDown="ButtonExit_MouseLeftButtonDown" MouseLeftButtonUp="ButtonExit_MouseLeftButtonUp" TabIndex="62" Margin="0,348,0,25" HorizontalContentAlignment="Center" FontSize="16" Cursor="Hand"/>
-        </Border>
-        <Label x:Name="DeviceName" Content="" VerticalAlignment="Top" Margin="665,20,12,0" HorizontalContentAlignment="left" VerticalContentAlignment="Center" Height="27" FontSize="14" FontStyle="Italic" Grid.Column="1"/>
-        <ComboBox x:Name="Profiles" Margin="121,95,35,0" DropDownClosed="Profiles_DropDownClosed" TabIndex="0" Height="22" HorizontalContentAlignment="Center" VerticalAlignment="Top"/>
-        <Image Source="resources/SDMlogo.png" Margin="0,3,0,343" HorizontalAlignment="Left" Width="229" />
-        <Label Content="Configurator App [by @theFONZ]" VerticalAlignment="Top" Margin="24,35,0,0" IsEnabled="False" FontSize="11" Padding="5,0,5,2" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Width="210" Height="27"/>
-        <Label x:Name="StatusLabel" Content="" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" Margin="-6,62,805,299" Grid.ColumnSpan="2"/>
-        <Label x:Name="ButtonMainFont" Content="Main Font Options" MouseEnter="ButtonMainFont_MouseEnter" MouseLeave="ButtonMainFont_MouseLeave" MouseLeftButtonUp="ButtonMainFont_MouseLeftButtonUp" HorizontalContentAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Top" Width="233" Margin="1,132,0,0" Height="36" FontSize="18" Cursor="Hand" Foreground="White">
-            <Label.Effect>
-                <DropShadowEffect/>
-            </Label.Effect>
-        </Label>
-        <Label x:Name="ButtonClockFont" Content="Clock Font Options" MouseEnter="ButtonClockFont_MouseEnter" MouseLeave="ButtonClockFont_MouseLeave" MouseLeftButtonUp="ButtonClockFont_MouseLeftButtonUp" HorizontalContentAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Top" Width="234" Margin="0,173,0,0" Height="36" FontSize="16" Cursor="Hand"/>
-        <Label x:Name="ButtonSave" Content="Save All Settings" Margin="1,255,0,0" MouseEnter="ButtonSave_MouseEnter" MouseLeave="ButtonSave_MouseLeave" MouseLeftButtonDown="ButtonSave_MouseLeftButtonDown" MouseLeftButtonUp="ButtonSave_MouseLeftButtonUp" HorizontalContentAlignment="Center" Height="32" VerticalAlignment="Top" FontSize="16" Cursor="Hand"/>
-        <Label x:Name="ButtonLoadDefaults" Content="Load Default Settings" MouseEnter="ButtonLoadDefaults_MouseEnter" MouseLeave="ButtonLoadDefaults_MouseLeave" MouseLeftButtonDown="ButtonLoadDefaults_MouseLeftButtonDown" MouseLeftButtonUp="ButtonLoadDefaults_MouseLeftButtonUp" HorizontalContentAlignment="Center"  VerticalAlignment="Top" Margin="1,303,0,0" FontSize="14" Cursor="Hand"/>
-        <Separator HorizontalAlignment="Left" Height="11" Margin="10,56,0,0" VerticalAlignment="Top" Width="214"/>
-        <Separator HorizontalAlignment="Left" Height="18" Margin="33,285,0,0" VerticalAlignment="Top" Width="171"/>
-        <Separator HorizontalAlignment="Left" Height="18" Margin="33,162,0,0" VerticalAlignment="Top" Width="171"/>
-        <Separator HorizontalAlignment="Left" Height="18" Margin="33,332,0,0" VerticalAlignment="Top" Width="171"/>
-        <Label x:Name="DeviceSelected" Content="Selected Device:" MouseEnter="DeviceSelected_MouseEnter" MouseLeave="DeviceSelected_MouseLeave" VerticalAlignment="Top" Margin="568,22,141,0" HorizontalContentAlignment="Center" MouseDoubleClick="DeviceSelected_MouseDoubleClick" VerticalContentAlignment="Center" Height="27" FontSize="12" Padding="7,5,5,5" Grid.Column="1" Cursor="Hand"/>
-        <Button x:Name="ButtonReload" Content="Reload" VerticalAlignment="Top" Margin="507,345,0,0" Click="ClickReload" Height="22" RenderTransformOrigin="1.452,0.455" Width="47" HorizontalAlignment="Left" TabIndex="63" Grid.Column="1"/>
-        <Label x:Name="ProfilesLabel" Content="Select Profile:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="41,95,0,0" Width="84"/>
-        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="60" VerticalAlignment="Top" Width="226" Margin="569,316,0,0" CornerRadius="4" Grid.Column="1"/>
-        <Label Content="Display Brightness:" Margin="623,314,0,0" VerticalAlignment="Top" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Height="30" Width="124" HorizontalAlignment="Left" Grid.Column="1"/>
-        <Slider x:Name="BrightnessSlider" Maximum="100" ValueChanged="Slider_ValueChanged" Margin="602,347,76,21" TabIndex="36" Grid.Column="1"/>
-        <Label x:Name="BrightnessPercent" Content="0" FontSize="12" Margin="741,342,25,0" VerticalContentAlignment="Center" Grid.Column="1" Height="29" VerticalAlignment="Top"/>
+        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="567" VerticalAlignment="Top" Width="1089"/>
     </Grid>
 </Window>

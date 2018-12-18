@@ -1,15 +1,39 @@
 ﻿using System.Windows;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Effects;
 
 namespace Configurator
 {
-    public partial class RestoreConfigChoice : Window
+    public partial class DialogRestoreChoice : Window
     {
-        public RestoreConfigChoice()
+        public DialogRestoreChoice()
         {
             InitializeComponent();
         }
 
-        private void ButtonReset_Click(object sender, RoutedEventArgs e)
+        private void DragBar_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            DragMove();
+        }
+
+        private void ButtonLoadDefaults_MouseEnter(object sender, MouseEventArgs e)
+        {
+            DropShadowEffect dropShadow = new DropShadowEffect
+            {
+                Color = Colors.Orange
+            };
+            ButtonLoadDefaults.Effect = dropShadow;
+            ButtonLoadDefaultsImage.Effect = dropShadow;
+        }
+
+        private void ButtonLoadDefaults_MouseLeave(object sender, MouseEventArgs e)
+        {
+            ButtonLoadDefaults.Effect = null;
+            ButtonLoadDefaultsImage.Effect = null;
+        }
+
+        private void ButtonLoadDefaults_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             string selectedProfiles = "";
             bool isSelectionMade = false;
@@ -56,7 +80,21 @@ namespace Configurator
             }
         }
 
-        private void Cancel_Click(object sender, RoutedEventArgs e)
+        private void ButtonExit_MouseEnter(object sender, MouseEventArgs e)
+        {
+            DropShadowEffect dropShadow = new DropShadowEffect
+            {
+                Color = Colors.Red
+            };
+            ButtonExit.Effect = dropShadow;
+        }
+
+        private void ButtonExit_MouseLeave(object sender, MouseEventArgs e)
+        {
+            ButtonExit.Effect = null;
+        }
+
+        private void ButtonExit_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             MainWindow.RestoreCancelExt();
             Close();

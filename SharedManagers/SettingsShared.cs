@@ -190,11 +190,6 @@ namespace SharedManagers
             return config.Read("dateFontColor", "Clock_Settings");
         }
 
-        public static string ClockBackgroundColor()
-        {
-            return config.Read("clockBackgroundColor", "Clock_Settings");
-        }
-
         public static string TimePosition()
         {
             return config.Read("timeFontPosition", "Clock_Settings");

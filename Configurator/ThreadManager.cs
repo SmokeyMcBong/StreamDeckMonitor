@@ -3,14 +3,13 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Threading;
-using System.Windows.Media;
 
 namespace Configurator
 {
     class ThreadManager
     {
         //background worker for displaying current status
-        public static void DoStatusInBackground(Brush selectedColor, string statusText, string button, MainWindow configurator)
+        public static void DoStatusInBackground(string statusText, string button, MainWindow configurator)
         {
             //create a background worker
             var backgroundStatus = new BackgroundWorker();
@@ -24,11 +23,6 @@ namespace Configurator
 
                 if (button != "")
                 {
-                    if (button == "Reload")
-                    {
-                        configurator.ButtonReload.IsEnabled = true;
-                    }
-
                     if (button == "Save")
                     {
                         configurator.ButtonSave.IsEnabled = true;
@@ -44,8 +38,6 @@ namespace Configurator
             };
 
             //display notification
-            configurator.StatusLabel.Background = selectedColor;
-            configurator.StatusLabel.Foreground = Brushes.White;
             configurator.StatusLabel.Content = statusText;
 
             //start the background worker to reset both the label and button to default states
@@ -106,6 +98,11 @@ namespace Configurator
                                 settingHeading = "Mini_Settings";
                             }
 
+                            if (settingType == "displayBrightness")
+                            {
+                                settingHeading = "Brightness_Settings";
+                            }
+
                             //write the type and value to config file under the correct profile heading
                             SharedSettings.config.Write(settingType, settingValue, settingHeading);
                         }
@@ -156,7 +153,7 @@ namespace Configurator
                     DefaultProfile2Config();
                     DefaultProfile3Config();
                     DefaultDeviceStateConfig();
-                    DeviceChoice deviceChoice = new DeviceChoice();
+                    DialogDeviceChoice deviceChoice = new DialogDeviceChoice();
                     deviceChoice.Show();
                     configurator.Close();
                 }
@@ -210,7 +207,6 @@ namespace Configurator
             SharedSettings.config.Write("framesToProcess", "150", "Profile 1");
             SharedSettings.config.Write("imageName", "Faded Red Lines", "Profile 1");
             SharedSettings.config.Write("animName", "80's Triangles", "Profile 1");
-            SharedSettings.config.Write("displayBrightness", "60", "Profile 1");
         }
 
         private static void DefaultProfile2Config()
@@ -234,7 +230,6 @@ namespace Configurator
             SharedSettings.config.Write("framesToProcess", "48", "Profile 2");
             SharedSettings.config.Write("imageName", "Blue Carbon", "Profile 2");
             SharedSettings.config.Write("animName", "Black and White Squares", "Profile 2");
-            SharedSettings.config.Write("displayBrightness", "60", "Profile 2");
         }
 
         private static void DefaultProfile3Config()
@@ -258,7 +253,6 @@ namespace Configurator
             SharedSettings.config.Write("framesToProcess", "124", "Profile 3");
             SharedSettings.config.Write("imageName", "Faded Red Lines", "Profile 3");
             SharedSettings.config.Write("animName", "80's Triangles", "Profile 3");
-            SharedSettings.config.Write("displayBrightness", "60", "Profile 3");
         }
 
         private static void DefaultDeviceStateConfig()
@@ -270,6 +264,8 @@ namespace Configurator
             SharedSettings.config.Write("seletedState", "1", "Current_State");
             //profile selection config
             SharedSettings.config.Write("selectedProfile", "Profile 2", "Current_Profile");
+            //brightness level
+            SharedSettings.config.Write("displayBrightness", "60", "Brightness_Settings");
         }
     }
 }

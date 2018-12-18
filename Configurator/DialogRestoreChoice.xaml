@@ -1,0 +1,34 @@
+﻿<Window x:Class="Configurator.DialogRestoreChoice"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="" Height="376" Width="362.667" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="None">
+    <Grid>
+        <Grid Height="47" VerticalAlignment="Top" Background="#FF055F93" Margin="302,0,0,0">
+            <Image x:Name="ButtonExit" MouseEnter="ButtonExit_MouseEnter" MouseLeave="ButtonExit_MouseLeave" MouseLeftButtonUp="ButtonExit_MouseLeftButtonUp" Margin="0,6,13,5" Source="resources/Exit_64px.png" Stretch="Fill" Cursor="Hand" ToolTip="Exit" HorizontalAlignment="Right" Width="36"/>
+        </Grid>
+        <Grid Background="#FF022570" HorizontalAlignment="Left" Height="329" VerticalAlignment="Top" Width="363" Margin="0,47,0,0">
+            <Border BorderBrush="Black" BorderThickness="1" Height="279" VerticalAlignment="Top" Margin="34,26,32,0" CornerRadius="10" Background="#FF055F93">
+                <Border BorderBrush="Black" BorderThickness="1" Margin="20,55,20,0" CornerRadius="5" Height="144" VerticalAlignment="Top">
+                    <Border.Background>
+                        <SolidColorBrush Color="Black" Opacity="0.2"/>
+                    </Border.Background>
+                </Border>
+            </Border>
+            <Label Content="Choose which settings to restore.." Margin="58,38,0,0" FontSize="14" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Height="30" VerticalAlignment="Top" Foreground="White" HorizontalAlignment="Left" Width="244" FontStyle="Italic"/>
+            <CheckBox x:Name="ResetProfile2" Content="Profile 2" Click="ResetProfile2_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="145,143,0,0" Width="73" TabIndex="11" Height="14" Foreground="White"/>
+            <CheckBox x:Name="ResetProfile3" Content="Profile 3" Click="ResetProfile3_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="145,163,0,0" Width="73" TabIndex="11" Height="14" Foreground="White"/>
+            <CheckBox x:Name="ResetProfile1" Content="Profile 1" Click="ResetProfile1_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="145,123,0,0" Width="73" TabIndex="11" Height="14" Foreground="White"/>
+            <CheckBox x:Name="ResetClock" Content="Clock" Click="ResetClock_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="145,103,0,0" Width="73" TabIndex="11" Height="14" Foreground="White"/>
+            <CheckBox x:Name="ResetAllConfig" Content="Restore Everything (Inc Settings)" Click="ResetAllConfig_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="87,193,0,0" Width="205" TabIndex="11" Height="16" Foreground="White"/>
+            <Image x:Name="ButtonLoadDefaultsImage" MouseEnter="ButtonLoadDefaults_MouseEnter" MouseLeave="ButtonLoadDefaults_MouseLeave" MouseLeftButtonUp="ButtonLoadDefaults_MouseLeftButtonUp" Source="resources/Restore_64px.png" Stretch="Fill" Cursor="Hand" Margin="67,245,256,44"/>
+            <Label x:Name="ButtonLoadDefaults" MouseEnter="ButtonLoadDefaults_MouseEnter" MouseLeave="ButtonLoadDefaults_MouseLeave" MouseLeftButtonUp="ButtonLoadDefaults_MouseLeftButtonUp" Content="Restore Selected Defaults" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="104,245,0,0" Height="40" Width="204" VerticalContentAlignment="Center" Foreground="White" FontSize="16" Cursor="Hand"/>
+        </Grid>
+        <Grid Height="47" VerticalAlignment="Top" Background="#FF055F93" Margin="0,0,61,0" MouseLeftButtonDown="DragBar_MouseLeftButtonDown" Cursor="SizeAll">
+            <Label Content="Restore Default Settings" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,0,0,-1" Height="48" Width="202" VerticalContentAlignment="Center" Foreground="White" FontSize="16" HorizontalContentAlignment="Center" FontWeight="Bold"/>
+        </Grid>
+        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="376" VerticalAlignment="Top" Width="363"/>
+    </Grid>
+</Window>

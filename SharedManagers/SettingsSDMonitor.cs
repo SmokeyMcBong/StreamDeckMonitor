@@ -84,7 +84,7 @@ namespace SharedManagers
         private static readonly string backgroundFillColor = SharedSettings.BackgroundFillColor(currentProfile);
         private static readonly string isAnimationEnabled = SharedSettings.IsAnimationEnabled(currentProfile);
         private static readonly int animFramerate = int.Parse(SharedSettings.AnimFramerate(currentProfile).ToString());
-        public static int displayBrightness = int.Parse(SharedSettings.DisplayBrightness(currentProfile).ToString());
+        public static int displayBrightness = int.Parse(SharedSettings.DisplayBrightness("Brightness_Settings").ToString());
         public static int framesToProcess = int.Parse(SharedSettings.FramesToProcess(currentProfile).ToString());
         public static string imageName = SharedSettings.ImageName(currentProfile);
         public static string animName = SharedSettings.AnimName(currentProfile);
@@ -99,7 +99,6 @@ namespace SharedManagers
         public static string timeFontColor = SharedSettings.TimeFontColor();
         public static string colonFontColor = SharedSettings.ColonFontColor();
         public static string dateFontColor = SharedSettings.DateFontColor();
-        public static string clockBackgroundColor = SharedSettings.ClockBackgroundColor();
         public static int timePosition = int.Parse(SharedSettings.TimePosition().ToString());
         public static int colonPosition = int.Parse(SharedSettings.ColonPosition().ToString());
         public static int datePosition = int.Parse(SharedSettings.DatePosition().ToString());

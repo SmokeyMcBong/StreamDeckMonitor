@@ -1,0 +1,31 @@
+﻿<Window x:Class="Configurator.DialogDeviceChoice"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="" Height="266" Width="362.667" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="None">
+    <Grid>
+        <Grid Height="47" VerticalAlignment="Top" Background="#FF055F93" Margin="304,0,0,0">
+            <Image x:Name="ButtonExit" MouseEnter="ButtonExit_MouseEnter" MouseLeave="ButtonExit_MouseLeave" MouseLeftButtonUp="ButtonExit_MouseLeftButtonUp" Margin="0,6,13,5" Source="resources/Exit_64px.png" Stretch="Fill" HorizontalAlignment="Right" Width="36" Cursor="Hand" ToolTip="Exit"/>
+        </Grid>
+        <Grid Background="#FF022570" HorizontalAlignment="Left" Height="219" VerticalAlignment="Top" Width="363" Margin="0,47,0,0">
+            <Border BorderBrush="Black" BorderThickness="1" Height="172" VerticalAlignment="Top" Margin="34,27,32,0" CornerRadius="10" Background="#FF055F93">
+                <Border BorderBrush="Black" BorderThickness="1" Margin="20,55,20,0" CornerRadius="5" Height="101" VerticalAlignment="Top">
+                    <Border.Background>
+                        <SolidColorBrush Color="Black" Opacity="0.2"/>
+                    </Border.Background>
+                </Border>
+            </Border>
+            <Label Content="Choose your Stream Deck device.." Margin="65,40,0,0" FontSize="14" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Height="30" VerticalAlignment="Top" Foreground="White" HorizontalAlignment="Left" Width="231" FontStyle="Italic"/>
+            <Label x:Name="ButtonSelectStandard" Content="Stream Deck" MouseEnter="ButtonSelectStandard_MouseEnter" MouseLeave="ButtonSelectStandard_MouseLeave" MouseLeftButtonUp="ButtonSelectStandard_MouseLeftButtonUp" HorizontalAlignment="Left" VerticalAlignment="Top" Width="154" Margin="129,97,0,0" Height="36" TabIndex="20" FontSize="16" Foreground="White" Cursor="Hand" ToolTip="Stream Deck Standard (15 Buttons)" />
+            <Image x:Name="ButtonSelectStandardImage" MouseEnter="ButtonSelectStandard_MouseEnter" MouseLeave="ButtonSelectStandard_MouseLeave" MouseLeftButtonUp="ButtonSelectStandard_MouseLeftButtonUp" Margin="88,97,0,0" Source="resources/Device 15 Button_64px.png" Stretch="Fill" Cursor="Hand" HorizontalAlignment="Left" Width="36" Height="36" VerticalAlignment="Top" ToolTip="Stream Deck Standard (15 Buttons)" />
+            <Label x:Name="ButtonSelectMini" Content="Stream Deck - Mini" MouseEnter="ButtonSelectMini_MouseEnter" MouseLeave="ButtonSelectMini_MouseLeave" MouseLeftButtonUp="ButtonSelectMini_MouseLeftButtonUp" HorizontalAlignment="Left" VerticalAlignment="Top" Width="154" Margin="129,137,0,0" Height="36" TabIndex="20" FontSize="16" Foreground="White" Cursor="Hand" ToolTip="Stream Deck Mini (6 Buttons)"/>
+            <Image x:Name="ButtonSelectMiniImage" MouseEnter="ButtonSelectMini_MouseEnter" MouseLeave="ButtonSelectMini_MouseLeave" MouseLeftButtonUp="ButtonSelectMini_MouseLeftButtonUp" Margin="86,137,0,0" Source="resources/device 6 button_64px.png" Stretch="Fill" Cursor="Hand" HorizontalAlignment="Left" Width="41" Height="36" VerticalAlignment="Top" ToolTip="Stream Deck Mini (6 Buttons)"/>
+        </Grid>
+        <Grid Height="47" VerticalAlignment="Top" Background="#FF055F93" Margin="0,0,59,0" MouseLeftButtonDown="DragBar_MouseLeftButtonDown" Cursor="SizeAll">
+            <Label Content="Device Selection" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,0,0,-1" Height="48" Width="137" VerticalContentAlignment="Center" Foreground="White" FontSize="16" HorizontalContentAlignment="Center" FontWeight="Bold"/>
+        </Grid>
+        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="266" VerticalAlignment="Top" Width="363"/>
+    </Grid>
+</Window>

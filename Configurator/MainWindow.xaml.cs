@@ -21,7 +21,7 @@ namespace Configurator
             string choiceMade = SharedSettings.config.Read("choiceMade", "StreamDeck_Device");
             if (choiceMade == "false")
             {
-                DeviceChoice deviceChoice = new DeviceChoice();
+                DialogDeviceChoice deviceChoice = new DialogDeviceChoice();
                 deviceChoice.Show();
                 Close();
             }
@@ -47,7 +47,7 @@ namespace Configurator
 
             if (deckDevice == "1")
             {
-                DeviceName.Content = "Stream Deck-Full";
+                SelectDevice15Button.Visibility = Visibility.Visible;
                 StaticImages.ItemsSource = SettingsConfigurator.imageList;
                 StaticImages.SelectedValue = SettingsConfigurator.imageName;
                 Animations.ItemsSource = SettingsConfigurator.animList;
@@ -78,7 +78,7 @@ namespace Configurator
 
             if (deckDevice == "2")
             {
-                DeviceName.Content = "Stream Deck-Mini";
+                SelectDevice6Button.Visibility = Visibility.Visible;
                 EnableStatic.Visibility = Visibility.Collapsed;
                 EnableAnim.Visibility = Visibility.Collapsed;
                 StaticImages.Visibility = Visibility.Collapsed;
@@ -95,13 +95,9 @@ namespace Configurator
                 ButtonFADown.Visibility = Visibility.Collapsed;
                 IsCompact.IsChecked = true;
                 IsCompact.IsEnabled = false;
-                Seperator.Visibility = Visibility.Collapsed;
-                LabelFramerate1.Visibility = Visibility.Collapsed;
-                LabelFrameAmount1.Visibility = Visibility.Collapsed;
-                LabelFramerate2.Visibility = Visibility.Collapsed;
-                LabelFrameAmount2.Visibility = Visibility.Collapsed;
                 IsMiniFps.Visibility = Visibility.Visible;
-                LabelMiniFps.Visibility = Visibility.Visible;
+                SurroundingImageSperator.Visibility = Visibility.Collapsed;
+                SurroundingImageLabel.Content = "Additional Options";
 
                 if (SharedSettings.IsFpsCounter() == "True")
                 {
@@ -111,8 +107,6 @@ namespace Configurator
                 {
                     IsMiniFps.IsChecked = false;
                 }
-
-                OptionsLabel.Content = " Stream Deck Mini Settings";
             }
 
             //display current settings according to Settings.ini values
@@ -136,9 +130,10 @@ namespace Configurator
             ValuePosition.Text = SettingsConfigurator.valuesFontPosition.ToString();
             BackgroundFillColor.ItemsSource = SettingsConfigurator.colorList;
             BackgroundFillColor.SelectedValue = SettingsConfigurator.backgroundFillColor;
-            BrightnessSlider.Value = SettingsConfigurator.displayBrightness;
             Profiles.ItemsSource = SettingsConfigurator.profileList;
             Profiles.SelectedValue = currentProfile;
+            BrightnessSlider.Value = SettingsConfigurator.displayBrightness;
+
             //clock settings
             TimeFontType.ItemsSource = SettingsConfigurator.fontList;
             TimeFontType.SelectedValue = SettingsConfigurator.timeFont;
@@ -167,6 +162,11 @@ namespace Configurator
             {
                 IsDateShown.IsChecked = false;
             }
+        }
+
+        private void DragBar_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            DragMove();
         }
 
         //format text inputs on the fly to make sure only numerical values are entered        
@@ -437,7 +437,6 @@ namespace Configurator
                 if (c < '0' || c > '9')
                     return false;
             }
-
             return true;
         }
 
@@ -709,9 +708,8 @@ namespace Configurator
             PrepValueDisplay(currentProfile);
 
             //display notification
-            Brush selectedColor = Brushes.DarkCyan;
             string statusText = "Loaded " + currentProfile;
-            ThreadManager.DoStatusInBackground(selectedColor, statusText, "", this);
+            ThreadManager.DoStatusInBackground(statusText, "", this);
 
             SettingsConfigurator.RestartSDM();
         }
@@ -721,19 +719,6 @@ namespace Configurator
         {
             int sliderValue = (int)e.NewValue;
             BrightnessPercent.Content = sliderValue + "%";
-        }
-
-        //reload button
-        private void ClickReload(object sender, RoutedEventArgs e)
-        {
-            //disable button while reloading values
-            ButtonReload.IsEnabled = false;
-            ReloadSettings();
-
-            //display notification
-            Brush selectedColor = Brushes.SlateBlue;
-            string statusText = "Settings Reloaded";
-            ThreadManager.DoStatusInBackground(selectedColor, statusText, "Reload", this);
         }
 
         //reload stored values from config file
@@ -769,9 +754,8 @@ namespace Configurator
                 ThreadManager.ResetAllProfiles(ExistingInstanceOfMainWindow, selectedProfiles);
 
                 //display notification
-                Brush selectedColor = Brushes.BlueViolet;
                 string statusText = "Stock Settings Restored";
-                ThreadManager.DoStatusInBackground(selectedColor, statusText, "Restore", ExistingInstanceOfMainWindow);
+                ThreadManager.DoStatusInBackground(statusText, "Restore", ExistingInstanceOfMainWindow);
             }
 
             else
@@ -781,97 +765,75 @@ namespace Configurator
         }
 
         //main font button
-        private void ButtonMainFont_MouseEnter(object sender, MouseEventArgs e)
+        private void ButtonMonitor_MouseEnter(object sender, MouseEventArgs e)
         {
-            if (ButtonClockFont.FontSize == 18)
+            if (TabMonitor.IsSelected == false)
             {
                 DropShadowEffect dropShadow = new DropShadowEffect
                 {
-                    Color = Colors.White
+                    Color = Colors.LightBlue
                 };
-                ButtonMainFont.Effect = dropShadow;
+                ButtonMonitor.Effect = dropShadow;
+                ButtonMonitorImage.Effect = dropShadow;
             }
         }
 
-        private void ButtonMainFont_MouseLeave(object sender, MouseEventArgs e)
+        private void ButtonMonitor_MouseLeave(object sender, MouseEventArgs e)
         {
-            if (ButtonClockFont.FontSize == 18)
+            if (TabMonitor.IsSelected == false)
             {
-                ButtonMainFont.Effect = null;
+                ButtonMonitor.Effect = null;
+                ButtonMonitorImage.Effect = null;
             }
         }
 
-        private void ButtonMainFont_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        private void ButtonMonitor_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            if (TabClock.IsVisible == true)
+            if (TabClock.IsSelected == true)
             {
-                if (ButtonMainFont.FontSize == 16)
-                {
-                    ButtonMainFont.FontSize = 18;
-                    ButtonMainFont.Foreground = Brushes.White;
-                    ButtonClockFont.FontSize = 16;
-                    ButtonClockFont.Foreground = Brushes.Black;
-                }
-
-                Profiles.IsEnabled = true;
-                Profiles.Opacity = 1;
-                ProfilesLabel.Opacity = 1;
-                TabClock.Visibility = Visibility.Collapsed;
-                TabMain.Visibility = Visibility.Visible;
-                TabMain.IsSelected = true;
-                ButtonMainFont.Effect = new DropShadowEffect();
-                ButtonClockFont.Effect = null;
+                TabMonitor.IsSelected = true;
+                TabClock.IsSelected = false;
+                ButtonMonitor.Effect = new DropShadowEffect();
+                ButtonMonitorImage.Effect = new DropShadowEffect();
+                ButtonClock.Effect = null;
+                ButtonClockImage.Effect = null;
             }
         }
 
         //clock font button
-        private void ButtonClockFont_MouseEnter(object sender, MouseEventArgs e)
+        private void ButtonClock_MouseEnter(object sender, MouseEventArgs e)
         {
-            if (ButtonMainFont.FontSize == 18)
+            if (TabClock.IsSelected == false)
             {
                 DropShadowEffect dropShadow = new DropShadowEffect
                 {
-                    Color = Colors.White
+                    Color = Colors.LightBlue
                 };
-                ButtonClockFont.Effect = dropShadow;
+                ButtonClock.Effect = dropShadow;
+                ButtonClockImage.Effect = dropShadow;
             }
         }
 
-        private void ButtonClockFont_MouseLeave(object sender, MouseEventArgs e)
+        private void ButtonClock_MouseLeave(object sender, MouseEventArgs e)
         {
-            if (ButtonMainFont.FontSize == 18)
+            if (TabClock.IsSelected == false)
             {
-                ButtonClockFont.Effect = null;
+                ButtonClock.Effect = null;
+                ButtonClockImage.Effect = null;
             }
         }
 
-        private void ButtonClockFont_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        private void ButtonClock_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            if (TabMain.IsVisible == true)
+            if (TabMonitor.IsSelected == true)
             {
-                if (ButtonClockFont.FontSize == 16)
-                {
-                    ButtonClockFont.FontSize = 18;
-                    ButtonClockFont.Foreground = Brushes.White;
-                    ButtonMainFont.FontSize = 16;
-                    ButtonMainFont.Foreground = Brushes.Black;
-                }
-
-                Profiles.IsEnabled = false;
-                Profiles.Opacity = 0.3;
-                ProfilesLabel.Opacity = 0.3;
-                TabMain.Visibility = Visibility.Collapsed;
-                TabClock.Visibility = Visibility.Visible;
                 TabClock.IsSelected = true;
-                ButtonClockFont.Effect = new DropShadowEffect();
-                ButtonMainFont.Effect = null;
+                TabMonitor.IsSelected = false;
+                ButtonClock.Effect = new DropShadowEffect();
+                ButtonClockImage.Effect = new DropShadowEffect();
+                ButtonMonitor.Effect = null;
+                ButtonMonitorImage.Effect = null;
             }
-        }
-
-        //save settings button
-        private void ButtonSave_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            ButtonSave.Effect = new DropShadowEffect();
         }
 
         private void ButtonSave_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -925,7 +887,6 @@ namespace Configurator
                 //store all values to pass to DoSaveInBackground()
                 configValueList = new List<string>
                 {
-                    displayBrightness,
                     headerFontSize1,
                     headerFontSize2,
                     valuesFontSize,
@@ -964,7 +925,6 @@ namespace Configurator
                 //store all values to pass to DoSaveInBackground()
                 configValueList = new List<string>
                 {
-                    displayBrightness,
                     headerFontSize1,
                     headerFontSize2,
                     valuesFontSize,
@@ -1039,14 +999,20 @@ namespace Configurator
                 isDateShown
              };
 
+            //store all mini values to pass to DoSaveInBackground()
+            List<string> brightnessSetting = new List<string>
+                {
+                    displayBrightness
+                };
+
             //send lists to be processed in background threads
+            ThreadManager.DoSaveInBackground(brightnessSetting, "mainconfig", this);
             ThreadManager.DoSaveInBackground(configValueList, "mainconfig", this);
             ThreadManager.DoSaveInBackground(clockValueList, "clockconfig", this);
 
             //display notification
-            Brush selectedColor = Brushes.Green;
             string statusText = "Settings Saved";
-            ThreadManager.DoStatusInBackground(selectedColor, statusText, "Save", this);
+            ThreadManager.DoStatusInBackground(statusText, "Save", this);
 
             SettingsConfigurator.RestartSDM();
         }
@@ -1055,14 +1021,16 @@ namespace Configurator
         {
             DropShadowEffect dropShadow = new DropShadowEffect
             {
-                Color = Colors.White
+                Color = Colors.LimeGreen
             };
             ButtonSave.Effect = dropShadow;
+            ButtonSaveImage.Effect = dropShadow;
         }
 
         private void ButtonSave_MouseLeave(object sender, MouseEventArgs e)
         {
             ButtonSave.Effect = null;
+            ButtonSaveImage.Effect = null;
         }
 
         //restore default settings button
@@ -1075,7 +1043,7 @@ namespace Configurator
         {
             ButtonLoadDefaults.IsEnabled = false;
             ButtonLoadDefaults.Effect = new DropShadowEffect();
-            RestoreConfigChoice restoreConfig = new RestoreConfigChoice();
+            DialogRestoreChoice restoreConfig = new DialogRestoreChoice();
             restoreConfig.Show();
         }
 
@@ -1083,42 +1051,77 @@ namespace Configurator
         {
             DropShadowEffect dropShadow = new DropShadowEffect
             {
-                Color = Colors.White
+                Color = Colors.Orange
             };
             ButtonLoadDefaults.Effect = dropShadow;
+            ButtonLoadDefaultsImage.Effect = dropShadow;
         }
 
         private void ButtonLoadDefaults_MouseLeave(object sender, MouseEventArgs e)
         {
             ButtonLoadDefaults.Effect = null;
+            ButtonLoadDefaultsImage.Effect = null;
         }
 
-        //device selection button
-        private void DeviceSelected_MouseEnter(object sender, MouseEventArgs e)
+        private void SelectDevice_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            DropShadowEffect dropShadow = new DropShadowEffect
-            {
-                Color = Colors.Black
-            };
-            DeviceSelected.Effect = dropShadow;
-        }
-
-        private void DeviceSelected_MouseLeave(object sender, MouseEventArgs e)
-        {
-            DeviceSelected.Effect = null;
-        }
-
-        private void DeviceSelected_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
-        {
-            DeviceChoice deviceChoice = new DeviceChoice();
+            DialogDeviceChoice deviceChoice = new DialogDeviceChoice();
             deviceChoice.Show();
             Close();
         }
 
-        //exit button
-        private void ButtonExit_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void SelectDevice_MouseEnter(object sender, MouseEventArgs e)
         {
-            ButtonExit.Effect = new DropShadowEffect();
+            DropShadowEffect dropShadow = new DropShadowEffect
+            {
+                Color = Colors.LightBlue
+            };
+
+            if (SelectDevice6Button.Visibility == Visibility.Visible)
+            {
+                SelectDevice6Button.ToolTip = "Stream Deck Mini (Click to change device)";
+                SelectDevice6Button.Effect = dropShadow;
+            }
+
+            if (SelectDevice15Button.Visibility == Visibility.Visible)
+            {
+                SelectDevice15Button.ToolTip = "Stream Deck Full Size (Click to change device)";
+                SelectDevice15Button.Effect = dropShadow;
+            }
+        }
+
+        private void SelectDevice_MouseLeave(object sender, MouseEventArgs e)
+        {
+            if (SelectDevice6Button.Visibility == Visibility.Visible)
+            {
+                SelectDevice6Button.Effect = null;
+            }
+
+            if (SelectDevice15Button.Visibility == Visibility.Visible)
+            {
+                SelectDevice15Button.Effect = null;
+            }
+        }
+
+        private void ButtonHelp_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            ButtonHelp.Effect = null;
+            DialogHelp helpInfo = new DialogHelp();
+            helpInfo.Show();
+        }
+
+        private void ButtonHelp_MouseEnter(object sender, MouseEventArgs e)
+        {
+            DropShadowEffect dropShadow = new DropShadowEffect
+            {
+                Color = Colors.Gold
+            };
+            ButtonHelp.Effect = dropShadow;
+        }
+
+        private void ButtonHelp_MouseLeave(object sender, MouseEventArgs e)
+        {
+            ButtonHelp.Effect = null;
         }
 
         private void ButtonExit_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -1131,7 +1134,7 @@ namespace Configurator
         {
             DropShadowEffect dropShadow = new DropShadowEffect
             {
-                Color = Colors.White
+                Color = Colors.Red
             };
             ButtonExit.Effect = dropShadow;
         }
@@ -1139,6 +1142,24 @@ namespace Configurator
         private void ButtonExit_MouseLeave(object sender, MouseEventArgs e)
         {
             ButtonExit.Effect = null;
+        }
+
+        private void ButtonBrightness_MouseEnter(object sender, MouseEventArgs e)
+        {
+            DropShadowEffect dropShadow = new DropShadowEffect
+            {
+                Color = Colors.LightBlue
+            };
+            ButtonBrightness.Effect = dropShadow;
+            ButtonBrightnessImage.Effect = dropShadow;
+            BrightnessSlider.Effect = dropShadow;
+        }
+
+        private void ButtonBrightness_MouseLeave(object sender, MouseEventArgs e)
+        {
+            ButtonBrightness.Effect = null;
+            ButtonBrightnessImage.Effect = null;
+            BrightnessSlider.Effect = null;
         }
     }
 }
